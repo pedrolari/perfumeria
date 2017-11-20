@@ -3,7 +3,8 @@ public class main {
 
 	public static void main(String[] args) {
 
-		System.out.println("nyu");
+		System.out.println("hola");
+		
 	}
 
 }
