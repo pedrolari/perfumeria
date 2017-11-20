@@ -3,6 +3,7 @@
 Iniciamos el proyecto de JAVA de Gestion de una Perfumeria
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 Alwex
 
 PROYECTO SISTEMAS DE GESTION EMPRESARIAL (Para el 21/12)
@@ -51,6 +52,8 @@ Funcionalidad impresion(mirar)
 
 
 =======
+=======
+>>>>>>> 4839405a5fc2f62eab6cb32f5b475494b5b67482
 
 Clase Conexion
 Metodo para realizar la conexion a la BBDD
@@ -60,4 +63,7 @@ pass:
 Metodos:
 	-consultar(String)
 	-modificar(String)
+<<<<<<< HEAD
+>>>>>>> 4839405a5fc2f62eab6cb32f5b475494b5b67482
+=======
 >>>>>>> 4839405a5fc2f62eab6cb32f5b475494b5b67482
