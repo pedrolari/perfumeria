@@ -24,10 +24,11 @@ Todos los jueves se enseña a eva
 Funcione, atractiva a la vista, 
 
 Bases de datos
-Usuario: user,pass,nombre,apellidos,tlf,
+Empleado: user varchar(20),pass varchar(20),nombre varchar(20),apellidos varchar(20),telefono int,rol varchar(20)
+Falta comprobar resto tablas
 Proveedor: nif/cif, nombre, tlf,direccion, 
 Cliente: dni,nombre,apellido,direccion,tlf,sexo,fecha_naci,fecha_ingreso
-Articulos: id_art,nombre,descrip,volumen,embalaje,nif/cif, sexo
+Articulos: id_art,nombre,descrip,volumen,embalaje,nif/cif,id_cat
 Compras:id_compra,user,cif/nif,fecha_compra,total(opcional)
 Lineas de compras:id_lineac, id_compra, cant, precio
 Ventas: id_venta, user,dni(opcional, puede ser vacio),fecha_venta,
@@ -38,16 +39,16 @@ PROVINCIA:
 
 DIVISION TRABAJO:
 
-Rellenar base de datos con 2 tuplas (Usuario, proveedor,cliente). Rellenar articulos con bastantes 
+Rellenar base de datos con 2 tuplas (Usuario, proveedor,cliente). Rellenar articulos con bastantes (Rafa y Amadeo)
 
 Clase Conexion 
-Clase Usuario: 
-Clase Proveedor: 
-Clase Cliente:
-Clase Articulos:
-Interfaz:
-Clase validacion
-Clase fecha:
+Clase Usuario: (Beni)
+Clase Proveedor: (Mario)
+Clase Cliente: (Amadeo)
+Clase Articulos: (Luis)
+Interfaz: (Emilio)
+Clase validacion: (Carlos)
+Clase fecha: 
 Funcionalidad impresion(mirar)
 
 
