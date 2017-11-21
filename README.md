@@ -24,18 +24,18 @@ Todos los jueves se enseña a eva
 Funcione, atractiva a la vista, 
 
 Bases de datos
-Empleado: user varchar(20),pass varchar(20),nombre varchar(20),apellidos varchar(20),telefono int,rol varchar(20)
-Falta comprobar resto tablas
-Proveedor: nif/cif, nombre, tlf,direccion, 
-Cliente: dni,nombre,apellido,direccion,tlf,sexo,fecha_naci,fecha_ingreso
-Articulos: id_art,nombre,descrip,volumen,embalaje,nif/cif,id_cat
-Compras:id_compra,user,cif/nif,fecha_compra,total(opcional)
-Lineas de compras:id_lineac, id_compra, cant, precio
-Ventas: id_venta, user,dni(opcional, puede ser vacio),fecha_venta,
-Linea de venta: id_lineav, id_venta,cant,precio
-Categorías:
-LOCALIDAD:
-PROVINCIA: 
+
+articulos(id_articulo int, nombre varchar(20), precio decimal, descripcion varchar(255), volumen varchar(20), embalaje varchar(20), cif varchar(9), id_categoria int)
+categorias(id_categoria int, nombre varchar(20), id_categoria_padre int)
+clientes(dni varchar(9), nombre varchar(20), apellidos varchar(20), direccion varchar(20), telefono int, email varchar(20), sexo char, fecha_nacimiento date, fecha_ingreso date)
+compras(id_compra int, user varchar(20), cif varchar(9), fecha_compra date)
+empleados(user varchar(20), pass varchar(20), nombre varchar(20), apellidos varchar(20), telefono int, rol int)
+lineas de compras(id_lineas_de_compra int, id_compra int, cantidad int, precio decimal)
+lineas de venta(id_linea_de_venta int, id_venta int, cantidad int, precio decimal)
+localidades(id_localidad int, nombre varchar(20), id_provincia int)
+proveedores(cif varchar(9), nombre varchar(255), telefono int, direccion varchar(20))
+provincias(id_provincia int, nombre varchar(255))
+ventas(id_venta int, user varchar(20), dni varchar(9), fecha_venta date) 
 
 DIVISION TRABAJO:
 
