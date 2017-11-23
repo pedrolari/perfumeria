@@ -5,7 +5,7 @@ public class Dni {
 	
 	/**
 	 * 
-	 * @param dni recogido del textfield en modo String.
+	 * @param dni recogido del textfield en modo String(solo el número, sin letra).
 	 * @return Este metodo devuelve true si son 8 números.
 	 */
 	public boolean validardnisinletra(String dni)
@@ -36,10 +36,21 @@ public class Dni {
 		return enc;
 	}
 	
+	/**
+	 * 
+	 * @param dni Se pasa el dni como String(Solo el número, sin letra).
+	 * @return Este metodo devuelve un String, que devuelve el dni con su letra correcta.
+	 */
 	
-	public void recogerdniconletra()
+	public String recogerdniconletra(String dni)
 	{
+		String dnicompleto;
+		String caracteres="TRWAGMYFPDXBNJZSQVHLCKE";
+		int pos=Integer.parseInt(dni)%23;
+		char letra=caracteres.charAt(pos);
+		dnicompleto=dni+""+letra;
 		
+		return dnicompleto;
 	}
 	
 	
