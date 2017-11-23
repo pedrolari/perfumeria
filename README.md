@@ -48,7 +48,7 @@ Clase Cliente: (Amadeo)
 Clase Articulos: (Luis)
 Interfaz: (Emilio)
 Clase validacion: (Carlos)
-Clase fecha: 
+Clase fecha: (Carlos)
 Funcionalidad impresion(mirar)
 
 
