@@ -84,3 +84,5 @@ Funciones empleado:
 Primera funcionalidad:
 	Cliente: 
 		- Alta (Emilio)
+	Empleado:
+		- Alta (Manuel)
