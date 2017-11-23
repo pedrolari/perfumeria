@@ -25,7 +25,7 @@ Funcione, atractiva a la vista,
 
 Bases de datos
 
-articulos(id_articulo int, nombre varchar(20), precio decimal, descripcion varchar(255), volumen varchar(20), embalaje varchar(20), cif varchar(9), id_categoria int)
+articulos(id_articulo int, nombre varchar(20), precio decimal, descripcion varchar(255), volumen varchar(20), embalaje varchar(20), cif varchar(9), id_categoria int, stock int)
 categorias(id_categoria int, nombre varchar(20), id_categoria_padre int)
 clientes(dni varchar(9), nombre varchar(20), apellidos varchar(20), direccion varchar(20), telefono int, email varchar(20), sexo char, fecha_nacimiento date, fecha_ingreso date)
 compras(id_compra int, user varchar(20), cif varchar(9), fecha_compra date)
