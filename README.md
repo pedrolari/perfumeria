@@ -68,3 +68,19 @@ Metodos:
 >>>>>>> 4839405a5fc2f62eab6cb32f5b475494b5b67482
 =======
 >>>>>>> 4839405a5fc2f62eab6cb32f5b475494b5b67482
+
+Funciones Administrador: 
+	- Empleados(Alta, modificacion, Baja)
+	- proveedores(alta,modificaciones, baja, pedido)
+	- cliente (Alta, modificacion, baja, compra)
+	- articulo (alta,modificacion,baja,compra,pedido)
+
+Funciones empleado:
+	- cliente (Alta, modificacion, baja, compra), 
+	- articulo (alta,modificacion,baja,compra,pedido)
+	- proveedores(alta,modificaciones, baja, pedido)
+
+
+Primera funcionalidad:
+	Cliente: 
+		- Alta (Emilio)
