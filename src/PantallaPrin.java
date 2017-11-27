@@ -62,7 +62,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 		JpanelMitad.add(BorderLayout.NORTH, JpanelOpcionesMenu);
 
 		JpanelMitadCentral = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		JpanelMitadCentral.setBackground(Color.WHITE);
+		JpanelMitadCentral.setBackground(Color.white);
 
 		PanelJInternalFrame();// En este panel se añadiran los JInternalFrame
 
@@ -72,7 +72,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 	private void PanelJInternalFrame() {
 		
 		JpanelCargarJIframe = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0)); 
-		JpanelCargarJIframe.setPreferredSize(new Dimension(1070, 550));
+		JpanelCargarJIframe.setPreferredSize(new Dimension(1070, 640));
 		JpanelCargarJIframe.setBackground(Color.white);
 
 		barraScrollPanelCargarJIframe = new JScrollPane(JpanelCargarJIframe);

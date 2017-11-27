@@ -10,7 +10,7 @@ public class AltaProveedor extends JInternalFrame{
 	AltaProveedor()
 	{
 		
-		this.setPreferredSize(new Dimension(1050, 550));
+		this.setPreferredSize(new Dimension(1050, 640));
 		this.setBorder(null);
 		((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
 		
