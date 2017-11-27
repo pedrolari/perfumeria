@@ -28,6 +28,8 @@ public class Escucha implements ActionListener {
 			vent.getjPanelCentro().add(p);
 			p.setVisible(true);
 
+			
+			
 		}
 	}
 

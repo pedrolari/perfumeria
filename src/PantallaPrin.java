@@ -5,6 +5,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.ScrollPane;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -16,7 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
-public class PantallaPrin extends JInternalFrame {
+public class PantallaPrin extends JInternalFrame implements ActionListener{
 
 	private JPanel jpOeste, jpOesteNorte, jpOesteCentro, jPanelCentro, JpanelCentroNorte, JpanelMitad,
 			JpanelOpcionesMenu, JpanelMitadCentral, JpanelCargarJIframe, jpcsur;
@@ -151,10 +153,12 @@ public class PantallaPrin extends JInternalFrame {
 		jpOesteCentro.setPreferredSize(new Dimension(200, this.getHeight()));
 		jpOesteCentro.setBackground(new Color(41, 53, 65));
 
+		String[] noms={"Empleados", "Proveedores", "Clientes", "Articulos", "Salir"};
+		
 		/*Inicializacion de los botones de menu y caracteristicas*/
 		for (int i = 0; i < jbOpcMenu.length; i++) {
 			
-			jbOpcMenu[i]=new JButton("Opc"+i);
+			jbOpcMenu[i]=new JButton(noms[i]);
 			jbOpcMenu[i].setForeground(Color.white);
 			jbOpcMenu[i].setOpaque(false);
 			jbOpcMenu[i].setContentAreaFilled(false);
@@ -167,7 +171,203 @@ public class PantallaPrin extends JInternalFrame {
 		jpOeste.add(BorderLayout.CENTER, jpOesteCentro);
 
 		this.getContentPane().add(BorderLayout.WEST, jpOeste);
+		
+		jbOpcMenu[1].addActionListener(this);
 	}
+	
+	
+	//ESCUCHA
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+		if(e.getSource().equals(this.getJbOpcMenu()[1]))
+		{
+			AltaProveedor ap=new AltaProveedor();
+			JpanelCargarJIframe.add(ap);
+			ap.setVisible(true);
+		}
+		
+	}
+	
+
+	public JPanel getJpOeste() {
+		return jpOeste;
+	}
+
+	public void setJpOeste(JPanel jpOeste) {
+		this.jpOeste = jpOeste;
+	}
+
+	public JPanel getJpOesteNorte() {
+		return jpOesteNorte;
+	}
+
+	public void setJpOesteNorte(JPanel jpOesteNorte) {
+		this.jpOesteNorte = jpOesteNorte;
+	}
+
+	public JPanel getJpOesteCentro() {
+		return jpOesteCentro;
+	}
+
+	public void setJpOesteCentro(JPanel jpOesteCentro) {
+		this.jpOesteCentro = jpOesteCentro;
+	}
+
+	public JPanel getjPanelCentro() {
+		return jPanelCentro;
+	}
+
+	public void setjPanelCentro(JPanel jPanelCentro) {
+		this.jPanelCentro = jPanelCentro;
+	}
+
+	public JPanel getJpanelCentroNorte() {
+		return JpanelCentroNorte;
+	}
+
+	public void setJpanelCentroNorte(JPanel jpanelCentroNorte) {
+		JpanelCentroNorte = jpanelCentroNorte;
+	}
+
+	public JPanel getJpanelMitad() {
+		return JpanelMitad;
+	}
+
+	public void setJpanelMitad(JPanel jpanelMitad) {
+		JpanelMitad = jpanelMitad;
+	}
+
+	public JPanel getJpanelOpcionesMenu() {
+		return JpanelOpcionesMenu;
+	}
+
+	public void setJpanelOpcionesMenu(JPanel jpanelOpcionesMenu) {
+		JpanelOpcionesMenu = jpanelOpcionesMenu;
+	}
+
+	public JPanel getJpanelMitadCentral() {
+		return JpanelMitadCentral;
+	}
+
+	public void setJpanelMitadCentral(JPanel jpanelMitadCentral) {
+		JpanelMitadCentral = jpanelMitadCentral;
+	}
+
+	public JPanel getJpanelCargarJIframe() {
+		return JpanelCargarJIframe;
+	}
+
+	public void setJpanelCargarJIframe(JPanel jpanelCargarJIframe) {
+		JpanelCargarJIframe = jpanelCargarJIframe;
+	}
+
+	public JPanel getJpcsur() {
+		return jpcsur;
+	}
+
+	public void setJpcsur(JPanel jpcsur) {
+		this.jpcsur = jpcsur;
+	}
+
+	public ImageIcon getImagen() {
+		return imagen;
+	}
+
+	public void setImagen(ImageIcon imagen) {
+		this.imagen = imagen;
+	}
+
+	public ImageIcon getImagencarnet() {
+		return imagencarnet;
+	}
+
+	public void setImagencarnet(ImageIcon imagencarnet) {
+		this.imagencarnet = imagencarnet;
+	}
+
+	public JLabel getJlImagen() {
+		return jlImagen;
+	}
+
+	public void setJlImagen(JLabel jlImagen) {
+		this.jlImagen = jlImagen;
+	}
+
+	public JLabel getJlRol() {
+		return jlRol;
+	}
+
+	public void setJlRol(JLabel jlRol) {
+		this.jlRol = jlRol;
+	}
+
+	public JLabel getJlNombre() {
+		return jlNombre;
+	}
+
+	public void setJlNombre(JLabel jlNombre) {
+		this.jlNombre = jlNombre;
+	}
+
+	public JLabel getJlPersona() {
+		return jlPersona;
+	}
+
+	public void setJlPersona(JLabel jlPersona) {
+		this.jlPersona = jlPersona;
+	}
+
+	public JLabel getJlMenu() {
+		return jlMenu;
+	}
+
+	public void setJlMenu(JLabel jlMenu) {
+		this.jlMenu = jlMenu;
+	}
+
+	public JScrollPane getBarraScrollPanelCargarJIframe() {
+		return barraScrollPanelCargarJIframe;
+	}
+
+	public void setBarraScrollPanelCargarJIframe(JScrollPane barraScrollPanelCargarJIframe) {
+		this.barraScrollPanelCargarJIframe = barraScrollPanelCargarJIframe;
+	}
+
+	public JButton[] getJbOpcMenu() {
+		return jbOpcMenu;
+	}
+
+	public void setJbOpcMenu(JButton[] jbOpcMenu) {
+		this.jbOpcMenu = jbOpcMenu;
+	}
+
+	public JButton getJbAjuste() {
+		return jbAjuste;
+	}
+
+	public void setJbAjuste(JButton jbAjuste) {
+		this.jbAjuste = jbAjuste;
+	}
+
+	public JButton getJbfecha() {
+		return jbfecha;
+	}
+
+	public void setJbfecha(JButton jbfecha) {
+		this.jbfecha = jbfecha;
+	}
+
+	public JButton getJbOpcMenu1() {
+		return jbOpcMenu1;
+	}
+
+	public void setJbOpcMenu1(JButton jbOpcMenu1) {
+		this.jbOpcMenu1 = jbOpcMenu1;
+	}
+
+
 	
 	
 }
