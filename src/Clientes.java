@@ -39,12 +39,12 @@ public class Clientes {
 		this.sexo = sexo;
 		this.fecha_nacimiento = fecha_nacimiento;
 		
-		//LA FECHA DE INGRESO DEL EMPLEADO ES LA FECHA ACTUAL
+		//LA FECHA DE INGRESO DEL CLIENTE ES LA FECHA ACTUAL
 		this.fecha_ingreso = fecha_ingreso;
 	}
 	
 	/**
-	 * INSERTA UN EMPLEADO EN LA BBDD PREVIAMENTE VALIDADO
+	 * INSERTA UN CLIENTE EN LA BBDD PREVIAMENTE VALIDADO
 	 * 
 	 * @param dni
 	 * @param telefono
@@ -58,46 +58,47 @@ public class Clientes {
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 */
-	public void insertarEmpleadoBBDD(String dni, int telefono, String  nombre, String apellidos, String direccion, String email, char sexo, Date fecha_nacimiento, Date fecha_ingreso) throws SQLException, ClassNotFoundException{
+	public void insertarClienteBBDD(String dni, int telefono, String  nombre, String apellidos, String direccion, String email, char sexo, Date fecha_nacimiento, Date fecha_ingreso) throws SQLException, ClassNotFoundException{
 		con = new Conexion();
 		con.modificar("INSERT INTO cliente(dni, telefono, nombre, apellidos, direccion, email, sexo, fecha_nacimiento, fecha_ingreso) VALUES ('"+dni+"','"+telefono+"', '"+nombre+"', '"+apellidos+"','"+direccion+"', '"+email+"', '"+sexo+"', '"+fecha_nacimiento+"', '"+fecha_ingreso+"')");
 	}
 	
 	/**
-	 * OBTIENE LOS RESULTADOS DE UN EMPLEADO A TRAVES DEL DNI PREVIAMENTE VALIDADO
+	 * OBTIENE LOS RESULTADOS DE UN CLIENTE A TRAVES DEL DNI PREVIAMENTE VALIDADO
 	 * 
 	 * @param dni
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 */
-	public void mostrarDatosEmpleadoPorDni(int dni) throws SQLException, ClassNotFoundException{
+	public void mostrarDatosClientePorDni(int dni) throws SQLException, ClassNotFoundException{
 		con = new Conexion();
 		con.consultar("SELECT * from clientes where dni = '"+dni+"'");
 	}
 	
 	/**
-	 * BORRAR EMPLEADO A TRAVES DEL DNI PREVIAMENTE VALIDADO
+	 * BORRAR CLIENTE A TRAVES DEL DNI PREVIAMENTE VALIDADO
 	 * 
 	 * @return
 	 * @throws SQLException 
 	 * @throws ClassNotFoundException 
 	 */
-	public void borrarUsuarioBBDD(int dni) throws ClassNotFoundException, SQLException{
+	public void borrarClienteBBDD(int dni) throws ClassNotFoundException, SQLException{
 		con = new Conexion();
 		con.modificar("DELETE FROM clientes WHERE dni = '"+dni+"'");
 	}
 	
 	/**
-	 * TODO falta terminar la clase
-	 * ACTUALIZAR DATOS DEL CLIENTE MEDIANTE DNI PREVIAMENTE VALIDADO EL DNI Y DATOS DEL CLIENTE
 	 * 
+	 * ACTUALIZAR DATOS DEL CLIENTE MEDIANTE DNI PREVIAMENTE VALIDADO Y EL CAMPO A ACTUALIZAR
 	 * @param dni
+	 * @param campo
+	 * @param valor
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	public void actualizarUsuarioBBDD(int dni, String nombre, String apellidos) throws ClassNotFoundException, SQLException{
+	public void actualizarClienteBBDD(int dni, String campo, String valor) throws ClassNotFoundException, SQLException{
 		con = new Conexion();
-		con.modificar("UPDATE clientes SET nombre='"+nombre+"', apellidos='"+apellidos+"', direccion=[value-4], telefono=[value-5], email=[value-6], sexo=[value-7], fecha_nacimiento=[value-8], fecha_ingreso=[value-9] WHERE dni = '"+dni+"'");
+		con.modificar("UPDATE clientes SET "+campo+"='"+valor+"' WHERE dni = '"+dni+"'");
 	}
 
 	public int getTelefono() {
