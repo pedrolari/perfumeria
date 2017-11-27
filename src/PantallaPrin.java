@@ -26,7 +26,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 	private JLabel jlImagen, jlRol, jlNombre, jlPersona, jlMenu;
 	private JScrollPane barraScrollPanelCargarJIframe;
 	private JButton  jbOpcMenu []=new JButton[5];
-	private JButton jbAjuste, jbfecha, jbOpcMenu1;
+	private JButton jbAjuste, jbfecha, jbOpcMenu1 ,jbOpcMenu2,jbOpcMenu3,jbOpcMenu4,jbOpcMenu5;
 
 	//jbOpc1, jbOpc2, jbOpc3, jbOpc4, jbOpc5
 	
@@ -128,15 +128,41 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 		JpanelOpcionesMenu.setBackground(new Color(236, 237, 243));//
 		JpanelOpcionesMenu.setPreferredSize(new Dimension(this.getWidth(), 35));
 
-		jlMenu = new JLabel("Menu 1");
+		jlMenu = new JLabel("");
 		jlMenu.setBorder(new EmptyBorder(0, 10, 0, 0));
 		JpanelOpcionesMenu.add(jlMenu);
 
-		jbOpcMenu1 = new JButton("Opcion1");
+		jbOpcMenu1 = new JButton("");
 		jbOpcMenu1.setOpaque(false);
 		jbOpcMenu1.setContentAreaFilled(false);
 		jbOpcMenu1.setBorderPainted(false);
 		JpanelOpcionesMenu.add(jbOpcMenu1);
+		
+		jbOpcMenu2 = new JButton("");
+		jbOpcMenu2.setOpaque(false);
+		jbOpcMenu2.setContentAreaFilled(false);
+		jbOpcMenu2.setBorderPainted(false);
+		JpanelOpcionesMenu.add(jbOpcMenu2);
+		
+		jbOpcMenu3 = new JButton("");
+		jbOpcMenu3.setOpaque(false);
+		jbOpcMenu3.setContentAreaFilled(false);
+		jbOpcMenu3.setBorderPainted(false);
+		JpanelOpcionesMenu.add(jbOpcMenu3);
+		
+		jbOpcMenu4 = new JButton("");
+		jbOpcMenu4.setOpaque(false);
+		jbOpcMenu4.setContentAreaFilled(false);
+		jbOpcMenu4.setBorderPainted(false);
+		JpanelOpcionesMenu.add(jbOpcMenu4);
+		
+		jbOpcMenu5 = new JButton("");
+		jbOpcMenu5.setOpaque(false);
+		jbOpcMenu5.setContentAreaFilled(false);
+		jbOpcMenu5.setBorderPainted(false);
+		JpanelOpcionesMenu.add(jbOpcMenu5);
+		
+		
 	}
 
 	private void ParteOeste() {
@@ -165,7 +191,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 			jbOpcMenu[i].setBorderPainted(false);
 			jbOpcMenu[i].setPreferredSize(new Dimension(200, 50));
 			jpOesteCentro.add(jbOpcMenu[i]);
-			jpOesteCentro.add(jbOpcMenu[i]);
+			
 		}
 	
 		jpOeste.add(BorderLayout.CENTER, jpOesteCentro);
@@ -182,20 +208,82 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		
-		if(e.getSource().equals(this.getJbOpcMenu()[1]))
+		if(e.getSource().equals(this.getJbOpcMenu()[0]))
+		{
+			this.getJlMenu().setText("EMPLEADOS");
+			this.getJbOpcMenu1().setText("ALTA");
+			this.getJbOpcMenu1().setVisible(true);
+			this.getJbOpcMenu2().setText("MODIFICACION");
+			this.getJbOpcMenu2().setVisible(true);
+			this.getJbOpcMenu3().setText("BAJA");
+			this.getJbOpcMenu3().setVisible(true);
+			this.getJbOpcMenu4().setVisible(false);
+			this.getJbOpcMenu5().setVisible(false);
+			
+		}
+		else if(e.getSource().equals(this.getJbOpcMenu()[1]))
 		{
 			AltaProveedor ap=new AltaProveedor();
 			JpanelCargarJIframe.add(ap);
 			ap.setVisible(true);
-		}else if(e.getSource().equals(this.getJbOpcMenu()[2]))
+		}
+		
+		else if(e.getSource().equals(this.getJbOpcMenu()[2]))
+		{
+			AltaCliente ac=new AltaCliente();
+			JpanelCargarJIframe.add(ac);
+			ac.setVisible(true);
+		}
+		else if(e.getSource().equals(this.getJbOpcMenu()[3]))
+		{
+			AltaCliente ac=new AltaCliente();
+			JpanelCargarJIframe.add(ac);
+			ac.setVisible(true);
+		}
+		else if(e.getSource().equals(this.getJbOpcMenu()[4]))
 		{
 			AltaCliente ac=new AltaCliente();
 			JpanelCargarJIframe.add(ac);
 			ac.setVisible(true);
 		}
 		
+		
 	}
 	
+
+	
+	
+	public JButton getJbOpcMenu2() {
+		return jbOpcMenu2;
+	}
+
+	public void setJbOpcMenu2(JButton jbOpcMenu2) {
+		this.jbOpcMenu2 = jbOpcMenu2;
+	}
+
+	public JButton getJbOpcMenu3() {
+		return jbOpcMenu3;
+	}
+
+	public void setJbOpcMenu3(JButton jbOpcMenu3) {
+		this.jbOpcMenu3 = jbOpcMenu3;
+	}
+
+	public JButton getJbOpcMenu4() {
+		return jbOpcMenu4;
+	}
+
+	public void setJbOpcMenu4(JButton jbOpcMenu4) {
+		this.jbOpcMenu4 = jbOpcMenu4;
+	}
+
+	public JButton getJbOpcMenu5() {
+		return jbOpcMenu5;
+	}
+
+	public void setJbOpcMenu5(JButton jbOpcMenu5) {
+		this.jbOpcMenu5 = jbOpcMenu5;
+	}
 
 	public JPanel getJpOeste() {
 		return jpOeste;
