@@ -48,7 +48,7 @@ Clase Cliente: (Amadeo)
 Clase Articulos: (Luis)
 Interfaz: (Emilio)
 Clase validacion: (Carlos)
-Clase fecha: (Carlos)
+Clase fecha: 
 Funcionalidad impresion(mirar)
 
 
@@ -86,3 +86,5 @@ Primera funcionalidad:
 		- Alta (Emilio)
 	Empleado:
 		- Alta (Manuel)
+	Proveedor
+		- Alta (Carlos)
