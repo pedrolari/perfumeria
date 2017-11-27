@@ -173,6 +173,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 		this.getContentPane().add(BorderLayout.WEST, jpOeste);
 		
 		jbOpcMenu[1].addActionListener(this);
+		jbOpcMenu[2].addActionListener(this);
 	}
 	
 	
@@ -186,6 +187,11 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 			AltaProveedor ap=new AltaProveedor();
 			JpanelCargarJIframe.add(ap);
 			ap.setVisible(true);
+		}else if(e.getSource().equals(this.getJbOpcMenu()[2]))
+		{
+			AltaCliente ac=new AltaCliente();
+			JpanelCargarJIframe.add(ac);
+			ac.setVisible(true);
 		}
 		
 	}
