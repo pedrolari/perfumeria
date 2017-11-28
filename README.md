@@ -91,6 +91,7 @@ Primera funcionalidad:
 	Proveedor
 		- Alta (Carlos)
 		-Modificacion (Manuel)
+		-Pedido(Rafa)
 	Articulo
 		-Alta(Amadeo)
 		-Modificacion(Alejandro)
