@@ -6,26 +6,35 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Label;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
-public class AltaEmpleado extends JInternalFrame{
+import com.sun.xml.internal.ws.wsdl.writer.document.http.Address;
+
+import javafx.scene.control.PasswordField;
+
+public class AltaEmpleado extends JInternalFrame implements ActionListener{
 	
 	private JLabel jl,jl1,jl1r,jl2,jl3,jl4,jl5;
-	private JTextField user,pass,repass,nom,ape,tel,rol;
+	private JTextField user,nom,ape,tel,rol;
+	private JPasswordField pass,repass;
 	private JPanel[] aux = new JPanel[7];
 	private JPanel[] auxt = new JPanel[7];
 	private JPanel prin,izq,der,sur;
-	private JButton carga;
+	private JButton carga,limpiar;
 	
 	public AltaEmpleado() {
 		// TODO Auto-generated constructor stub
@@ -37,8 +46,40 @@ public class AltaEmpleado extends JInternalFrame{
 		this.setBorder(null);
 		((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
 		componentes();
+		this.getLimpiar().addActionListener(this);
+		this.getCarga().addActionListener(this);
 		this.setVisible(true);
 	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		Validaciones v = new Validaciones();
+		if(this.getLimpiar() == e.getSource()){
+			user.setText(null);
+			pass.setText(null);
+			repass.setText(null);
+			nom.setText(null);
+			ape.setText(null);
+			tel.setText(null);
+			rol.setText(null);
+		}
+		
+		if(this.getCarga() == e.getSource()){
+			if(v.campovacio(user.getText()) || v.campovacio(pass.getText()) || v.campovacio(repass.getText()) || v.campovacio(nom.getText()) || v.campovacio(ape.getText()) || v.campovacio(tel.getText()) || v.campovacio(rol.getText())){
+				JOptionPane.showMessageDialog(null, "Faltan campos por rellenar!");
+			}else{
+				if(pass.getText().equalsIgnoreCase(repass.getText())){
+					if(v.validartelefono(tel.getText())){
+						JOptionPane.showMessageDialog(null, "Telefono introducido no valido!");
+					}
+				}else{
+					JOptionPane.showMessageDialog(null, "Las Contraseñas no coinciden!");
+				}
+			}
+		}
+	}
+	
 	
 	private void componentes() {
 		// TODO Auto-generated method stub
@@ -66,8 +107,8 @@ public class AltaEmpleado extends JInternalFrame{
 		jl5.setFont(new Font(null, Font.BOLD, 15));
 		
 		user = new JTextField(10);
-		pass = new JTextField(10);
-		repass = new JTextField(10);
+		pass = new JPasswordField(10);
+		repass = new JPasswordField(10);
 		nom = new JTextField(10);
 		ape = new JTextField(10);
 		tel = new JTextField(10);
@@ -131,7 +172,9 @@ public class AltaEmpleado extends JInternalFrame{
 		sur.setBackground(Color.white);
 		sur.setLayout(new FlowLayout(FlowLayout.CENTER));
 		carga = new JButton("REGISTRAR");
+		limpiar = new JButton("LIMPIAR");
 		sur.add(carga);
+		sur.add(limpiar);
 		
 		prin.add(BorderLayout.CENTER, izq);
 		prin.add(BorderLayout.EAST, der);
@@ -140,5 +183,182 @@ public class AltaEmpleado extends JInternalFrame{
 		this.getContentPane().add(prin);
 		this.getContentPane().setBackground(Color.white);
 	}
+
+	public JLabel getJl() {
+		return jl;
+	}
+
+	public void setJl(JLabel jl) {
+		this.jl = jl;
+	}
+
+	public JLabel getJl1() {
+		return jl1;
+	}
+
+	public void setJl1(JLabel jl1) {
+		this.jl1 = jl1;
+	}
+
+	public JLabel getJl1r() {
+		return jl1r;
+	}
+
+	public void setJl1r(JLabel jl1r) {
+		this.jl1r = jl1r;
+	}
+
+	public JLabel getJl2() {
+		return jl2;
+	}
+
+	public void setJl2(JLabel jl2) {
+		this.jl2 = jl2;
+	}
+
+	public JLabel getJl3() {
+		return jl3;
+	}
+
+	public void setJl3(JLabel jl3) {
+		this.jl3 = jl3;
+	}
+
+	public JLabel getJl4() {
+		return jl4;
+	}
+
+	public void setJl4(JLabel jl4) {
+		this.jl4 = jl4;
+	}
+
+	public JLabel getJl5() {
+		return jl5;
+	}
+
+	public void setJl5(JLabel jl5) {
+		this.jl5 = jl5;
+	}
+
+	public JTextField getUser() {
+		return user;
+	}
+
+	public void setUser(JTextField user) {
+		this.user = user;
+	}
+
+	public JPasswordField getPass() {
+		return pass;
+	}
+
+	public void setPass(JPasswordField pass) {
+		this.pass = pass;
+	}
+
+	public JPasswordField getRepass() {
+		return repass;
+	}
+
+	public void setRepass(JPasswordField repass) {
+		this.repass = repass;
+	}
+
+	public JTextField getNom() {
+		return nom;
+	}
+
+	public void setNom(JTextField nom) {
+		this.nom = nom;
+	}
+
+	public JTextField getApe() {
+		return ape;
+	}
+
+	public void setApe(JTextField ape) {
+		this.ape = ape;
+	}
+
+	public JTextField getTel() {
+		return tel;
+	}
+
+	public void setTel(JTextField tel) {
+		this.tel = tel;
+	}
+
+	public JTextField getRol() {
+		return rol;
+	}
+
+	public void setRol(JTextField rol) {
+		this.rol = rol;
+	}
+
+	public JPanel[] getAux() {
+		return aux;
+	}
+
+	public void setAux(JPanel[] aux) {
+		this.aux = aux;
+	}
+
+	public JPanel[] getAuxt() {
+		return auxt;
+	}
+
+	public void setAuxt(JPanel[] auxt) {
+		this.auxt = auxt;
+	}
+
+	public JPanel getPrin() {
+		return prin;
+	}
+
+	public void setPrin(JPanel prin) {
+		this.prin = prin;
+	}
+
+	public JPanel getIzq() {
+		return izq;
+	}
+
+	public void setIzq(JPanel izq) {
+		this.izq = izq;
+	}
+
+	public JPanel getDer() {
+		return der;
+	}
+
+	public void setDer(JPanel der) {
+		this.der = der;
+	}
+
+	public JPanel getSur() {
+		return sur;
+	}
+
+	public void setSur(JPanel sur) {
+		this.sur = sur;
+	}
+
+	public JButton getCarga() {
+		return carga;
+	}
+
+	public void setCarga(JButton carga) {
+		this.carga = carga;
+	}
+
+	public JButton getLimpiar() {
+		return limpiar;
+	}
+
+	public void setLimpiar(JButton limpiar) {
+		this.limpiar = limpiar;
+	}
+	
 	
 }
