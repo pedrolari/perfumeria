@@ -102,6 +102,22 @@ public class Articulo {
 		}
 	}
 	/**
+	 * Método para modificar todos los campos de articulos
+	 */
+	
+	public void updateAll(String id_articulo, String nombre, String precio, String descripcion, String volumen, String embalaje) {
+		String sql = "UPDATE articulos SET nombre = '" + nombre + "', precio= '" + precio + "', descripcion='"
+				+ descripcion + "' volumen = '" + volumen + "', embalaje = '" + embalaje + "' WHERE id_articulo = '"
+				+ id_articulo + "';";
+		try {
+			Conexion c = new Conexion();
+			c.modificar(sql);
+		} catch (ClassNotFoundException | SQLException e) {
+			System.out.println(sql);
+			e.printStackTrace();
+		}
+	}
+	/**
 	 * Buscar por id, que paso como parametro.
 	 * El metodo asigna a cada atributo de la clase su valor en la bbdd en caso de encontrar una correspondecia
 	 * 
