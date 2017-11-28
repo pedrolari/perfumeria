@@ -86,5 +86,11 @@ Primera funcionalidad:
 		- Alta (Emilio)
 	Empleado:
 		- Alta (Manuel)
+		- Modificacion (Luis)
+		- Baja (Amadeo)
 	Proveedor
 		- Alta (Carlos)
+		-Modificacion (Manuel)
+	Articulo
+		-Alta(Amadeo)
+		-Modificacion(Alejandro)
