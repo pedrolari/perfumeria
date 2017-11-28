@@ -10,6 +10,7 @@ import java.awt.Label;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -17,7 +18,7 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
-public class AltaEmpleado extends JFrame{
+public class AltaEmpleado extends JInternalFrame{
 	
 	private JLabel jl,jl1,jl1r,jl2,jl3,jl4,jl5;
 	private JTextField user,pass,repass,nom,ape,tel,rol;
@@ -33,17 +34,20 @@ public class AltaEmpleado extends JFrame{
 		this.setLayout(new FlowLayout(FlowLayout.CENTER,1,100));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//this.getContentPane().setBackground(new Color(19, 34, 41));
+		this.setBorder(null);
+		((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
 		componentes();
 		this.setVisible(true);
 	}
 	
 	private void componentes() {
 		// TODO Auto-generated method stub
-		
+	
 		prin = new JPanel();
+		prin.setBackground(Color.WHITE);
 		prin.setPreferredSize(new Dimension(300, 400));
 		prin.setLayout(new BorderLayout());
-		prin.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY), "Datos de Usuario",TitledBorder.LEFT, TitledBorder.TOP, new Font(null, Font.BOLD, 25),Color.GRAY));
+		prin.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(41, 53, 65)), "Datos de Usuario",TitledBorder.LEFT, TitledBorder.TOP, new Font(null, Font.BOLD, 25),new Color(41, 53, 65)));
 		
 		
 		jl = new JLabel(" Usuario: ");
@@ -73,10 +77,12 @@ public class AltaEmpleado extends JFrame{
 		for (int i = 0; i < aux.length; i++) {
 			aux[i] = new JPanel();
 			aux[i].setLayout(new FlowLayout(FlowLayout.LEFT,1,1));
+			aux[i].setBackground(Color.WHITE);
 		}
 		
 		for (int i = 0; i < aux.length; i++) {
 			auxt[i] = new JPanel();
+			auxt[i].setBackground(Color.white);
 			auxt[i].setLayout(new FlowLayout(FlowLayout.LEFT,1,1));
 		}
 		
@@ -89,9 +95,11 @@ public class AltaEmpleado extends JFrame{
 		aux[6].add(rol);
 		
 		izq = new JPanel();
+		izq.setBackground(Color.white);
 		izq.setLayout(new GridLayout(7, 1));
 		//izq.setBackground(Color.RED);
 		der = new JPanel();
+		der.setBackground(Color.white);
 		//der.setBackground(Color.blue);
 		der.setLayout(new GridLayout(7, 1));
 		
@@ -120,6 +128,7 @@ public class AltaEmpleado extends JFrame{
 		der.add(aux[6]);
 		
 		sur = new JPanel();
+		sur.setBackground(Color.white);
 		sur.setLayout(new FlowLayout(FlowLayout.CENTER));
 		carga = new JButton("REGISTRAR");
 		sur.add(carga);
@@ -129,6 +138,7 @@ public class AltaEmpleado extends JFrame{
 		prin.add(BorderLayout.SOUTH, sur);
 
 		this.getContentPane().add(prin);
+		this.getContentPane().setBackground(Color.white);
 	}
 	
 }

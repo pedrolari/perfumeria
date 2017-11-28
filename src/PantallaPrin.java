@@ -224,7 +224,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 					AltaEmpleado ae=new AltaEmpleado();
 					JpanelCargarJIframe.add(ae);
 					ae.setVisible(true);
-					
+					JpanelCargarJIframe.updateUI();
 				}
 			});
 			this.getJbOpcMenu2().setText("MODIFICACION");
