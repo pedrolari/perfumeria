@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -17,12 +19,19 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
-public class AltaCliente extends JInternalFrame{
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
+
+import javafx.scene.control.DatePicker;
+
+public class AltaCliente extends JInternalFrame implements ActionListener{
 	private JPanel ptotal,pizq,pder,pcen,psur,pradiobtn;
 	private JLabel[] lbl;
 	private JTextField txtdni,txtnom,txtapels,txtfechanaci,txtdir,txttel,txtmail,txtsexo,txtfechaing;
 	private JButton btn;
 	private JRadioButton[] sex;
+	private DatePicker dpfechanaci;
 	AltaCliente(){
 		//tamaño 1050,500
 		this.setPreferredSize(new Dimension(1050, 640));
@@ -31,10 +40,10 @@ public class AltaCliente extends JInternalFrame{
 		this.setMaximizable(false);
 		this.setBorder(null);
 		((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
-		this.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER,40,20));
-		ptotal=new JPanel(new BorderLayout(150,30));
+		this.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER,40,50));
+		ptotal=new JPanel(new BorderLayout(150,50));
 		ptotal.setBackground(Color.white);
-		ptotal.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.gray, 1), "ALTA CLIENTE",TitledBorder.LEFT,TitledBorder.TOP,new Font(null, Font.BOLD,25), Color.gray));
+		ptotal.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(41, 53, 65), 1), "ALTA CLIENTE",TitledBorder.LEFT,TitledBorder.TOP,new Font(null, Font.BOLD,25), new Color(41, 53, 65)));
 		this.getContentPane().add(ptotal);
 		pcen=new JPanel(new GridLayout(9, 2,10,10));
 		pcen.setBorder(new EmptyBorder(0, 20, 0, 20));
@@ -52,6 +61,7 @@ public class AltaCliente extends JInternalFrame{
 		txtdni=new JTextField(10);
 		txtnom=new JTextField(10);
 		txtapels=new JTextField(10);
+	//	dpfechanaci=new DatePicker();
 		txtfechanaci=new JTextField(10);
 		txtdir=new JTextField(10);
 		txttel=new JTextField(10);
@@ -65,14 +75,18 @@ public class AltaCliente extends JInternalFrame{
 		ButtonGroup bg=new ButtonGroup();
 		String[] texsex={"V","H"};
 		sex=new JRadioButton[texsex.length];
+	
 		for (int i = 0; i < texsex.length; i++) {
 			sex[i]=new JRadioButton(texsex[i]);
 			bg.add(sex[i]);
 			pradiobtn.add(sex[i]);
-			pradiobtn.setBackground(Color.WHITE);
-			
+		//	pradiobtn.setBackground(Color.WHITE);
+			sex[i].setBackground(Color.white);
 		}
 		
+		UtilDateModel model = new UtilDateModel();
+	/*	JDatePanelImpl datePanel = new JDatePanelImpl(model, null);
+		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, null);*/
 		
 		pcen.add(lbl[0]);
 		pcen.add(txtdni);
@@ -81,6 +95,7 @@ public class AltaCliente extends JInternalFrame{
 		pcen.add(lbl[2]);
 		pcen.add(txtapels);
 		pcen.add(lbl[3]);
+	//	pcen.add(datePicker);
 		pcen.add(txtfechanaci);
 		pcen.add(lbl[4]);
 		pcen.add(txtdir);
@@ -101,5 +116,17 @@ public class AltaCliente extends JInternalFrame{
 		psur.setBackground(Color.white);
 				
 		
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		
+		
+	}
+	public boolean comprobar(){
+		boolean cond=true;
+		if(txtdni.getText().length()==0||txtnom.getText().length()==0||txtapels.getText().length()==0||txtnom.getText().length()==0){
+			
+		}
+		return cond;
 	}
 }

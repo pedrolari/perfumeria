@@ -267,8 +267,21 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 		{
 			this.getJlMenu().setText("CLIENTES");
 			this.getJlMenu().setVisible(true);
+			
 			this.getJbOpcMenu1().setText("ALTA");
 			this.getJbOpcMenu1().setVisible(true);
+			this.getJbOpcMenu1().addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					System.out.println("Entramos");
+					AltaCliente ac=new AltaCliente();
+					JpanelCargarJIframe.add(ac);
+					ac.setVisible(true);
+				
+					
+				}
+			});
 			this.getJbOpcMenu2().setText("MODIFICACION");
 			this.getJbOpcMenu2().setVisible(true);
 			this.getJbOpcMenu3().setText("BAJA");
