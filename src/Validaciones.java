@@ -21,6 +21,15 @@ public class Validaciones {
 	}
 	
 	
+	private static boolean isNumeric(String cadena){
+		try {
+			Integer.parseInt(cadena);
+			return true;
+		} catch (NumberFormatException nfe){
+			return false;
+		}
+	}
+	
 	/**
 	 * 
 	 * @param num Se le pasa el número en formato String.
@@ -28,11 +37,18 @@ public class Validaciones {
 	 */
 	public boolean validartelefono(String num)
 	{
+		if(this.isNumeric(num)==true)
+		{
 		if(Integer.parseInt(num)<111111111||Integer.parseInt(num)>999999999)
 		{
 			return true;
 		}
 		else 
+		{
+			return false;
+		}
+		}
+		else
 		{
 			return false;
 		}
@@ -61,6 +77,52 @@ public class Validaciones {
 	        }
 	}
 	
+	/**
+	 * 
+	 * @param nif Pasamos el nif en modo string
+	 * @return Este metodo devuelve true si es correcto el nif.
+	 */
 	
+	public static boolean validarNIF(String nif) {
+
+	    boolean correcto = false;
+
+	    Pattern pattern = Pattern.compile("(\\d{1,8})([TRWAGMYFPDXBNJZSQVHLCKEtrwagmyfpdxbnjzsqvhlcke])");
+
+	    Matcher matcher = pattern.matcher(nif);
+
+	    if (matcher.matches()) {
+
+	        String letra = matcher.group(2);
+
+	        String letras = "TRWAGMYFPDXBNJZSQVHLCKE";
+
+	        int index = Integer.parseInt(matcher.group(1));
+
+	        index = index % 23;
+
+	        String reference = letras.substring(index, index + 1);
+
+
+
+	        if (reference.equalsIgnoreCase(letra)) {
+
+	            correcto = true;
+
+	        } else {
+
+	            correcto = false;
+
+	        }
+
+	    } else {
+
+	        correcto = false;
+
+	    }
+
+	    return correcto;
+
+	}
 	
 }
