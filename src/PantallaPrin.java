@@ -198,8 +198,11 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 
 		this.getContentPane().add(BorderLayout.WEST, jpOeste);
 		
+		jbOpcMenu[0].addActionListener(this);
 		jbOpcMenu[1].addActionListener(this);
 		jbOpcMenu[2].addActionListener(this);
+		jbOpcMenu[3].addActionListener(this);
+		jbOpcMenu[4].addActionListener(this);
 	}
 	
 	
@@ -211,6 +214,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 		if(e.getSource().equals(this.getJbOpcMenu()[0]))
 		{
 			this.getJlMenu().setText("EMPLEADOS");
+			this.getJlMenu().setVisible(true);
 			this.getJbOpcMenu1().setText("ALTA");
 			this.getJbOpcMenu1().setVisible(true);
 			this.getJbOpcMenu2().setText("MODIFICACION");
@@ -223,28 +227,64 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 		}
 		else if(e.getSource().equals(this.getJbOpcMenu()[1]))
 		{
-			AltaProveedor ap=new AltaProveedor();
-			JpanelCargarJIframe.add(ap);
-			ap.setVisible(true);
+			this.getJlMenu().setText("PROVEEDORES");
+			this.getJlMenu().setVisible(true);
+			this.getJbOpcMenu1().setText("ALTA");
+			this.getJbOpcMenu1().setVisible(true);
+			
+			this.getJbOpcMenu1().addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					
+					AltaProveedor ap=new AltaProveedor();
+					JpanelCargarJIframe.add(ap);
+					ap.setVisible(true);
+		
+				}
+			});
+			
+			this.getJbOpcMenu2().setText("MODIFICACION");
+			this.getJbOpcMenu2().setVisible(true);
+			this.getJbOpcMenu3().setText("BAJA");
+			this.getJbOpcMenu3().setVisible(true);
+			this.getJbOpcMenu4().setText("PEDIDO");
+			this.getJbOpcMenu4().setVisible(true);
+			this.getJbOpcMenu5().setVisible(false);
 		}
 		
 		else if(e.getSource().equals(this.getJbOpcMenu()[2]))
 		{
-			AltaCliente ac=new AltaCliente();
-			JpanelCargarJIframe.add(ac);
-			ac.setVisible(true);
+			this.getJlMenu().setText("CLIENTES");
+			this.getJlMenu().setVisible(true);
+			this.getJbOpcMenu1().setText("ALTA");
+			this.getJbOpcMenu1().setVisible(true);
+			this.getJbOpcMenu2().setText("MODIFICACION");
+			this.getJbOpcMenu2().setVisible(true);
+			this.getJbOpcMenu3().setText("BAJA");
+			this.getJbOpcMenu3().setVisible(true);
+			this.getJbOpcMenu4().setText("COMPRA");
+			this.getJbOpcMenu4().setVisible(true);
+			this.getJbOpcMenu5().setVisible(false);
 		}
 		else if(e.getSource().equals(this.getJbOpcMenu()[3]))
 		{
-			AltaCliente ac=new AltaCliente();
-			JpanelCargarJIframe.add(ac);
-			ac.setVisible(true);
+			this.getJlMenu().setText("ARTICULOS");
+			this.getJlMenu().setVisible(true);
+			this.getJbOpcMenu1().setText("ALTA");
+			this.getJbOpcMenu1().setVisible(true);
+			this.getJbOpcMenu2().setText("MODIFICACION");
+			this.getJbOpcMenu2().setVisible(true);
+			this.getJbOpcMenu3().setText("BAJA");
+			this.getJbOpcMenu3().setVisible(true);
+			this.getJbOpcMenu4().setText("COMPRA");
+			this.getJbOpcMenu4().setVisible(true);
+			this.getJbOpcMenu5().setText("PEDIDO");
+			this.getJbOpcMenu5().setVisible(true);
 		}
 		else if(e.getSource().equals(this.getJbOpcMenu()[4]))
 		{
-			AltaCliente ac=new AltaCliente();
-			JpanelCargarJIframe.add(ac);
-			ac.setVisible(true);
+			System.exit(0);
 		}
 		
 		
