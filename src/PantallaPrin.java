@@ -217,6 +217,16 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 			this.getJlMenu().setVisible(true);
 			this.getJbOpcMenu1().setText("ALTA");
 			this.getJbOpcMenu1().setVisible(true);
+			this.getJbOpcMenu1().addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					AltaEmpleado ae=new AltaEmpleado();
+					JpanelCargarJIframe.add(ae);
+					ae.setVisible(true);
+					
+				}
+			});
 			this.getJbOpcMenu2().setText("MODIFICACION");
 			this.getJbOpcMenu2().setVisible(true);
 			this.getJbOpcMenu3().setText("BAJA");
@@ -273,14 +283,55 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 			this.getJlMenu().setVisible(true);
 			this.getJbOpcMenu1().setText("ALTA");
 			this.getJbOpcMenu1().setVisible(true);
+			this.getJbOpcMenu1().addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO ALTA DE ARTICULO
+					
+				}
+			});
 			this.getJbOpcMenu2().setText("MODIFICACION");
 			this.getJbOpcMenu2().setVisible(true);
+			this.getJbOpcMenu2().addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO MODIFICACION DEL ARTICULO
+					
+				}
+			});
 			this.getJbOpcMenu3().setText("BAJA");
 			this.getJbOpcMenu3().setVisible(true);
+			this.getJbOpcMenu3().addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO BAJA DE ARTICULO
+					
+				}
+			});
+			
 			this.getJbOpcMenu4().setText("COMPRA");
 			this.getJbOpcMenu4().setVisible(true);
+			this.getJbOpcMenu4().addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					// TODO COMPRA ARTICULO
+					
+				}
+			});
 			this.getJbOpcMenu5().setText("PEDIDO");
 			this.getJbOpcMenu5().setVisible(true);
+			this.getJbOpcMenu5().addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO PEDDIO ARTICULOS
+					
+				}
+			});
 		}
 		else if(e.getSource().equals(this.getJbOpcMenu()[4]))
 		{
