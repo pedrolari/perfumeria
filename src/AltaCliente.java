@@ -6,10 +6,12 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Properties;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField.AbstractFormatter;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -18,17 +20,20 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.text.DateFormatter;
 
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
+import Imagenes.HintTextField;
 import javafx.scene.control.DatePicker;
 
 public class AltaCliente extends JInternalFrame implements ActionListener{
 	private JPanel ptotal,pizq,pder,pcen,psur,pradiobtn;
 	private JLabel[] lbl;
-	private JTextField txtdni,txtnom,txtapels,txtfechanaci,txtdir,txttel,txtmail,txtsexo,txtfechaing;
+	private HintTextField txtdni;
+	private JTextField txtnom,txtapels,txtfechanaci,txtdir,txttel,txtmail,txtsexo,txtfechaing;
 	private JButton btn;
 	private JRadioButton[] sex;
 	private DatePicker dpfechanaci;
@@ -58,7 +63,9 @@ public class AltaCliente extends JInternalFrame implements ActionListener{
 		}
 		
 		//parte derecha
-		txtdni=new JTextField(10);
+		HintTextField txtdni=new HintTextField("Introduce 8 numeros");
+		
+		
 		txtnom=new JTextField(10);
 		txtapels=new JTextField(10);
 	//	dpfechanaci=new DatePicker();
@@ -83,11 +90,14 @@ public class AltaCliente extends JInternalFrame implements ActionListener{
 		//	pradiobtn.setBackground(Color.WHITE);
 			sex[i].setBackground(Color.white);
 		}
-		
 		UtilDateModel model = new UtilDateModel();
-	/*	JDatePanelImpl datePanel = new JDatePanelImpl(model, null);
-		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, null);*/
-		
+		Properties p = new Properties();
+		p.put("text.today", "Today");
+		p.put("text.month", "Month");
+		p.put("text.year", "Year");
+		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
+		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateFormatter());
+		JDatePickerImpl datePicker2 = new JDatePickerImpl(datePanel, new DateFormatter());
 		pcen.add(lbl[0]);
 		pcen.add(txtdni);
 		pcen.add(lbl[1]);
@@ -95,8 +105,8 @@ public class AltaCliente extends JInternalFrame implements ActionListener{
 		pcen.add(lbl[2]);
 		pcen.add(txtapels);
 		pcen.add(lbl[3]);
-	//	pcen.add(datePicker);
-		pcen.add(txtfechanaci);
+		pcen.add(datePicker);
+	//	pcen.add(txtfechanaci);
 		pcen.add(lbl[4]);
 		pcen.add(txtdir);
 		pcen.add(lbl[5]);
@@ -106,7 +116,8 @@ public class AltaCliente extends JInternalFrame implements ActionListener{
 		pcen.add(lbl[7]);
 		pcen.add(pradiobtn);
 		pcen.add(lbl[8]);
-		pcen.add(txtfechaing);
+		pcen.add(datePicker2);
+		//pcen.add(txtfechaing);
 		
 		
 		psur=new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -122,6 +133,7 @@ public class AltaCliente extends JInternalFrame implements ActionListener{
 		
 		
 	}
+	//validaciones
 	public boolean comprobar(){
 		boolean cond=true;
 		if(txtdni.getText().length()==0||txtnom.getText().length()==0||txtapels.getText().length()==0||txtnom.getText().length()==0){
