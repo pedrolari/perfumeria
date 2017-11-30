@@ -83,7 +83,7 @@ public class Validaciones {
 	 * @return Este metodo devuelve true si es correcto el nif.
 	 */
 	
-	public static boolean validarNIF(String nif) {
+	public  boolean validarNIF(String nif) {
 
 	    boolean correcto = false;
 

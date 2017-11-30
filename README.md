@@ -85,6 +85,7 @@ Primera funcionalidad:
 	Cliente: 
 		- Alta (Emilio)
 		-Baja (Amadeo)
+		- Compra (Carlos)
 	Empleado:
 		- Alta (Manuel)
 		- Modificacion (Luis)

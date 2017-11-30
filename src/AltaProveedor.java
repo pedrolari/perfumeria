@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -23,6 +25,7 @@ public class AltaProveedor extends JInternalFrame implements ActionListener{
 	private JLabel[] lbl;
 	private JTextField textcif, textnom, texttel, textdirec;
 	private JButton btn;
+	private Conexion c;
 	
 	AltaProveedor()
 	{
@@ -77,6 +80,15 @@ public class AltaProveedor extends JInternalFrame implements ActionListener{
 		// TODO Auto-generated method stub
 			
 		Validaciones val=new Validaciones();
+		try {
+			c=new Conexion();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		if(arg0.getSource()==this.getBtn())
 		{
@@ -84,6 +96,54 @@ public class AltaProveedor extends JInternalFrame implements ActionListener{
 			{
 				JOptionPane.showMessageDialog(this, "No puedes dejar ningún campo vacío.");
 			}
+			else if(val.validarNIF(this.getTextcif().getText().toString())==false)
+			{
+				JOptionPane.showMessageDialog(this, "Nif incorrecto.");
+			}
+			else if(val.validartelefono(this.getTexttel().getText().toString())==true)
+			{
+				JOptionPane.showMessageDialog(this, "Teléfono incorrecto.");
+			}
+			else
+			{
+				ResultSet rs = null;
+				Boolean enc=false;
+				try {
+					 rs=c.consultar("SELECT * FROM proveedores WHERE cif LIKE '"+this.getTextcif().getText().toString()+"'");
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				try {
+					if(rs.next())
+					{
+						enc=true;
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				if(enc==true)
+				{
+					JOptionPane.showMessageDialog(this, "Este nif ya existe, introduzca otro.");
+				}
+				else
+				{
+				int telefono=Integer.parseInt(this.getTexttel().getText().toString());
+				try {
+					c.modificar("INSERT INTO proveedores VALUES ('"+this.getTextcif().getText().toString()+"', '"+this.getTextnom().getText().toString()+"', "+telefono+", '"+this.getTextdirec().getText() .toString()+"')");
+				} catch (NumberFormatException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				JOptionPane.showMessageDialog(this, "Datos insertados correctamente.");
+				}
+			}
+			
 		}
 		
 		
