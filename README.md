@@ -84,6 +84,7 @@ Funciones empleado:
 Primera funcionalidad:
 	Cliente: 
 		- Alta (Emilio)
+		-Baja (Amadeo)
 	Empleado:
 		- Alta (Manuel)
 		- Modificacion (Luis)
@@ -91,7 +92,9 @@ Primera funcionalidad:
 	Proveedor
 		- Alta (Carlos)
 		-Modificacion (Manuel)
+		-Baja (Amadeo)
 		-Pedido(Rafa)
 	Articulo
 		-Alta(Amadeo)
 		-Modificacion(Alejandro)
+		-Baja (Amadeo)

@@ -6,5 +6,4 @@ public class main {
 	Ventana v=new Ventana();
 		
 	}
-
 }
