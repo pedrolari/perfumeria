@@ -7,6 +7,7 @@ import java.awt.GridLayout;
 import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -256,6 +257,28 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 			
 			this.getJbOpcMenu2().setText("MODIFICACION");
 			this.getJbOpcMenu2().setVisible(true);
+			this.getJbOpcMenu2().addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					
+					ModificacionProveedor mo;
+					try {
+						mo = new ModificacionProveedor();
+						JpanelCargarJIframe.add(mo);
+						mo.setVisible(true);
+						JpanelCargarJIframe.updateUI();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (ClassNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+		
+				}
+			});
 			this.getJbOpcMenu3().setText("BAJA");
 			this.getJbOpcMenu3().setVisible(true);
 			this.getJbOpcMenu4().setText("PEDIDO");
