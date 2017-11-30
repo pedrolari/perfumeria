@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 import java.util.Properties;
 
 import javax.swing.BorderFactory;
@@ -14,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JFormattedTextField.AbstractFormatter;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
@@ -22,9 +24,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.DateFormatter;
 
-import org.jdatepicker.impl.JDatePanelImpl;
-import org.jdatepicker.impl.JDatePickerImpl;
-import org.jdatepicker.impl.UtilDateModel;
+
+
+import com.toedter.calendar.JCalendar;
+import com.toedter.calendar.JDateChooser;
 
 import Imagenes.HintTextField;
 import javafx.scene.control.DatePicker;
@@ -36,7 +39,9 @@ public class AltaCliente extends JInternalFrame implements ActionListener{
 	private JTextField txtnom,txtapels,txtfechanaci,txtdir,txttel,txtmail,txtsexo,txtfechaing;
 	private JButton btn;
 	private JRadioButton[] sex;
-	private DatePicker dpfechanaci;
+	//private JDatePickerImpl datePicker, datePicker2;
+//	private JCalendar date1,date2;
+	private JDateChooser date1,date2;
 	AltaCliente(){
 		//tamaño 1050,500
 		this.setPreferredSize(new Dimension(1050, 640));
@@ -64,8 +69,6 @@ public class AltaCliente extends JInternalFrame implements ActionListener{
 		
 		//parte derecha
 		HintTextField txtdni=new HintTextField("Introduce 8 numeros");
-		
-		
 		txtnom=new JTextField(10);
 		txtapels=new JTextField(10);
 	//	dpfechanaci=new DatePicker();
@@ -90,14 +93,20 @@ public class AltaCliente extends JInternalFrame implements ActionListener{
 		//	pradiobtn.setBackground(Color.WHITE);
 			sex[i].setBackground(Color.white);
 		}
-		UtilDateModel model = new UtilDateModel();
+	/*	UtilDateModel model = new UtilDateModel();
 		Properties p = new Properties();
 		p.put("text.today", "Today");
 		p.put("text.month", "Month");
 		p.put("text.year", "Year");
 		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
-		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateFormatter());
-		JDatePickerImpl datePicker2 = new JDatePickerImpl(datePanel, new DateFormatter());
+		datePicker = new JDatePickerImpl(datePanel, new DateFormatter());
+		datePicker2 = new JDatePickerImpl(datePanel, new DateFormatter());*/
+		
+		date1=new JDateChooser("yyyy-MM-dd", "####-##-##", ' ');
+		date2=new JDateChooser("yyyy-MM-dd", "####-##-##", ' ');
+		
+	//	date1.setSize(30, 30);
+		
 		pcen.add(lbl[0]);
 		pcen.add(txtdni);
 		pcen.add(lbl[1]);
@@ -105,7 +114,9 @@ public class AltaCliente extends JInternalFrame implements ActionListener{
 		pcen.add(lbl[2]);
 		pcen.add(txtapels);
 		pcen.add(lbl[3]);
-		pcen.add(datePicker);
+		
+		pcen.add(date1);
+		
 	//	pcen.add(txtfechanaci);
 		pcen.add(lbl[4]);
 		pcen.add(txtdir);
@@ -116,29 +127,31 @@ public class AltaCliente extends JInternalFrame implements ActionListener{
 		pcen.add(lbl[7]);
 		pcen.add(pradiobtn);
 		pcen.add(lbl[8]);
-		pcen.add(datePicker2);
+		pcen.add(date2);
 		//pcen.add(txtfechaing);
-		
 		
 		psur=new JPanel(new FlowLayout(FlowLayout.CENTER));
 		ptotal.add(psur, BorderLayout.SOUTH);
 		btn=new JButton("Enviar");
+		btn.addActionListener(this);
 		psur.add(btn);
 		psur.setBackground(Color.white);
-				
 		
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
+		Date d1= date1.getDate();
+		int n=d1.getDate();
+		JOptionPane.showMessageDialog(this, n);
 		
 	}
 	//validaciones
 	public boolean comprobar(){
 		boolean cond=true;
-		if(txtdni.getText().length()==0||txtnom.getText().length()==0||txtapels.getText().length()==0||txtnom.getText().length()==0){
-			
+		if(txtdni.getText().length()==0||txtnom.getText().length()==0||txtapels.getText().length()==0||txtdir.getText().length()==0||txttel.getText().length()==0||txtmail.getText().length()==0){
+			cond=false;
 		}
+		
 		return cond;
 	}
 }
