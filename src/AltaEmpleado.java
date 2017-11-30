@@ -8,6 +8,7 @@ import java.awt.GridLayout;
 import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -29,12 +30,13 @@ import javafx.scene.control.PasswordField;
 public class AltaEmpleado extends JInternalFrame implements ActionListener{
 	
 	private JLabel jl,jl1,jl1r,jl2,jl3,jl4,jl5;
-	private JTextField user,nom,ape,tel,rol;
+	private JTextField usu,nom,ape,tel,rol;
 	private JPasswordField pass,repass;
 	private JPanel[] aux = new JPanel[7];
 	private JPanel[] auxt = new JPanel[7];
 	private JPanel prin,izq,der,sur;
 	private JButton carga,limpiar;
+	private Conexion c;
 	
 	public AltaEmpleado() {
 		// TODO Auto-generated constructor stub
@@ -56,7 +58,7 @@ public class AltaEmpleado extends JInternalFrame implements ActionListener{
 		// TODO Auto-generated method stub
 		Validaciones v = new Validaciones();
 		if(this.getLimpiar() == e.getSource()){
-			user.setText(null);
+			usu.setText(null);
 			pass.setText(null);
 			repass.setText(null);
 			nom.setText(null);
@@ -66,12 +68,33 @@ public class AltaEmpleado extends JInternalFrame implements ActionListener{
 		}
 		
 		if(this.getCarga() == e.getSource()){
-			if(v.campovacio(user.getText()) || v.campovacio(pass.getText()) || v.campovacio(repass.getText()) || v.campovacio(nom.getText()) || v.campovacio(ape.getText()) || v.campovacio(tel.getText()) || v.campovacio(rol.getText())){
+			if(v.campovacio(usu.getText()) || v.campovacio(pass.getText()) || v.campovacio(repass.getText()) || v.campovacio(nom.getText()) || v.campovacio(ape.getText()) || v.campovacio(tel.getText()) || v.campovacio(rol.getText())){
 				JOptionPane.showMessageDialog(null, "Faltan campos por rellenar!");
 			}else{
 				if(pass.getText().equalsIgnoreCase(repass.getText())){
 					if(v.validartelefono(tel.getText())){
 						JOptionPane.showMessageDialog(null, "Telefono introducido no valido!");
+					}else{
+						try {
+							c = new Conexion();
+							String [] opciones ={"Si","No"};
+							int eleccion = JOptionPane.showOptionDialog(null,"En realidad desea crear","Mensaje de Confirmacion",
+							JOptionPane.YES_NO_OPTION,
+							JOptionPane.QUESTION_MESSAGE,null,opciones,"Si");
+							
+							if (eleccion == JOptionPane.YES_OPTION){
+							c.modificar("INSERT INTO empleados(user,pass,nombre,apellidos,telefono,rol) "
+									+ "VALUES('"+usu.getText()+"','"+repass.getText()+"','"+nom.getText()+"','"+ape.getText()+"','"+tel.getText()+"','"+rol.getText()+"')");
+							JOptionPane.showMessageDialog(null,"Datos Registrados correctamente");
+									
+							}
+						} catch (ClassNotFoundException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					}
 				}else{
 					JOptionPane.showMessageDialog(null, "Las Contraseñas no coinciden!");
@@ -106,7 +129,7 @@ public class AltaEmpleado extends JInternalFrame implements ActionListener{
 		jl5 = new JLabel(" Rol: ");
 		jl5.setFont(new Font(null, Font.BOLD, 15));
 		
-		user = new JTextField(10);
+		usu = new JTextField(10);
 		pass = new JPasswordField(10);
 		repass = new JPasswordField(10);
 		nom = new JTextField(10);
@@ -127,7 +150,7 @@ public class AltaEmpleado extends JInternalFrame implements ActionListener{
 			auxt[i].setLayout(new FlowLayout(FlowLayout.LEFT,1,1));
 		}
 		
-		aux[0].add(user);
+		aux[0].add(usu);
 		aux[1].add(pass);
 		aux[2].add(repass);
 		aux[3].add(nom);
@@ -241,11 +264,11 @@ public class AltaEmpleado extends JInternalFrame implements ActionListener{
 	}
 
 	public JTextField getUser() {
-		return user;
+		return usu;
 	}
 
 	public void setUser(JTextField user) {
-		this.user = user;
+		this.usu = user;
 	}
 
 	public JPasswordField getPass() {
