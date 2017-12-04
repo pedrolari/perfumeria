@@ -360,6 +360,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO ALTA DEL ARTICULO
+					JpanelCargarJIframe.removeAll();
 					AltaArticulo aa=new AltaArticulo();
 					JpanelCargarJIframe.add(aa);
 					aa.setVisible(true);
@@ -374,6 +375,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 				public void actionPerformed(ActionEvent e) {
 
 					try {
+						JpanelCargarJIframe.removeAll();
 						ModificacionArticulo ma = new ModificacionArticulo();
 						JpanelCargarJIframe.add(ma);
 						ma.setVisible(true);
@@ -395,6 +397,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO BAJA DE ARTICULO
+					JpanelCargarJIframe.removeAll();
 					
 				}
 			});
@@ -406,6 +409,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					// TODO COMPRA ARTICULO
+					JpanelCargarJIframe.removeAll();
 					
 				}
 			});
@@ -416,6 +420,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO PEDDIO ARTICULOS
+					JpanelCargarJIframe.removeAll();
 					
 				}
 			});
