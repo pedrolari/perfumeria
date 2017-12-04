@@ -108,7 +108,7 @@ public class Articulo {
 	public void updateAll(int id_articulo, String nombre, Double precio, String descripcion, String volumen, String embalaje) {
 		String sql = "UPDATE articulos SET nombre = '" + nombre + "', precio= '" + precio + "', descripcion='"
 				+ descripcion + "' volumen = '" + volumen + "', embalaje = '" + embalaje + "' WHERE id_articulo = '"
-				+ id_articulo + "';";
+				+ id_articulo + "'";
 		try {
 			Conexion c = new Conexion();
 			c.modificar(sql);
