@@ -281,8 +281,32 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 			});
 			this.getJbOpcMenu3().setText("BAJA");
 			this.getJbOpcMenu3().setVisible(true);
+			
+			
 			this.getJbOpcMenu4().setText("PEDIDO");
 			this.getJbOpcMenu4().setVisible(true);
+			this.getJbOpcMenu4().addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					JpanelCargarJIframe.removeAll();
+				
+					try {
+						PedidoProveedor	pp = new PedidoProveedor();
+						JpanelCargarJIframe.add(pp);
+						pp.setVisible(true);
+					} catch (ClassNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+		
+				}
+			});
+			
 			this.getJbOpcMenu5().setVisible(false);
 		}
 		

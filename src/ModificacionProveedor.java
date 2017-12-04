@@ -50,31 +50,4 @@ public class ModificacionProveedor extends JInternalFrame implements ActionListe
 		// TODO Auto-generated method stub
 		
 	}
-	
-	/*
-	 * 	//aqui borrar
-			this.getJbOpcMenu2().addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					
-					ModificacionProveedor mo;
-					try {
-						mo = new ModificacionProveedor();
-						JpanelCargarJIframe.add(mo);
-						mo.setVisible(true);
-						JpanelCargarJIframe.updateUI();
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (ClassNotFoundException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					
-		
-				}
-			});
-			//hasta aqui*/
-
 }
