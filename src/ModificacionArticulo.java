@@ -145,7 +145,6 @@ public class ModificacionArticulo extends JInternalFrame {
 					nuevo.setVolumen(tf5.getText().toString());
 					nuevo.setEmbalaje(tf6.getText().toString());
 					
-					
 					//FALTA TERMINAR EL UPDATE Y CAMBIAR EL PRECIO A STRING EN VEZ DE DOUBLE
 					nuevo.updateAll(nuevo.getId_articulo(), nuevo.getNombre(), nuevo.getPrecio(), nuevo.getDescripcion(), nuevo.getVolumen(), nuevo.getEmbalaje());;
 				}
