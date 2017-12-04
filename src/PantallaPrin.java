@@ -339,7 +339,16 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					// TODO Auto-generated method stub
-					CompraCliente cc=new CompraCliente();
+					CompraCliente cc = null;
+					try {
+						cc = new CompraCliente();
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					JpanelCargarJIframe.add(cc);
 					cc.setVisible(true);
 					
