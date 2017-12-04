@@ -408,9 +408,20 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 				
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					// TODO COMPRA ARTICULO
-					JpanelCargarJIframe.removeAll();
-					
+
+					try {
+						JpanelCargarJIframe.removeAll();
+						ModificacionArticulo ma = new ModificacionArticulo();
+						JpanelCargarJIframe.add(ma);
+						ma.setVisible(true);
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
 				}
 			});
 			this.getJbOpcMenu5().setText("PEDIDO");

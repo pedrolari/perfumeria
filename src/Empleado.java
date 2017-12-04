@@ -71,12 +71,12 @@ public class Empleado {
 		
 		ResultSet rs=c.consultar("select * from empleados where user like '"+user+"'");
 		if(rs.next()){
-			user=rs.getString(1);
-			pass=rs.getString(2);
-			nombre=rs.getString(3);
-			apellidos=rs.getString(4);
-			telefono=rs.getInt(5);
-			rol=rs.getInt(6);
+			this.user=rs.getString(1);
+			this.pass=rs.getString(2);
+			this.nombre=rs.getString(3);
+			this.apellidos=rs.getString(4);
+			this.telefono=rs.getInt(5);
+			this.rol=rs.getInt(6);
 			enc=true;
 		}
 		

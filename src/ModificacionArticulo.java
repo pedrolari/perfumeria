@@ -39,7 +39,6 @@ public class ModificacionArticulo extends JInternalFrame {
 		//PANEL PRINCIPAL QUE CONTENDRA LOS PANELES NORTE, SUR, ESTE Y OESTE
 		principal = new JPanel(new BorderLayout(150, 30));
 
-		
 		//PANEL DE BUSQUEDA
 		jpBuscar=new JPanel(new GridLayout(3, 1, 20, 20));
 		lb1=new JLabel("Buscar articulo");
@@ -94,8 +93,6 @@ public class ModificacionArticulo extends JInternalFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				
-				//jpModificar.setVisible(true);
 			}
 		});
 		
@@ -104,7 +101,6 @@ public class ModificacionArticulo extends JInternalFrame {
 		//PANEL DE MODIFICACION
 		contenedorModificar=new JPanel(new GridLayout(2, 1));
 		jpModificar=new JPanel(new GridLayout(5, 2, 2, 2));
-		//jpModificar.setVisible(false);
 		lb2=new JLabel("Nombre");
 		lb3=new JLabel("Precio");
 		lb4=new JLabel("Descripcion");
@@ -116,9 +112,7 @@ public class ModificacionArticulo extends JInternalFrame {
 		tf4=new JTextField(20);
 		tf5=new JTextField(20);
 		tf6=new JTextField(20);
-		
-		
-		
+	
 		jpModificar.add(lb2);
 		jpModificar.add(tf2);
 		jpModificar.add(lb3);
@@ -144,8 +138,6 @@ public class ModificacionArticulo extends JInternalFrame {
 					nuevo.setDescripcion(tf4.getText().toString());
 					nuevo.setVolumen(tf5.getText().toString());
 					nuevo.setEmbalaje(tf6.getText().toString());
-					
-					//FALTA TERMINAR EL UPDATE Y CAMBIAR EL PRECIO A STRING EN VEZ DE DOUBLE
 					nuevo.updateAll(nuevo.getId_articulo(), nuevo.getNombre(), nuevo.getPrecio(), nuevo.getDescripcion(), nuevo.getVolumen(), nuevo.getEmbalaje());;
 				}
 				
@@ -160,40 +152,9 @@ public class ModificacionArticulo extends JInternalFrame {
 	
 		principal.add(jpBuscar, BorderLayout.WEST);
 		
-//		principal.add(norte, BorderLayout.NORTH);
-		//principal.add(sur, BorderLayout.SOUTH);
 		principal.add(contenedorModificar, BorderLayout.CENTER);
-//		principal.add(este, BorderLayout.EAST);
 		
 		this.getContentPane().add(principal);
-
-//		centro.add(lb1);
-//		centro.add(tf1);
-//		
-//		centro.add(lb2);
-//		centro.add(tf2);
-//		
-//		centro.add(lb3);
-//		centro.add(tf3);
-//		
-//		centro.add(lb4);
-//		centro.add(tf4);
-//		
-//		centro.add(lb5);
-//		centro.add(tf5);
-//
-//		
-//		principal.add(centro, BorderLayout.CENTER);
-//		
-//		sur=new JPanel(new FlowLayout(FlowLayout.CENTER));
-//		
-//		btn=new JButton("Enviar");
-//		
-//		sur.add(btn);
-//		
-//		principal.add(sur, BorderLayout.SOUTH);
-				
-		
 	}
 	
 	public void rellenarCombo() throws SQLException, ClassNotFoundException{

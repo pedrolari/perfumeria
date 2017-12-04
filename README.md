@@ -42,7 +42,7 @@ DIVISION TRABAJO:
 Rellenar base de datos con 2 tuplas (Usuario, proveedor,cliente). Rellenar articulos con bastantes (Rafa y Amadeo)
 
 Clase Conexion 
-Clase Usuario: (Beni)
+Clase Empleado: (Beni)
 Clase Proveedor: (Mario)
 Clase Cliente: (Amadeo)
 Clase Articulos: (Luis)
@@ -99,3 +99,4 @@ Primera funcionalidad:
 		-Alta(Amadeo)
 		-Modificacion(Alejandro)
 		-Baja (Amadeo)
+		-Compras (Alejandro)
