@@ -71,9 +71,9 @@ public class Articulo {
 	 * Borrar una tupla. Paspo el id_articulo del articulo que quiero borrar como parámetro
 	 * @param id_articulo
 	 */
-	public void delete(String id_articulo)
+	public void delete(int id_articulo)
 	{
-		String sql = "DELETE FROM articulos WHERE id_articulo = '"+id_articulo+"";
+		String sql = "DELETE FROM articulos WHERE id_articulo = '"+id_articulo+"'";
 		try {
 			Conexion c = new Conexion();
 			c.modificar(sql);
@@ -90,7 +90,7 @@ public class Articulo {
 	 * @param campo
 	 * @param valor
 	 */
-	public void update(String id_articulo, String campo, String valor )
+	public void update(int id_articulo, String campo, String valor )
 	{
 		String sql = "UPDATE articulos set "+campo+" = '"+valor+" where id_articulo = '"+id_articulo+"' ";
 		try {
@@ -105,7 +105,7 @@ public class Articulo {
 	 * Método para modificar todos los campos de articulos
 	 */
 	
-	public void updateAll(String id_articulo, String nombre, String precio, String descripcion, String volumen, String embalaje) {
+	public void updateAll(int id_articulo, String nombre, String precio, String descripcion, String volumen, String embalaje) {
 		String sql = "UPDATE articulos SET nombre = '" + nombre + "', precio= '" + precio + "', descripcion='"
 				+ descripcion + "' volumen = '" + volumen + "', embalaje = '" + embalaje + "' WHERE id_articulo = '"
 				+ id_articulo + "';";
