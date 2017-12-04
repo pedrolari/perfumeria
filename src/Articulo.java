@@ -105,7 +105,7 @@ public class Articulo {
 	 * Método para modificar todos los campos de articulos
 	 */
 	
-	public void updateAll(int id_articulo, String nombre, String precio, String descripcion, String volumen, String embalaje) {
+	public void updateAll(int id_articulo, String nombre, Double precio, String descripcion, String volumen, String embalaje) {
 		String sql = "UPDATE articulos SET nombre = '" + nombre + "', precio= '" + precio + "', descripcion='"
 				+ descripcion + "' volumen = '" + volumen + "', embalaje = '" + embalaje + "' WHERE id_articulo = '"
 				+ id_articulo + "';";
@@ -124,7 +124,7 @@ public class Articulo {
 	 * @param id_articulo
 	 * @return found      Devuelve true si ha encontrado el articulo, y false en caso contrario
 	 */
-	public boolean find(String id_articulo)
+	public boolean find(int id_articulo)
 	{
 		boolean found = false;
 		
