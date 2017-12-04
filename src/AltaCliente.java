@@ -29,7 +29,6 @@ import javax.swing.text.DateFormatter;
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
 
-import Imagenes.HintTextField;
 import javafx.scene.control.DatePicker;
 
 public class AltaCliente extends JInternalFrame implements ActionListener{
@@ -140,18 +139,27 @@ public class AltaCliente extends JInternalFrame implements ActionListener{
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Date d1= date1.getDate();
-		int n=d1.getDate();
-		JOptionPane.showMessageDialog(this, n);
+	//	Date d1= date1.getDate();
+		/*int n=d1.getDate();
+		int n2=d1.getMonth();*/
+		if(comprobar()){
+			JOptionPane.showMessageDialog(this, "Hola");
+		}else{
+			JOptionPane.showMessageDialog(this, "Adios");
+		}
+	//	JOptionPane.showMessageDialog(this, n2);
 		
 	}
 	//validaciones
 	public boolean comprobar(){
 		boolean cond=true;
-		if(txtdni.getText().length()==0||txtnom.getText().length()==0||txtapels.getText().length()==0||txtdir.getText().length()==0||txttel.getText().length()==0||txtmail.getText().length()==0){
+		Validaciones v=new Validaciones();
+		if(/*v.campovacio(txtdni.getText())||*/v.campovacio(txtnom.getText())||v.campovacio(txtapels.getText())||v.campovacio(txtdir.getText())||v.campovacio(txttel.getText())||v.campovacio(txtmail.getText())){
 			cond=false;
 		}
 		
+		
 		return cond;
 	}
+	
 }
