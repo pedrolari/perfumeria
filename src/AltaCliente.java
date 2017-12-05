@@ -6,7 +6,9 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Properties;
 
 import javax.swing.BorderFactory;
@@ -38,6 +40,7 @@ public class AltaCliente extends JInternalFrame implements ActionListener{
 	private JTextField txtnom,txtapels,txtfechanaci,txtdir,txttel,txtmail,txtsexo,txtfechaing;
 	private JButton btn;
 	private JRadioButton[] sex;
+	private Dni d;
 	//private JDatePickerImpl datePicker, datePicker2;
 //	private JCalendar date1,date2;
 	private JDateChooser date1,date2;
@@ -67,10 +70,10 @@ public class AltaCliente extends JInternalFrame implements ActionListener{
 		}
 		
 		//parte derecha
-		HintTextField txtdni=new HintTextField("Introduce 8 numeros");
+		txtdni=new HintTextField("Introduce 8 numeros");
 		txtnom=new JTextField(10);
 		txtapels=new JTextField(10);
-	//	dpfechanaci=new DatePicker();
+	
 		txtfechanaci=new JTextField(10);
 		txtdir=new JTextField(10);
 		txttel=new JTextField(10);
@@ -89,17 +92,9 @@ public class AltaCliente extends JInternalFrame implements ActionListener{
 			sex[i]=new JRadioButton(texsex[i]);
 			bg.add(sex[i]);
 			pradiobtn.add(sex[i]);
-		//	pradiobtn.setBackground(Color.WHITE);
 			sex[i].setBackground(Color.white);
 		}
-	/*	UtilDateModel model = new UtilDateModel();
-		Properties p = new Properties();
-		p.put("text.today", "Today");
-		p.put("text.month", "Month");
-		p.put("text.year", "Year");
-		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
-		datePicker = new JDatePickerImpl(datePanel, new DateFormatter());
-		datePicker2 = new JDatePickerImpl(datePanel, new DateFormatter());*/
+
 		
 		date1=new JDateChooser("yyyy-MM-dd", "####-##-##", ' ');
 		date2=new JDateChooser("yyyy-MM-dd", "####-##-##", ' ');
@@ -139,13 +134,27 @@ public class AltaCliente extends JInternalFrame implements ActionListener{
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-	//	Date d1= date1.getDate();
+		Date d1= date1.getDate();
+		Date d2=date2.getDate();
 		/*int n=d1.getDate();
 		int n2=d1.getMonth();*/
-		if(comprobar()){
+		int fechaing[]= new int[3];
+		int fechanaci[]=new int[3];
+		
+		
+		fechaing[0]=d1.getDate();
+		fechaing[1]=d1.getMonth();
+		fechaing[2]=d1.getYear();
+		fechanaci[0]=d2.getDate();
+		fechanaci[1]=d2.getMonth();
+		fechanaci[2]=d2.getYear();
+		
+		if(comprobar()&&comprobarRB()&&comprobarFechaExiste(fechaing)&&comprobarFechaExiste(fechanaci)){
 			JOptionPane.showMessageDialog(this, "Hola");
+			txtdni.setText(d.recogerdniconletra(txtdni.getText()));
+			//JOptionPane.showMessageDialog(this, txtdni.getText());
 		}else{
-			JOptionPane.showMessageDialog(this, "Adios");
+			
 		}
 	//	JOptionPane.showMessageDialog(this, n2);
 		
@@ -154,12 +163,65 @@ public class AltaCliente extends JInternalFrame implements ActionListener{
 	public boolean comprobar(){
 		boolean cond=true;
 		Validaciones v=new Validaciones();
-		if(/*v.campovacio(txtdni.getText())||*/v.campovacio(txtnom.getText())||v.campovacio(txtapels.getText())||v.campovacio(txtdir.getText())||v.campovacio(txttel.getText())||v.campovacio(txtmail.getText())){
+		d=new Dni();
+		if(v.campovacio(txtnom.getText())||v.campovacio(txtapels.getText())||v.campovacio(txtdir.getText())||v.campovacio(txttel.getText())||v.campovacio(txtmail.getText())){
+			JOptionPane.showMessageDialog(this, "Dejo algún campo vacio, todos son obligatorios");
+			cond=false;
+		}else if(!d.validardnisinletra(txtdni.getText())){
+			JOptionPane.showMessageDialog(this, "DNI incorrecto");
+			cond=false;
+		}else if(v.validartelefono(txttel.getText())){
+			JOptionPane.showMessageDialog(this, "Telefono no válido");
+			cond=false;
+		}else if(v.validaremail(txtmail.getText())){
+			JOptionPane.showMessageDialog(this, "Email no válido");
 			cond=false;
 		}
-		
-		
 		return cond;
 	}
+	public boolean comprobarRB(){
+		boolean cond=true;
+		if(sex[0].isSelected()||sex[1].isSelected()){
+			JOptionPane.showMessageDialog(this, "Sexo no seleccionado");
+			cond=false;
+		}
+		return cond;
+	}
+	public boolean comprobarFechaExiste(int[] f){
+		int dia=f[0];
+		int mes=f[1];
+		int año=f[2];
+		boolean cond=true;
+		Calendar hoy = new GregorianCalendar().getInstance();
+		if(año<1900||año>hoy.get(Calendar.YEAR)){
+			cond=false;
+		}else if(año==hoy.get(Calendar.YEAR)){
+			if(mes>hoy.get(Calendar.MONTH)+1){
+				cond=false;
+			}else if(mes==hoy.get(Calendar.DAY_OF_MONTH)){
+				if(dia>hoy.get(Calendar.DAY_OF_MONTH)){
+					cond=false;
+				}
+			}
+		}else if(mes<1||mes>12){
+			cond=false;
+		}else if(mes==2){
+			if(año%4==0 || (año%100!=0&&año%400==0)){
+				if(dia<1||dia>29){
+					cond=false;
+				}
+			}
+		}else if(mes==4||mes==6||mes==9||mes==11){
+			if(dia<1||dia>30){
+				cond=false;
+			}
+		}else{
+			if(dia<1||dia>31){
+				cond=false;
+			}
+		}
+		return cond;
+	}
+	
 	
 }

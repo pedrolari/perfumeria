@@ -30,4 +30,5 @@ public class HintTextField extends JTextField{
         }
     }
     private final String _hint;
+
 }
