@@ -321,7 +321,6 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					System.out.println("Entramos");
 					AltaCliente ac=new AltaCliente();
 					JpanelCargarJIframe.add(ac);
 					ac.setVisible(true);
@@ -331,6 +330,17 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 			});
 			this.getJbOpcMenu2().setText("MODIFICACION");
 			this.getJbOpcMenu2().setVisible(true);
+			this.getJbOpcMenu2().addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					ModificacionCliente mc=new ModificacionCliente();
+					JpanelCargarJIframe.add(mc);
+					mc.setVisible(true);
+				
+					
+				}
+			});
 			this.getJbOpcMenu3().setText("BAJA");
 			this.getJbOpcMenu3().setVisible(true);
 			this.getJbOpcMenu4().setText("COMPRA");
