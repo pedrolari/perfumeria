@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -40,8 +41,8 @@ public class AltaCliente extends JInternalFrame implements ActionListener{
 	private JPanel ptotal,pizq,pder,pcen,psur,pradiobtn;
 	private JLabel[] lbl;
 	private HintTextField txtdni;
-	private JTextField txtnom,txtapels,txtdir,txttel,txtmail,txtsexo;
-	private JButton btn;
+	private JTextField txtnom,txtapels,txtdir,txttel,txtmail;
+	private JButton btn,btnborrar;
 	private JRadioButton[] sex;
 	private Dni d;
 	private JDateChooser date1,date2;
@@ -77,7 +78,6 @@ public class AltaCliente extends JInternalFrame implements ActionListener{
 		txtdir=new JTextField(10);
 		txttel=new JTextField(10);
 		txtmail=new JTextField(10);
-		txtsexo=new JTextField(10);
 		date1=new JDateChooser("dd-MM-yyyy", "####-##-##", ' ');		
 		date2=new JDateChooser("dd-MM-yyyy", "####-##-##", ' ');
 		Calendar hoy = new GregorianCalendar().getInstance();
@@ -101,9 +101,7 @@ public class AltaCliente extends JInternalFrame implements ActionListener{
 
 		
 		
-		
 		//se añaden los elementos a los paneles
-		
 		pcen.add(lbl[0]);
 		pcen.add(txtdni);
 		pcen.add(lbl[1]);
@@ -127,33 +125,49 @@ public class AltaCliente extends JInternalFrame implements ActionListener{
 		psur=new JPanel(new FlowLayout(FlowLayout.CENTER));
 		ptotal.add(psur, BorderLayout.SOUTH);
 		btn=new JButton("Enviar");
+		btnborrar=new JButton("Borrar");
 		btn.addActionListener(this);
+		btnborrar.addActionListener(this);
 		psur.add(btn);
+		psur.add(btnborrar);
 		psur.setBackground(Color.white);
 		
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		int[] fechaing= new int[3];
-		int[] fechanaci=new int[3];
-		Date d1= date1.getDate();
-		Date d2=date2.getDate();
-		
-
-		java.sql.Date sqlDate1 = new java.sql.Date(d1.getTime());
-		java.sql.Date sqlDate2 = new java.sql.Date(d2.getTime());
-		if(comprobar()&&comprobarRB()){
+		if(e.getSource()==btn){
+			int[] fechaing= new int[3];
+			int[] fechanaci=new int[3];
+			Date d1= date1.getDate();
+			Date d2=date2.getDate();
 			
-			if(comprobarFecha(date1)&&comprobarFecha(date2)) {
-				if(comprobarFechaExiste(date1)) {
-					Clientes c=new Clientes(d.recogerdniconletra(txtdni.getText()), Integer.parseInt(txttel.getText()), txtnom.getText(), txtapels.getText(), txtdir.getText(), txtmail.getText(), recogerSexo(), sqlDate1,sqlDate2);
-					//insertar
-					//txtdni.setText(d.recogerdniconletra(txtdni.getText()));
-				}else {
-					JOptionPane.showMessageDialog(this, "No existe la fecha de nacimiento introducida");
+			
+			if(comprobar()&&comprobarRB()){
+				if(comprobarFecha(date1)&&comprobarFecha(date2)) {
+					java.sql.Date sqlDate1 = new java.sql.Date(d1.getTime());
+					java.sql.Date sqlDate2 = new java.sql.Date(d2.getTime());
+					if(comprobarFechaExiste(date1)) {
+						Clientes c=new Clientes(d.recogerdniconletra(txtdni.getText()), Integer.parseInt(txttel.getText()), txtnom.getText(), txtapels.getText(), txtdir.getText(), txtmail.getText(), recogerSexo(), sqlDate1,sqlDate2);
+						try {
+							c.insertarClienteBBDD();
+							vaciar();
+						} catch (ClassNotFoundException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						
+					}else {
+						JOptionPane.showMessageDialog(this, "No existe la fecha de nacimiento introducida");
+					}
 				}
 			}
+		}else if(e.getSource()==btnborrar){
+			vaciar();
 		}
+		
 	
 		
 	}
@@ -269,6 +283,17 @@ public class AltaCliente extends JInternalFrame implements ActionListener{
 			sexo= 'H';
 		}
 		return sexo;
+	}
+	public void vaciar(){
+		txtdni.setText("");
+		txtnom.setText("");
+		txtapels.setText("");
+		txtdir.setText("");
+		txtmail.setText("");
+		txttel.setText("");
+		date1.setCalendar(null);
+		sex[0].setSelected(false);
+		sex[1].setSelected(false);
 	}
 	
 }
