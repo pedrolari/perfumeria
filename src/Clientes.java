@@ -17,6 +17,13 @@ public class Clientes {
 	private Conexion con;
 	
 	/**
+	 * CONSTRUCTOR VACIO PARA PODER ACCEDER A METODOS ESPECIFICOS
+	 */
+	Clientes(){
+		
+	}
+	
+	/**
 	 * CREACION DE UN USUARIO MEDIANTE CONSTRUCTOR SOBRECARGADO PREVIAMENTE VALIDADO
 	 * 
 	 * @param dni

@@ -33,6 +33,9 @@ public class CompraArticulo extends JInternalFrame {
 	private JTable listaCompra;
 	private String[] columnas = { "Id", "Articulo", "Cantidad", "Precio", "Total" };
 	private Articulo nuevo;
+	private String ticketID, ticketARTICULO, ticketCANTIDAD;
+
+	private double ticketPRECIO, ticketTOTAL;
 	
 	CompraArticulo (){
 		this.setPreferredSize(new Dimension(1050, 600));
@@ -71,7 +74,7 @@ public class CompraArticulo extends JInternalFrame {
 							
 							@Override
 							public void actionPerformed(ActionEvent e) {
-								listaCompra.setValueAt((Integer.parseInt(tfCantidad.getText()) * nuevo.getPrecio()), listaCompra.getSelectedRow(), 4);
+								listaCompra.setValueAt((Double.parseDouble(tfCantidad.getText()) * nuevo.getPrecio()), listaCompra.getSelectedRow(), 4);
 								
 							}
 						});
@@ -116,23 +119,29 @@ public class CompraArticulo extends JInternalFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO HA DE GRABAR UN FICHERO DE TEXTO PARA GENERAR EL TICKET
 				//HA DE GENERAR UN PEDIDO Y LINEA DE PEDIDO
-				
-				
-				
-				
-				
+				//CONTROLAR AL NO INTRODUCIR NINGUNA CANTIDAD PARA QUE NO DE ERROR
+
 				
 				for(int i=0;i<lineaPedido.getRowCount();i++){
-                    String ticketID= (String)lineaPedido.getValueAt(i,0);
-                    String ticketARTICULO= (String)lineaPedido.getValueAt(i,0);
-                    String ticketCANTIDAD= (String)lineaPedido.getValueAt(i,0);
-                    String ticketPRECIO= (String)lineaPedido.getValueAt(i,0);
-                    String ticketTOTAL= (String)lineaPedido.getValueAt(i,0);
+                    ticketID = String.valueOf(lineaPedido.getValueAt(i,0));
+                    ticketARTICULO = String.valueOf(lineaPedido.getValueAt(i,1));
+                    ticketCANTIDAD = String.valueOf(lineaPedido.getValueAt(i,2));
+                    ticketPRECIO = (double) lineaPedido.getValueAt(i,3);
+                    ticketTOTAL = (double) lineaPedido.getValueAt(i,4);                    
+                    
+                    if(!ticketID.equals("") && !ticketARTICULO.equals("") && !ticketCANTIDAD.equals("0") && !ticketCANTIDAD.equals(null)){
+                    	JOptionPane.showMessageDialog(null,ticketID+""+ticketARTICULO+""+ticketCANTIDAD+""+ticketPRECIO+""+ticketTOTAL);
+                    	
+                    	//SI EL PRODUCTO TIENE CANTIDAD ASIGNADA MANUALMENTE SUMA A UNA VARIABLE EL TOTAL DE LA LINEA Ç
+                    	//GRABAMOS LINEA DE PEDIDO POR CADA ROW
+                    }
+                    else{
+                    	JOptionPane.showMessageDialog(null,"Indica la cantidad de producto");
+                    }
+                }    
+				
+				
 
-                }            
-                if(a==null ||b==null  || c==null  || d==null  || f==null  || g==null || h==null){
-                	JOptionPane.showMessageDialog(null,"Debe suministrar toda la informacion solicitada");
-                }
 
 				
 				
