@@ -101,3 +101,7 @@ Primera funcionalidad:
 		-Modificacion(Alejandro)
 		-Baja (Amadeo)
 		-Compras (Alejandro)
+
+Login:
+	Interfaz:(Manuel y Rafa)
+	Funcionalidad:(Manuel y Rafa)
