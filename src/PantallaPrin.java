@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.ScrollPane;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
@@ -31,19 +32,19 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 
 	//jbOpc1, jbOpc2, jbOpc3, jbOpc4, jbOpc5
 	
-	public PantallaPrin() {
+	public PantallaPrin(int rol, String nom, String ape) {
 		// TODO Auto-generated constructor stub
 		((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
 		this.setBorder(null);
 		this.setLayout(new BorderLayout(0, 0));
 
-		Componentes();
+		Componentes(nom,ape);
 	}
 
-	private void Componentes() {
+	private void Componentes(String nom, String ape) {
 		// TODO Auto-generated method stub
 		ParteOeste();
-		ParteCentro();
+		ParteCentro(nom,ape);
 
 		// jpcsur = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		// jpcsur.setPreferredSize(new Dimension(this.getWidth(), 50));
@@ -51,10 +52,10 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 		// this.getContentPane().add(BorderLayout.SOUTH, jpcsur);
 	}
 
-	private void ParteCentro() {
+	private void ParteCentro(String nom, String ape) {
 		jPanelCentro = new JPanel(new BorderLayout(0, 0)); // este
 
-		DatosUsuario(); // Rol del usuario , Ajustes ,Imagen de usuario ,Nombre de usuario
+		DatosUsuario(nom,ape); // Rol del usuario , Ajustes ,Imagen de usuario ,Nombre de usuario
 
 		JpanelMitad = new JPanel(new BorderLayout(0, 0));
 
@@ -87,14 +88,17 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 		jPanelCentro.add(BorderLayout.CENTER, JpanelMitad);
 	}
 
-	private void DatosUsuario() {
+	private void DatosUsuario(String nom, String ape) {
 
 		JpanelCentroNorte = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		JpanelCentroNorte.setBackground(Color.WHITE);
 		JpanelCentroNorte.setPreferredSize(new Dimension(this.getWidth(), 75));
 
 		jlRol = new JLabel("Administrador"); // Rol que tiene el usuario
-		jlRol.setBorder(new EmptyBorder(0, 10, 0, 600));
+		Toolkit t = Toolkit.getDefaultToolkit();
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		jlRol.setBorder(new EmptyBorder(0, 10, 0, screenSize.height-150));
+
 		jlRol.setFont(new Font(null, 1, 25));
 		JpanelCentroNorte.add(jlRol);
 
@@ -109,7 +113,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 		jlPersona = new JLabel(imagencarnet);
 		JpanelCentroNorte.add(jlPersona);
 
-		jlNombre = new JLabel("Paco Garcia Perez"); // nombre del usuario
+		jlNombre = new JLabel(nom+" "+ape); // nombre del usuario
 		JpanelCentroNorte.add(jlNombre);
 
 		jbfecha = new JButton("");

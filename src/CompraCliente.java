@@ -33,9 +33,11 @@ public class CompraCliente extends JInternalFrame{
 	private JComboBox jc1, jc2;
 	private JTextField jt1;
 	private Conexion c;
+	private Validaciones v;
 	private double numero = 0;
 	private int num;
-
+	private String provnom="";
+	
 	private DefaultTableModel modelo;
 	private String[] columnas = { "Proveedor", "Articulo", "Cantidad", "Precio", "Total" };
 
@@ -97,9 +99,33 @@ public class CompraCliente extends JInternalFrame{
 				lista2.removeAllElements();
 				try {
 
+					//COMPROBAR PORQUE SOLO FUNCIONA LA PRIMERA VEZ
+					
 					ResultSet rs = c.consultar("SELECT * FROM `articulos` WHERE cif ='" + jc1.getSelectedItem() + "'");
 					while (rs.next()) {
+						
+						boolean enc=false;
+						String[] todo=provnom.split("/");
+						
+						for(int i=0;i<todo.length;i++)
+						{	
+							String[] partes=todo[i].split("-");
+							if(partes.length==2)
+							{
+							if(partes[0].equalsIgnoreCase(lista.getSelectedItem().toString())&&partes[1].equalsIgnoreCase(rs.getString("nombre")));
+							{
+								enc=true;
+								System.out.println("ENTRA");
+								System.out.println(lista.getSelectedItem().toString()+"-"+rs.getString("nombre"));
+								System.out.println(partes[0]+"-"+partes[1]);
+							}
+							}
+						}
+						
+						if(enc==false)
+						{
 						lista2.addElement(rs.getString("nombre"));
+						}
 					}
 
 				} catch (SQLException e2) {
@@ -122,6 +148,8 @@ public class CompraCliente extends JInternalFrame{
 							rs.next();
 							numero = rs.getDouble("precio");
 
+							
+							
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block
 
@@ -139,7 +167,6 @@ public class CompraCliente extends JInternalFrame{
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						// TODO Auto-generated method stub
-						System.out.println(jc2.getSelectedItem().toString());
 						ResultSet rs=null;
 						try {
 							rs=c.consultar("SELECT stock FROM articulos WHERE nombre LIKE '"+jc2.getSelectedItem().toString()+"'");
@@ -151,13 +178,29 @@ public class CompraCliente extends JInternalFrame{
 						
 						try {
 							rs.next();
-							if(rs.getInt("stock")>=Integer.parseInt(jt1.getText().toString()))
+							v=new Validaciones();
+							if(v.isNumeric(jt1.getText().toString())==false)
+							{
+								jt1.setText("0");
+								
+								JOptionPane.showMessageDialog(null, "Introduce un número.");
+							}
+							else if(Integer.parseInt(jt1.getText().toString())<0)
+							{
+								jt1.setText("0");
+								
+								JOptionPane.showMessageDialog(null, "No puede ser negativo.");
+							}
+							else if(rs.getInt("stock")>=Integer.parseInt(jt1.getText().toString()))
 							{
 							miTable.setValueAt(Integer.parseInt(jt1.getText()) * numero, miTable.getSelectedRow(), 4);
+							provnom=lista.getSelectedItem().toString()+"-"+lista2.getSelectedItem().toString()+"/";
+							jbAñadir.setEnabled(true);
 							}
 							else
 							{
-								jt1.setText("");
+								jt1.setText("0");
+								
 								JOptionPane.showMessageDialog(null, "No disponemos de tanto stock.");
 							}
 						} catch (NumberFormatException e1) {
@@ -216,9 +259,11 @@ public class CompraCliente extends JInternalFrame{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 
+				
 				FormatoTabla();
 				AnadirProveedor();
 				modelo.addRow(new Object[] {});
+				jbAñadir.setEnabled(false);
 
 			}
 		});

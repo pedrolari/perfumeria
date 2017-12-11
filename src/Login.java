@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 public class Login extends JInternalFrame {
@@ -15,7 +16,8 @@ public class Login extends JInternalFrame {
 	private JPanel jpCentro, jpLogin;
 	private ImageIcon imagen;
 	private JLabel jlImagen, jlUser, jlPass;
-	private JTextField jtUser, jtPass;
+	private JTextField jtUser;
+	private JPasswordField jtPass;
 	private JButton jbAcceso;
 	
 	private Ventana Vent;
@@ -55,7 +57,7 @@ public class Login extends JInternalFrame {
 		jlPass.setForeground(Color.WHITE);
 		jpLogin.add(jlPass);
 
-		jtPass = new JTextField(15);
+		jtPass = new JPasswordField(15);
 		jpLogin.add(jtPass);
 
 		jbAcceso = new JButton("Acceso");
@@ -77,6 +79,78 @@ public class Login extends JInternalFrame {
 
 	public void setJbAcceso(JButton jbAcceso) {
 		this.jbAcceso = jbAcceso;
+	}
+
+	public JPanel getJpCentro() {
+		return jpCentro;
+	}
+
+	public void setJpCentro(JPanel jpCentro) {
+		this.jpCentro = jpCentro;
+	}
+
+	public JPanel getJpLogin() {
+		return jpLogin;
+	}
+
+	public void setJpLogin(JPanel jpLogin) {
+		this.jpLogin = jpLogin;
+	}
+
+	public ImageIcon getImagen() {
+		return imagen;
+	}
+
+	public void setImagen(ImageIcon imagen) {
+		this.imagen = imagen;
+	}
+
+	public JLabel getJlImagen() {
+		return jlImagen;
+	}
+
+	public void setJlImagen(JLabel jlImagen) {
+		this.jlImagen = jlImagen;
+	}
+
+	public JLabel getJlUser() {
+		return jlUser;
+	}
+
+	public void setJlUser(JLabel jlUser) {
+		this.jlUser = jlUser;
+	}
+
+	public JLabel getJlPass() {
+		return jlPass;
+	}
+
+	public void setJlPass(JLabel jlPass) {
+		this.jlPass = jlPass;
+	}
+
+	public JTextField getJtUser() {
+		return jtUser;
+	}
+
+	public void setJtUser(JTextField jtUser) {
+		this.jtUser = jtUser;
+	}
+
+	public JPasswordField getJtPass() {
+		return jtPass;
+	}
+
+	public void setJtPass(JPasswordField jtPass) {
+		this.jtPass = jtPass;
+	}
+
+	public Ventana getVent() {
+		return Vent;
+	}
+
+	public void setVent(Ventana vent) {
+		Vent = vent;
 	}
 	
 	

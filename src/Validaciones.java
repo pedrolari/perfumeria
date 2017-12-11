@@ -20,8 +20,12 @@ public class Validaciones {
 		}
 	}
 	
-	
-	public static boolean isNumeric(String cadena){
+	/**
+	 * 
+	 * @param num Se le pasa el número en formato String.
+	 * @return  Devuelve true si es numerico.
+	 */
+	public boolean isNumeric(String cadena){
 		try {
 			Integer.parseInt(cadena);
 			return true;
