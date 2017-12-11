@@ -84,6 +84,7 @@ Funciones empleado:
 Primera funcionalidad:
 	Cliente: 
 		- Alta (Emilio)
+		- Modificación (Emilio)
 		-Baja (Amadeo)
 		- Compra (Carlos)
 	Empleado:
