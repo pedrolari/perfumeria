@@ -132,7 +132,7 @@ public class CompraArticulo extends JInternalFrame {
                     if(!ticketID.equals("") && !ticketARTICULO.equals("") && !ticketCANTIDAD.equals("0") && !ticketCANTIDAD.equals(null)){
                     	JOptionPane.showMessageDialog(null,ticketID+""+ticketARTICULO+""+ticketCANTIDAD+""+ticketPRECIO+""+ticketTOTAL);
                     	
-                    	//SI EL PRODUCTO TIENE CANTIDAD ASIGNADA MANUALMENTE SUMA A UNA VARIABLE EL TOTAL DE LA LINEA Ç
+                    	//SI EL PRODUCTO TIENE CANTIDAD ASIGNADA MANUALMENTE SUMA A UNA VARIABLE EL TOTAL DE LA LINEA 
                     	//GRABAMOS LINEA DE PEDIDO POR CADA ROW
                     }
                     else{

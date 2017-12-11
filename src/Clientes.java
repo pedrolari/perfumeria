@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.sql.Date;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -66,12 +67,13 @@ public class Clientes {
 	 * OBTIENE LOS RESULTADOS DE UN CLIENTE A TRAVES DEL DNI PREVIAMENTE VALIDADO
 	 * 
 	 * @param dni
+	 * @return 
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 */
-	public void mostrarDatosClientePorDni(int dni) throws SQLException, ClassNotFoundException{
+	public ResultSet mostrarDatosClientePorDni(int dni) throws SQLException, ClassNotFoundException{
 		con = new Conexion();
-		con.consultar("SELECT * from clientes where dni = '"+dni+"'");
+		return con.consultar("SELECT * from clientes where dni = '"+dni+"'");
 	}
 	
 	/**
