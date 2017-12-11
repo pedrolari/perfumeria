@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -42,9 +44,9 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 		this.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER,40,50));
 		ptotal=new JPanel(new BorderLayout(150,50));
 		ptotal.setBackground(Color.white);
-		ptotal.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(41, 53, 65), 1), "ALTA CLIENTE",TitledBorder.LEFT,TitledBorder.TOP,new Font(null, Font.BOLD,25), new Color(41, 53, 65)));
+		ptotal.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(41, 53, 65), 1), "MODIFICACIÓN CLIENTE",TitledBorder.LEFT,TitledBorder.TOP,new Font(null, Font.BOLD,25), new Color(41, 53, 65)));
 		this.getContentPane().add(ptotal);
-		pcen=new JPanel(new GridLayout(9, 2,10,10));
+		pcen=new JPanel(new GridLayout(9, 2,50,15));
 		pcen.setBorder(new EmptyBorder(0, 20, 0, 20));
 		ptotal.add(pcen,BorderLayout.CENTER);
 		pcen.setBackground(Color.white);
@@ -58,16 +60,21 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 		
 		//parte derecha
 		txtdni=new HintTextField("Introduce 8 numeros");
-		txtnom=new JTextField(10);
+		txtnom=new JTextField(11);
+		txtnom.setEnabled(false);
 		txtapels=new JTextField(10);
+		txtapels.setEnabled(false);
 		txtdir=new JTextField(10);
+		txtdir.setEnabled(false);
 		txttel=new JTextField(10);
+		txttel.setEnabled(false);
 		txtmail=new JTextField(10);
+		txtmail.setEnabled(false);
 		date1=new JDateChooser("dd-MM-yyyy", "####-##-##", ' ');		
 		date2=new JDateChooser("dd-MM-yyyy", "####-##-##", ' ');
 		Calendar hoy = new GregorianCalendar().getInstance();
-		
 		date2.setCalendar(hoy);
+		date1.setEnabled(false);
 		date2.setEnabled(false);
 	
 		//panel radiobuttons sexo
@@ -79,6 +86,7 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 	
 		for (int i = 0; i < texsex.length; i++) {
 			sex[i]=new JRadioButton(texsex[i]);
+			sex[i].setEnabled(false);
 			bg.add(sex[i]);
 			pradiobtn.add(sex[i]);
 			sex[i].setBackground(Color.white);
@@ -121,7 +129,20 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 	}
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
+		if(arg0.getSource()==btnbuscar){
+			//funcion que busque en la base de datos e instancien un cliente
+			//funcion que cargue los datos del cliente en los textfield
+			//activa el resto de textfield y bloquea el del dni
+		}else if(arg0.getSource()==btnmod){
+			
+		}
 		
+	}
+	public Clientes buscarCliente(int id) throws ClassNotFoundException, SQLException{
+		Clientes c=new Clientes();
+		ResultSet rs = c.mostrarDatosClientePorDni(id);
+		if(rs.next()){
+			
+		}
 	}
 }

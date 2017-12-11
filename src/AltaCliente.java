@@ -59,7 +59,7 @@ public class AltaCliente extends JInternalFrame implements ActionListener{
 		ptotal.setBackground(Color.white);
 		ptotal.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(41, 53, 65), 1), "ALTA CLIENTE",TitledBorder.LEFT,TitledBorder.TOP,new Font(null, Font.BOLD,25), new Color(41, 53, 65)));
 		this.getContentPane().add(ptotal);
-		pcen=new JPanel(new GridLayout(9, 2,10,10));
+		pcen=new JPanel(new GridLayout(9, 2,10,15));
 		pcen.setBorder(new EmptyBorder(0, 20, 0, 20));
 		ptotal.add(pcen,BorderLayout.CENTER);
 		pcen.setBackground(Color.white);
@@ -73,6 +73,7 @@ public class AltaCliente extends JInternalFrame implements ActionListener{
 		
 		//parte derecha
 		txtdni=new HintTextField("Introduce 8 numeros");
+		txtdni.setColumns(11);
 		txtnom=new JTextField(10);
 		txtapels=new JTextField(10);
 		txtdir=new JTextField(10);
