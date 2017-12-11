@@ -134,6 +134,8 @@ public class Articulo {
 			ResultSet rs = c.consultar(sql);
 			if(rs.next())
 			{
+				//MODIFICAMOS ESTA CLASE PARA AÑADIR EL ID Y PODER RECUPERARLO AL CREAR UN OBJETO NUEVO
+				this.id_articulo = id_articulo;
 				this.nombre = rs.getString("nombre");
 				this.precio = rs.getDouble("precio");
 				this.descripcion = rs.getString("descripcion");

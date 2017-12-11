@@ -44,23 +44,15 @@ public class Clientes {
 	}
 	
 	/**
-	 * INSERTA UN CLIENTE EN LA BBDD PREVIAMENTE VALIDADO
 	 * 
-	 * @param dni
-	 * @param telefono
-	 * @param nombre
-	 * @param apellidos
-	 * @param direccion
-	 * @param email
-	 * @param sexo
-	 * @param fecha_nacimiento
-	 * @param fecha_ingreso
+	 * INSERTA UN CLIENTE EN LA BBDD PREVIAMENTE INSTANCIADO Y VALIDADO
+	 * 
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 */
-	public void insertarClienteBBDD(String dni, int telefono, String  nombre, String apellidos, String direccion, String email, char sexo, Date fecha_nacimiento, Date fecha_ingreso) throws SQLException, ClassNotFoundException{
+	public void insertarClienteBBDD() throws SQLException, ClassNotFoundException{
 		con = new Conexion();
-		con.modificar("INSERT INTO cliente(dni, telefono, nombre, apellidos, direccion, email, sexo, fecha_nacimiento, fecha_ingreso) VALUES ('"+dni+"','"+telefono+"', '"+nombre+"', '"+apellidos+"','"+direccion+"', '"+email+"', '"+sexo+"', '"+fecha_nacimiento+"', '"+fecha_ingreso+"')");
+		con.modificar("INSERT INTO cliente(dni, telefono, nombre, apellidos, direccion, email, sexo, fecha_nacimiento, fecha_ingreso) VALUES ('"+this.dni+"','"+this.telefono+"', '"+this.nombre+"', '"+this.apellidos+"','"+this.direccion+"', '"+this.email+"', '"+this.sexo+"', '"+this.fecha_nacimiento+"', '"+this.fecha_ingreso+"')");
 	}
 	
 	/**
