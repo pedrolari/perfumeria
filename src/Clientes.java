@@ -52,7 +52,7 @@ public class Clientes {
 	 */
 	public void insertarClienteBBDD() throws SQLException, ClassNotFoundException{
 		con = new Conexion();
-		con.modificar("INSERT INTO cliente(dni, telefono, nombre, apellidos, direccion, email, sexo, fecha_nacimiento, fecha_ingreso) VALUES ('"+this.dni+"','"+this.telefono+"', '"+this.nombre+"', '"+this.apellidos+"','"+this.direccion+"', '"+this.email+"', '"+this.sexo+"', '"+this.fecha_nacimiento+"', '"+this.fecha_ingreso+"')");
+		con.modificar("INSERT INTO clientes (dni, telefono, nombre, apellidos, direccion, email, sexo, fecha_nacimiento, fecha_ingreso) VALUES ('"+this.dni+"','"+this.telefono+"', '"+this.nombre+"', '"+this.apellidos+"','"+this.direccion+"', '"+this.email+"', '"+this.sexo+"', '"+this.fecha_nacimiento+"', '"+this.fecha_ingreso+"')");
 	}
 	
 	/**

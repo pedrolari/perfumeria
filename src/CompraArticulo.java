@@ -27,14 +27,15 @@ public class CompraArticulo extends JInternalFrame {
 	
 	private JLabel lb1;
 	private JTextField tf1, tfCantidad;
-	private JPanel principal, jpBuscar, jpListaCompra;
-	private JButton btnBusqueda;
+	private JPanel principal, jpBuscar, jpListaCompra, jpPagos;
+	private JButton btnBusqueda, btnPagar, btnFactura;
 	private DefaultTableModel lineaPedido;
 	private JTable listaCompra;
 	private String[] columnas = { "Id", "Articulo", "Cantidad", "Precio", "Total" };
 	private Articulo nuevo;
+	
 	CompraArticulo (){
-		this.setPreferredSize(new Dimension(1050, 500));
+		this.setPreferredSize(new Dimension(1050, 600));
 		this.setBorder(null);
 		((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
 		this.getContentPane().setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -92,7 +93,7 @@ public class CompraArticulo extends JInternalFrame {
 		jpBuscar.add(btnBusqueda);
 		//===================================================================
 		
-		//PANEL DE COMRPA
+		//PANEL DE COMPRA
 		jpListaCompra = new JPanel(new GridLayout(1, 1, 20, 20));
 		
 		lineaPedido = new DefaultTableModel();
@@ -105,8 +106,52 @@ public class CompraArticulo extends JInternalFrame {
 		jpListaCompra.add(panelScroll);
 		//===================================================================
 		
+		
+		//PANEL DE COMPRA
+		jpPagos = new JPanel(new FlowLayout());
+		btnPagar = new JButton("COBRAR");
+		btnPagar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO HA DE GRABAR UN FICHERO DE TEXTO PARA GENERAR EL TICKET
+				//HA DE GENERAR UN PEDIDO Y LINEA DE PEDIDO
+				
+				
+				
+				
+				
+				
+				for(int i=0;i<lineaPedido.getRowCount();i++){
+                    String ticketID= (String)lineaPedido.getValueAt(i,0);
+                    String ticketARTICULO= (String)lineaPedido.getValueAt(i,0);
+                    String ticketCANTIDAD= (String)lineaPedido.getValueAt(i,0);
+                    String ticketPRECIO= (String)lineaPedido.getValueAt(i,0);
+                    String ticketTOTAL= (String)lineaPedido.getValueAt(i,0);
+
+                }            
+                if(a==null ||b==null  || c==null  || d==null  || f==null  || g==null || h==null){
+                	JOptionPane.showMessageDialog(null,"Debe suministrar toda la informacion solicitada");
+                }
+
+				
+				
+				
+				
+				
+				
+				
+			}
+		});
+		btnFactura = new JButton("GENERAR FACTURA");
+		jpPagos.add(btnPagar);
+		jpPagos.add(btnFactura);
+		//===================================================================
+		
 		principal.add(jpBuscar, BorderLayout.WEST);
 		principal.add(jpListaCompra, BorderLayout.CENTER);
+		principal.add(jpPagos, BorderLayout.SOUTH);
+		
 		this.getContentPane().add(principal);
 	}
 	
