@@ -71,7 +71,7 @@ public class Clientes {
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 */
-	public ResultSet mostrarDatosClientePorDni(int dni) throws SQLException, ClassNotFoundException{
+	public ResultSet mostrarDatosClientePorDni(String dni) throws SQLException, ClassNotFoundException{
 		con = new Conexion();
 		return con.consultar("SELECT * from clientes where dni = '"+dni+"'");
 	}

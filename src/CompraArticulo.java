@@ -33,8 +33,8 @@ public class CompraArticulo extends JInternalFrame {
 	private JTable listaCompra;
 	private String[] columnas = { "Id", "Articulo", "Cantidad", "Precio", "Total" };
 	private Articulo nuevo;
-	private String ticketID, ticketARTICULO, ticketCANTIDAD;
-
+	private String ticketID, ticketARTICULO;
+	private int ticketCANTIDAD;
 	private double ticketPRECIO, ticketTOTAL;
 	
 	CompraArticulo (){
@@ -74,7 +74,7 @@ public class CompraArticulo extends JInternalFrame {
 							
 							@Override
 							public void actionPerformed(ActionEvent e) {
-								listaCompra.setValueAt((Double.parseDouble(tfCantidad.getText()) * nuevo.getPrecio()), listaCompra.getSelectedRow(), 4);
+								listaCompra.setValueAt((Integer.parseInt(tfCantidad.getText()) * nuevo.getPrecio()), listaCompra.getSelectedRow(), 4);
 								
 							}
 						});
@@ -125,11 +125,11 @@ public class CompraArticulo extends JInternalFrame {
 				for(int i=0;i<lineaPedido.getRowCount();i++){
                     ticketID = String.valueOf(lineaPedido.getValueAt(i,0));
                     ticketARTICULO = String.valueOf(lineaPedido.getValueAt(i,1));
-                    ticketCANTIDAD = String.valueOf(lineaPedido.getValueAt(i,2));
-                    ticketPRECIO = (double) lineaPedido.getValueAt(i,3);
-                    ticketTOTAL = (double) lineaPedido.getValueAt(i,4);                    
+                    ticketCANTIDAD = Integer.parseInt(lineaPedido.getValueAt(i,2).toString());
+                    ticketPRECIO = Double.parseDouble(lineaPedido.getValueAt(i,3).toString());
+                    ticketTOTAL = Double.parseDouble(lineaPedido.getValueAt(i,4).toString());                    
                     
-                    if(!ticketID.equals("") && !ticketARTICULO.equals("") && !ticketCANTIDAD.equals("0") && !ticketCANTIDAD.equals(null)){
+                    if(!ticketID.equals("") && !ticketARTICULO.equals("") && ticketCANTIDAD!=0 && ticketTOTAL!=0){
                     	JOptionPane.showMessageDialog(null,ticketID+""+ticketARTICULO+""+ticketCANTIDAD+""+ticketPRECIO+""+ticketTOTAL);
                     	
                     	//SI EL PRODUCTO TIENE CANTIDAD ASIGNADA MANUALMENTE SUMA A UNA VARIABLE EL TOTAL DE LA LINEA 
