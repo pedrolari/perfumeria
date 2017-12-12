@@ -32,19 +32,19 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 
 	//jbOpc1, jbOpc2, jbOpc3, jbOpc4, jbOpc5
 	
-	public PantallaPrin(int rol, String nom, String ape, Ventana vent, Login log) {
+	public PantallaPrin(int rol, String nom, String ape, Ventana vent) {
 		// TODO Auto-generated constructor stub
 		((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
 		this.setBorder(null);
 		this.setLayout(new BorderLayout(0, 0));
 
-		Componentes(nom,ape,rol,vent,log);
+		Componentes(nom,ape,rol,vent);
 	}
 
-	private void Componentes(String nom, String ape, int rol, Ventana vent, Login log) {
+	private void Componentes(String nom, String ape, int rol, Ventana vent) {
 		// TODO Auto-generated method stub
 		ParteOeste(rol);
-		ParteCentro(nom,ape,vent,log);
+		ParteCentro(nom,ape,vent);
 
 		// jpcsur = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		// jpcsur.setPreferredSize(new Dimension(this.getWidth(), 50));
@@ -52,10 +52,10 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 		// this.getContentPane().add(BorderLayout.SOUTH, jpcsur);
 	}
 
-	private void ParteCentro(String nom, String ape, Ventana vent, Login log) {
+	private void ParteCentro(String nom, String ape, Ventana vent) {
 		jPanelCentro = new JPanel(new BorderLayout(0, 0)); // este
 
-		DatosUsuario(nom,ape,vent,log); // Rol del usuario , Ajustes ,Imagen de usuario ,Nombre de usuario
+		DatosUsuario(nom,ape,vent); // Rol del usuario , Ajustes ,Imagen de usuario ,Nombre de usuario
 
 		JpanelMitad = new JPanel(new BorderLayout(0, 0));
 
@@ -88,16 +88,23 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 		jPanelCentro.add(BorderLayout.CENTER, JpanelMitad);
 	}
 
-	private void DatosUsuario(String nom, String ape, Ventana vent, Login log) {
+	private void DatosUsuario(String nom, String ape, Ventana vent) {
 
+		String nombre = nom +" "+ ape;
 		JpanelCentroNorte = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		JpanelCentroNorte.setBackground(Color.WHITE);
 		JpanelCentroNorte.setPreferredSize(new Dimension(this.getWidth(), 75));
+		
 
 		jlRol = new JLabel("Administrador"); // Rol que tiene el usuario
 		Toolkit t = Toolkit.getDefaultToolkit();
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		jlRol.setBorder(new EmptyBorder(0, 10, 0, screenSize.height-25));
+		if (nombre.length() >= 20) {
+			jlRol.setBorder(new EmptyBorder(0, 10, 0, screenSize.height-150));
+		} else {
+			jlRol.setBorder(new EmptyBorder(0, 10, 0, screenSize.height-25));
+		}
+		
 
 		jlRol.setFont(new Font(null, 1, 25));
 		JpanelCentroNorte.add(jlRol);
@@ -106,7 +113,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 		jlPersona = new JLabel(imagencarnet);
 		JpanelCentroNorte.add(jlPersona);
 
-		jlNombre = new JLabel(nom+" "+ape); // nombre del usuario
+		jlNombre = new JLabel(nombre); // nombre del usuario
 		JpanelCentroNorte.add(jlNombre);
 
 		jbcerrar = new JButton("");
@@ -115,7 +122,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 		jbcerrar.setBorderPainted(false);
 		jbcerrar.setIcon(new ImageIcon(getClass().getResource("Imagenes/458594.png"))); // menu desplegable
 		JpanelCentroNorte.add(jbcerrar);
-		jbcerrar.addActionListener(new EscuchaCerrar(this,vent,log));
+		jbcerrar.addActionListener(new EscuchaCerrar(vent));
 
 		jPanelCentro.add(BorderLayout.NORTH, JpanelCentroNorte);
 	}

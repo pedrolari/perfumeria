@@ -3,25 +3,22 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class EscuchaCerrar implements ActionListener {
-	
-	private PantallaPrin p;
-	private Ventana v;
-	private Login l;
+import javax.swing.JOptionPane;
 
-	public EscuchaCerrar(PantallaPrin pantallaPrin, Ventana vent, Login log) {
+public class EscuchaCerrar implements ActionListener {
+
+	private Ventana v;
+
+	public EscuchaCerrar(Ventana vent) {
 		// TODO Auto-generated constructor stub
-		p = pantallaPrin;
 		v = vent;
-		l=log;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
-		
-		main m = new main();
-		
+		v.dispose();
+		Ventana ventana = new Ventana();
 	}
 
 }
