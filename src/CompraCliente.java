@@ -31,7 +31,7 @@ public class CompraCliente extends JInternalFrame{
 	private JPanel jpPrimerPanel, jpSegundoPanel;
 	private DefaultComboBoxModel lista, lista2;
 	private JComboBox jc1, jc2;
-	private JTextField jt1;
+	private JTextField jt1, jt2, jt3;
 	private Conexion c;
 	private Validaciones v;
 	private double numero = 0;
@@ -70,6 +70,12 @@ public class CompraCliente extends JInternalFrame{
 
 		TableColumn tc3 = miTable.getColumnModel().getColumn(2);
 		tc3.setCellEditor(new DefaultCellEditor(jt1));
+		
+		TableColumn tc4 = miTable.getColumnModel().getColumn(3);
+		tc4.setCellEditor(new DefaultCellEditor(jt2));
+		
+		TableColumn tc5 = miTable.getColumnModel().getColumn(4);
+		tc5.setCellEditor(new DefaultCellEditor(jt3));
 
 	}
 
@@ -79,7 +85,7 @@ public class CompraCliente extends JInternalFrame{
 		lista2.removeAllElements();
 		lista2.setSelectedItem(-1);
 		
-		numero = 0;
+		numero = 1;
 		try {
 			ResultSet rs = c.consultar("SELECT * FROM proveedores");
 			while (rs.next()) {
@@ -107,19 +113,18 @@ public class CompraCliente extends JInternalFrame{
 						boolean enc=false;
 						String[] todo=provnom.split("/");
 						
-						for(int i=0;i<todo.length;i++)
+						for(int i=0;i<todo.length&&enc==false;i++)
 						{	
 							String[] partes=todo[i].split("-");
-							if(partes.length==2)
-							{
-							if(partes[0].equalsIgnoreCase(lista.getSelectedItem().toString())&&partes[1].equalsIgnoreCase(rs.getString("nombre")));
+							
+							if(partes[0].equalsIgnoreCase(lista.getSelectedItem().toString())&&partes[1].equalsIgnoreCase(rs.getString("nombre")))
 							{
 								enc=true;
 								System.out.println("ENTRA");
 								System.out.println(lista.getSelectedItem().toString()+"-"+rs.getString("nombre"));
 								System.out.println(partes[0]+"-"+partes[1]);
 							}
-							}
+							
 						}
 						
 						if(enc==false)
@@ -141,13 +146,13 @@ public class CompraCliente extends JInternalFrame{
 					public void actionPerformed(ActionEvent e) {
 						// TODO Auto-generated method stub
 					
-						numero = 0;
+						numero = 1;
 						try {
 
 							ResultSet rs = c.consultar("SELECT * FROM articulos WHERE nombre='" + jc2.getSelectedItem() + "'");
 							rs.next();
 							numero = rs.getDouble("precio");
-
+							
 							
 							
 						} catch (SQLException e1) {
@@ -181,26 +186,30 @@ public class CompraCliente extends JInternalFrame{
 							v=new Validaciones();
 							if(v.isNumeric(jt1.getText().toString())==false)
 							{
-								jt1.setText("0");
+								jt1.setText("1");
 								
 								JOptionPane.showMessageDialog(null, "Introduce un número.");
 							}
-							else if(Integer.parseInt(jt1.getText().toString())<0)
+							else if(Integer.parseInt(jt1.getText().toString())<1)
 							{
-								jt1.setText("0");
+								jt1.setText("1");
 								
-								JOptionPane.showMessageDialog(null, "No puede ser negativo.");
+								JOptionPane.showMessageDialog(null, "No puede ser menor que 1.");
 							}
 							else if(rs.getInt("stock")>=Integer.parseInt(jt1.getText().toString()))
 							{
 							miTable.setValueAt(Integer.parseInt(jt1.getText()) * numero, miTable.getSelectedRow(), 4);
-							provnom=lista.getSelectedItem().toString()+"-"+lista2.getSelectedItem().toString()+"/";
+							provnom=provnom+""+lista.getSelectedItem().toString()+"-"+lista2.getSelectedItem().toString()+"/";
 							jbAñadir.setEnabled(true);
+							
+							jt2.setEnabled(false);
+							jt3.setEnabled(false);
+						
+							
 							}
 							else
 							{
-								jt1.setText("0");
-								
+								jt1.setText("1");
 								JOptionPane.showMessageDialog(null, "No disponemos de tanto stock.");
 							}
 						} catch (NumberFormatException e1) {
@@ -221,11 +230,14 @@ public class CompraCliente extends JInternalFrame{
 		});
 	}
 
+	// FALTA INSERTAR 
+	
 	private void componentes() throws SQLException {
 		// TODO Auto-generated method stub
 
 		jt1 = new JTextField();
-		
+		jt2 = new JTextField();
+		jt3 = new JTextField();
 
 		jpPrimerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		jpPrimerPanel.setBackground(Color.white);
@@ -264,6 +276,7 @@ public class CompraCliente extends JInternalFrame{
 				AnadirProveedor();
 				modelo.addRow(new Object[] {});
 				jbAñadir.setEnabled(false);
+				
 
 			}
 		});
@@ -277,7 +290,7 @@ public class CompraCliente extends JInternalFrame{
 				// TODO Auto-generated method stub
 				try {
 					modelo.removeRow(miTable.getRowCount() - 1);
-
+					jbAñadir.setEnabled(true);
 				} catch (Exception e2) {
 					// TODO: handle exception
 				}
