@@ -171,14 +171,16 @@ public class CompraArticulo extends JInternalFrame {
 	                    if(!ticketID.equals("") && !ticketARTICULO.equals("") && ticketCANTIDAD!=0 && ticketTOTAL!=0){
 	                    	//JOptionPane.showMessageDialog(null,ticketID+""+ticketARTICULO+""+ticketCANTIDAD+""+ticketPRECIO+""+ticketTOTAL);
 	                    	
-	                    	//SI EL PRODUCTO TIENE CANTIDAD ASIGNADA MANUALMENTE SUMA A UNA VARIABLE EL TOTAL DE LA LINEA 
-	                    	//GRABAMOS LINEA DE PEDIDO POR CADA ROW
-	                    	
 	                    	//Obtenemos el total de cada lina de pedido y lo sumamos a totalLINEAPEDIDO
 	                    	totalLINEAPEDIDO += ticketTOTAL; 
 	                    	
-	                    	
-	                    	con.modificar("INSERT INTO lineas_de_ventas () VALUES ('"+maxID+"', '"+ticketID+"', '"+ticketCANTIDAD+"', '"+ticketPRECIO+"')");
+	                    	//INSERTAMOS CADA LINEA CORRECTA EN LA BASE DE DATOS DE LINEA DE VENTAS
+	                    	try {
+								con.modificar("INSERT INTO lineas_de_ventas (id_venta, id_articulo, cantidad, precio) VALUES ('"+maxID+"', '"+ticketID+"', '"+ticketCANTIDAD+"', '"+ticketPRECIO+"')");
+							} catch (SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
 	                    }
 	                    else{
 	                    	JOptionPane.showMessageDialog(null,"Indica la cantidad de producto");
