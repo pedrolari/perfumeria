@@ -28,23 +28,23 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 	private JLabel jlImagen, jlRol, jlNombre, jlPersona, jlMenu;
 	private JScrollPane barraScrollPanelCargarJIframe;
 	private JButton  jbOpcMenu []=new JButton[5];
-	private JButton jbAjuste, jbfecha, jbOpcMenu1 ,jbOpcMenu2,jbOpcMenu3,jbOpcMenu4,jbOpcMenu5;
+	private JButton jbAjuste, jbcerrar, jbOpcMenu1 ,jbOpcMenu2,jbOpcMenu3,jbOpcMenu4,jbOpcMenu5;
 
 	//jbOpc1, jbOpc2, jbOpc3, jbOpc4, jbOpc5
 	
-	public PantallaPrin(int rol, String nom, String ape) {
+	public PantallaPrin(int rol, String nom, String ape, Ventana vent, Login log) {
 		// TODO Auto-generated constructor stub
 		((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
 		this.setBorder(null);
 		this.setLayout(new BorderLayout(0, 0));
 
-		Componentes(nom,ape);
+		Componentes(nom,ape,rol,vent,log);
 	}
 
-	private void Componentes(String nom, String ape) {
+	private void Componentes(String nom, String ape, int rol, Ventana vent, Login log) {
 		// TODO Auto-generated method stub
-		ParteOeste();
-		ParteCentro(nom,ape);
+		ParteOeste(rol);
+		ParteCentro(nom,ape,vent,log);
 
 		// jpcsur = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		// jpcsur.setPreferredSize(new Dimension(this.getWidth(), 50));
@@ -52,10 +52,10 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 		// this.getContentPane().add(BorderLayout.SOUTH, jpcsur);
 	}
 
-	private void ParteCentro(String nom, String ape) {
+	private void ParteCentro(String nom, String ape, Ventana vent, Login log) {
 		jPanelCentro = new JPanel(new BorderLayout(0, 0)); // este
 
-		DatosUsuario(nom,ape); // Rol del usuario , Ajustes ,Imagen de usuario ,Nombre de usuario
+		DatosUsuario(nom,ape,vent,log); // Rol del usuario , Ajustes ,Imagen de usuario ,Nombre de usuario
 
 		JpanelMitad = new JPanel(new BorderLayout(0, 0));
 
@@ -88,7 +88,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 		jPanelCentro.add(BorderLayout.CENTER, JpanelMitad);
 	}
 
-	private void DatosUsuario(String nom, String ape) {
+	private void DatosUsuario(String nom, String ape, Ventana vent, Login log) {
 
 		JpanelCentroNorte = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		JpanelCentroNorte.setBackground(Color.WHITE);
@@ -97,31 +97,25 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 		jlRol = new JLabel("Administrador"); // Rol que tiene el usuario
 		Toolkit t = Toolkit.getDefaultToolkit();
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		jlRol.setBorder(new EmptyBorder(0, 10, 0, screenSize.height-150));
+		jlRol.setBorder(new EmptyBorder(0, 10, 0, screenSize.height-25));
 
 		jlRol.setFont(new Font(null, 1, 25));
 		JpanelCentroNorte.add(jlRol);
 
-		jbAjuste = new JButton("");
-		jbAjuste.setOpaque(false);
-		jbAjuste.setContentAreaFilled(false);
-		jbAjuste.setBorderPainted(false);
-		jbAjuste.setIcon(new ImageIcon(getClass().getResource("Imagenes/ajuste.png"))); // menu de Ajuste
-		JpanelCentroNorte.add(jbAjuste);
-
-		imagencarnet = new ImageIcon(getClass().getResource("Imagenes/foto1.jpg"));// foto del usuario
+		imagencarnet = new ImageIcon(getClass().getResource("Imagenes/2369.png"));// foto del usuario
 		jlPersona = new JLabel(imagencarnet);
 		JpanelCentroNorte.add(jlPersona);
 
 		jlNombre = new JLabel(nom+" "+ape); // nombre del usuario
 		JpanelCentroNorte.add(jlNombre);
 
-		jbfecha = new JButton("");
-		jbfecha.setOpaque(false);
-		jbfecha.setContentAreaFilled(false);
-		jbfecha.setBorderPainted(false);
-		jbfecha.setIcon(new ImageIcon(getClass().getResource("Imagenes/flecha.png"))); // menu desplegable
-		JpanelCentroNorte.add(jbfecha);
+		jbcerrar = new JButton("");
+		jbcerrar.setOpaque(false);
+		jbcerrar.setContentAreaFilled(false);
+		jbcerrar.setBorderPainted(false);
+		jbcerrar.setIcon(new ImageIcon(getClass().getResource("Imagenes/458594.png"))); // menu desplegable
+		JpanelCentroNorte.add(jbcerrar);
+		jbcerrar.addActionListener(new EscuchaCerrar(this,vent,log));
 
 		jPanelCentro.add(BorderLayout.NORTH, JpanelCentroNorte);
 	}
@@ -170,7 +164,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 		
 	}
 
-	private void ParteOeste() {
+	private void ParteOeste(int rol) {
 		jpOeste = new JPanel(new BorderLayout(0, 0));
 
 		jpOesteNorte = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
@@ -198,6 +192,9 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 			jpOesteCentro.add(jbOpcMenu[i]);
 			
 		}
+		if (rol == 0) {
+			jbOpcMenu[0].setVisible(false);
+		}
 	
 		jpOeste.add(BorderLayout.CENTER, jpOesteCentro);
 
@@ -218,6 +215,8 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 		
 		if(e.getSource().equals(this.getJbOpcMenu()[0]))
 		{
+			JpanelCargarJIframe.removeAll();
+			JpanelCargarJIframe.updateUI();
 			this.getJlMenu().setText("EMPLEADOS");
 			this.getJlMenu().setVisible(true);
 			this.getJbOpcMenu1().setText("ALTA");
@@ -226,6 +225,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					JpanelCargarJIframe.removeAll();
 					AltaEmpleado ae=new AltaEmpleado();
 					JpanelCargarJIframe.add(ae);
 					ae.setVisible(true);
@@ -238,6 +238,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					JpanelCargarJIframe.removeAll();
 					ModificacionEmpleado me=new ModificacionEmpleado();
 					JpanelCargarJIframe.add(me);
 					me.setVisible(true);
@@ -253,6 +254,8 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 		}
 		else if(e.getSource().equals(this.getJbOpcMenu()[1]))
 		{
+			JpanelCargarJIframe.removeAll();
+			JpanelCargarJIframe.updateUI();
 			this.getJlMenu().setText("PROVEEDORES");
 			this.getJlMenu().setVisible(true);
 			this.getJbOpcMenu1().setText("ALTA");
@@ -262,7 +265,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-					
+					JpanelCargarJIframe.removeAll();
 					AltaProveedor ap=new AltaProveedor();
 					JpanelCargarJIframe.add(ap);
 					ap.setVisible(true);
@@ -276,7 +279,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-					
+					JpanelCargarJIframe.removeAll();
 					ModificacionProveedor mo;
 					try {
 						mo = new ModificacionProveedor();
@@ -327,6 +330,8 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 		
 		else if(e.getSource().equals(this.getJbOpcMenu()[2]))
 		{
+			JpanelCargarJIframe.removeAll();
+			JpanelCargarJIframe.updateUI();
 			this.getJlMenu().setText("CLIENTES");
 			this.getJlMenu().setVisible(true);
 			
@@ -336,6 +341,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					JpanelCargarJIframe.removeAll();
 					AltaCliente ac=new AltaCliente();
 					JpanelCargarJIframe.add(ac);
 					ac.setVisible(true);
@@ -349,6 +355,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					JpanelCargarJIframe.removeAll();
 					ModificacionCliente mc=new ModificacionCliente();
 					JpanelCargarJIframe.add(mc);
 					mc.setVisible(true);
@@ -364,6 +371,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					// TODO Auto-generated method stub
+					JpanelCargarJIframe.removeAll();
 					CompraCliente cc = null;
 					try {
 						cc = new CompraCliente();
@@ -385,6 +393,8 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 		}
 		else if(e.getSource().equals(this.getJbOpcMenu()[3]))
 		{
+			JpanelCargarJIframe.removeAll();
+			JpanelCargarJIframe.updateUI();
 			this.getJlMenu().setText("ARTICULOS");
 			this.getJlMenu().setVisible(true);
 			this.getJbOpcMenu1().setText("ALTA");
@@ -666,11 +676,11 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 	}
 
 	public JButton getJbfecha() {
-		return jbfecha;
+		return jbcerrar;
 	}
 
 	public void setJbfecha(JButton jbfecha) {
-		this.jbfecha = jbfecha;
+		this.jbcerrar = jbfecha;
 	}
 
 	public JButton getJbOpcMenu1() {
