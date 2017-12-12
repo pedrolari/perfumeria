@@ -6,8 +6,10 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -48,8 +50,8 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 		ptotal.setBackground(Color.white);
 		ptotal.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(41, 53, 65), 1), "MODIFICACIÓN CLIENTE",TitledBorder.LEFT,TitledBorder.TOP,new Font(null, Font.BOLD,25), new Color(41, 53, 65)));
 		this.getContentPane().add(ptotal);
-		pcen=new JPanel(new GridLayout(9, 2,50,10));
-		pcen.setBorder(new EmptyBorder(50, 250, 50, 250));
+		pcen=new JPanel(new GridLayout(9, 2,50,12));
+		pcen.setBorder(new EmptyBorder(70, 350, 70, 350));
 		ptotal.add(pcen,BorderLayout.CENTER);
 		pcen.setBackground(Color.white);
 		
@@ -145,20 +147,15 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 				
 			}
 		}else if(arg0.getSource()==btnmod){
-			if(!comprobarCambioTxt(txtnom, c.getNombre())){
-				c.setNombre(txtnom.getText());
-				try {
-					//c.actualizarClienteBBDD(c.getDni(), "nombre", "emo3abcd");
-					c.actualizarClienteBBDD(c.getDni(), "nombre", txtnom.getText());
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-					JOptionPane.showMessageDialog(this, e.getMessage());
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-					JOptionPane.showMessageDialog(this, e.getMessage());
-				}
+			
+			try {
+				modificar();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 			
 		}
@@ -218,5 +215,153 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 			cond=false;
 		}
 		return cond;
+	}
+	public void modificar() throws ClassNotFoundException, SQLException{
+		if(comprobar()){
+			if(!comprobarCambioTxt(txtnom, c.getNombre())){
+				c.setNombre(txtnom.getText());
+				c.actualizarClienteBBDD(c.getDni(), "nombre", c.getNombre());
+			}
+			if(!comprobarCambioTxt(txtapels, c.getApellidos())){
+				c.setApellidos(txtapels.getText());
+				c.actualizarClienteBBDD(c.getDni(), "apellidos", c.getApellidos());
+			}
+			if(!comprobarCambioTxt(txtdir, c.getDireccion())){
+				c.setDireccion(txtdir.getText());
+				c.actualizarClienteBBDD(c.getDni(), "direccion", c.getDireccion());
+			}
+			if(!comprobarCambioTxt(txttel, String.valueOf(c.getTelefono()))){
+				c.setDireccion(txttel.getText());
+				c.actualizarClienteBBDD(c.getDni(), "telefono", String.valueOf(c.getTelefono()));
+				
+			}
+			if(!comprobarCambioTxt(txtmail, c.getEmail())){
+				c.setEmail(txtmail.getText());
+				c.actualizarClienteBBDD(c.getDni(), "email", c.getEmail());
+				
+			}
+			if(sex[0].isSelected() && c.getSexo()!='V'){
+				c.setSexo('V');
+			}else if(sex[1].isSelected() && c.getSexo()!='H'){
+				c.setSexo('H');
+			}
+			c.actualizarClienteBBDD(c.getDni(), "sexo", String.valueOf(c.getSexo()));
+			java.sql.Date sqlDate1 = new java.sql.Date(date1.getDate().getTime());
+			if(!sqlDate1.equals(c.getFecha_nacimiento())){
+				Conexion con=new Conexion();
+				c.setFecha_nacimiento(sqlDate1);
+				JOptionPane.showMessageDialog(this, getFechaSQL(date1));
+				con.modificar("update clientes set fecha_nacimiento = '"+getFechaSQL(date1)+"' where dni like '"+c.getDni()+"'");
+			}
+		}
+	}
+	public String getFechaSQL(JDateChooser jd) {
+		SimpleDateFormat formato=new SimpleDateFormat("yyyy-MM-dd");
+		if(jd.getDate()!=null) {
+			return formato.format(jd.getDate());
+		}else {
+			return null;
+		}
+	}
+	
+	//validaciones
+	public boolean comprobar(){
+		boolean cond=true;
+		Validaciones v=new Validaciones();
+		if(v.campovacio(txtnom.getText())){
+			cond=false;
+			JOptionPane.showMessageDialog(this, "El campo nombre no puede estar vacío");
+		}
+		if(v.campovacio(txtapels.getText())){
+			cond=false;
+			JOptionPane.showMessageDialog(this, "El campo apellido no puede estar vacío");
+		}
+		if(v.campovacio(txtdir.getText())){
+			cond=false;
+			JOptionPane.showMessageDialog(this, "El campo direccion no puede estar vacío");
+		}
+		if(v.campovacio(txttel.getText())){
+			cond=false;
+			JOptionPane.showMessageDialog(this, "El campo telefono no puede estar vacío");
+		}
+		if(v.campovacio(txtmail.getText())){
+			cond=false;
+			JOptionPane.showMessageDialog(this, "El campo email no puede estar vacío");
+		}
+		if(comprobarFecha(date1)){
+			cond=false;
+			
+		}
+		if(comprobarFechaExiste(date1)){
+			cond=false;
+			JOptionPane.showMessageDialog(this, "La fecha es erronea");
+		}
+		return cond;
+	}
+	public boolean comprobarFecha(JDateChooser jd) {
+		boolean cond=false;
+		if(jd.getDate()!=null) {
+			cond=true;
+		}else {
+			JOptionPane.showMessageDialog(this, "La fecha de nacimiento no es correcta");
+		}
+		return cond;
+	}
+	public boolean comprobarFechaExiste(JDateChooser jd){
+		int dia=Integer.parseInt(getFecha(jd).split("-")[0]);
+		int mes=Integer.parseInt(getFecha(jd).split("-")[1]);
+		int año=Integer.parseInt(getFecha(jd).split("-")[2]);
+		boolean cond=true;
+	
+		Calendar hoy = new GregorianCalendar().getInstance();
+		if(año<1900||año>hoy.get(Calendar.YEAR)){
+			cond=false;
+			
+		}else if(año==hoy.get(Calendar.YEAR)){
+			if(mes>hoy.get(Calendar.MONTH)+1){
+				cond=false;
+			
+			}else if(mes==hoy.get(Calendar.MONTH)+1){
+				if(dia>hoy.get(Calendar.DAY_OF_MONTH)){
+					cond=false;
+				
+				}
+			}
+		}else if(mes<1||mes>12){
+			cond=false;
+		
+		}else if(mes==2){
+			if(año%4==0 || (año%100!=0&&año%400==0)){
+				if(dia<1||dia>29){
+					cond=false;
+		
+				}
+			}else {
+				if(dia<1||dia>28){
+					cond=false;
+				
+				}
+			}
+		}else if(mes==4||mes==6||mes==9||mes==11){
+			if(dia<1||dia>30){
+				cond=false;
+				
+			}
+		}else{
+			if(dia<1||dia>31){
+				cond=false;
+				
+			}
+		}
+
+		return cond;
+	}
+	public String getFecha(JDateChooser jd) {
+		SimpleDateFormat formato=new SimpleDateFormat("dd-MM-yyyy");
+		if(jd.getDate()!=null) {
+			return formato.format(jd.getDate());
+		}else {
+			return null;
+		}
 	}
 }

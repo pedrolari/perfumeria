@@ -59,8 +59,8 @@ public class AltaCliente extends JInternalFrame implements ActionListener{
 		ptotal.setBackground(Color.white);
 		ptotal.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(41, 53, 65), 1), "ALTA CLIENTE",TitledBorder.LEFT,TitledBorder.TOP,new Font(null, Font.BOLD,25), new Color(41, 53, 65)));
 		this.getContentPane().add(ptotal);
-		pcen=new JPanel(new GridLayout(9, 2,10,15));
-		pcen.setBorder(new EmptyBorder(0, 20, 0, 20));
+		pcen=new JPanel(new GridLayout(9, 2,50,12));
+		pcen.setBorder(new EmptyBorder(70, 350, 70, 350));
 		ptotal.add(pcen,BorderLayout.CENTER);
 		pcen.setBackground(Color.white);
 		
@@ -161,17 +161,15 @@ public class AltaCliente extends JInternalFrame implements ActionListener{
 						}
 						
 					}else {
-						JOptionPane.showMessageDialog(this, "No existe la fecha de nacimiento introducida");
+						JOptionPane.showMessageDialog(this, "La fecha de nacimiento introducida no es valida");
 					}
 				}
 			}
 		}else if(e.getSource()==btnborrar){
 			vaciar();
 		}
-		
-	
-		
 	}
+	
 	//validaciones
 	public boolean comprobarFecha(JDateChooser jd) {
 		boolean cond=false;
@@ -234,7 +232,7 @@ public class AltaCliente extends JInternalFrame implements ActionListener{
 		boolean cond=true;
 	
 		Calendar hoy = new GregorianCalendar().getInstance();
-		if(año<0||año>hoy.get(Calendar.YEAR)){
+		if(año<1900||año>hoy.get(Calendar.YEAR)){
 			cond=false;
 			
 		}else if(año==hoy.get(Calendar.YEAR)){
