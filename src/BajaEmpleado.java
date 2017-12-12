@@ -5,13 +5,15 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
-public class BajaEmpleado extends JInternalFrame{
+public class BajaEmpleado extends JInternalFrame implements ActionListener{
 	private JPanel principal, centro;
 	private JLabel lb1;
 	private JComboBox<String> combo;
@@ -45,5 +47,13 @@ public class BajaEmpleado extends JInternalFrame{
 		
 		this.getContentPane().add(principal);
 		
+	}
+
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource()==btn){
+			
+		}
 	}
 }

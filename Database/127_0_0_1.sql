@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-11-2017 a las 17:27:46
+-- Tiempo de generación: 12-12-2017 a las 17:16:35
 -- Versión del servidor: 10.1.21-MariaDB
 -- Versión de PHP: 7.1.1
 
@@ -116,7 +116,8 @@ CREATE TABLE `compras` (
   `id_compra` int(11) NOT NULL,
   `user` varchar(20) NOT NULL,
   `cif` varchar(20) NOT NULL,
-  `fecha_compra` date NOT NULL
+  `fecha_compra` date NOT NULL,
+  `total_pedido` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -145,30 +146,30 @@ INSERT INTO `empleados` (`user`, `pass`, `nombre`, `apellidos`, `telefono`, `rol
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `lineas de compras`
+-- Estructura de tabla para la tabla `lineas_de_compras`
 --
 
-CREATE TABLE `lineas de compras` (
+CREATE TABLE `lineas_de_compras` (
   `id_lineas_de_compra` int(11) NOT NULL,
   `id_compra` int(11) NOT NULL,
   `id_articulo` int(11) NOT NULL,
   `cantidad` int(11) NOT NULL,
   `precio` decimal(8,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `lineas de ventas`
+-- Estructura de tabla para la tabla `lineas_de_ventas`
 --
 
-CREATE TABLE `lineas de ventas` (
+CREATE TABLE `lineas_de_ventas` (
   `id_linea_de_ventas` int(11) NOT NULL,
   `id_venta` int(11) NOT NULL,
   `id_articulo` int(11) NOT NULL,
   `cantidad` int(11) NOT NULL,
   `precio` decimal(10,0) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 -- --------------------------------------------------------
 
@@ -16593,7 +16594,8 @@ CREATE TABLE `ventas` (
   `id_venta` int(11) NOT NULL,
   `user` varchar(20) NOT NULL,
   `dni` varchar(9) NOT NULL,
-  `fecha_venta` date NOT NULL
+  `fecha_venta` date NOT NULL,
+  `total_pedido` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -16631,15 +16633,15 @@ ALTER TABLE `empleados`
   ADD PRIMARY KEY (`user`);
 
 --
--- Indices de la tabla `lineas de compras`
+-- Indices de la tabla `lineas_de_compras`
 --
-ALTER TABLE `lineas de compras`
+ALTER TABLE `lineas_de_compras`
   ADD PRIMARY KEY (`id_lineas_de_compra`);
 
 --
--- Indices de la tabla `lineas de ventas`
+-- Indices de la tabla `lineas_de_ventas`
 --
-ALTER TABLE `lineas de ventas`
+ALTER TABLE `lineas_de_ventas`
   ADD PRIMARY KEY (`id_linea_de_ventas`);
 
 --
@@ -16686,14 +16688,14 @@ ALTER TABLE `categorias`
 ALTER TABLE `compras`
   MODIFY `id_compra` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT de la tabla `lineas de compras`
+-- AUTO_INCREMENT de la tabla `lineas_de_compras`
 --
-ALTER TABLE `lineas de compras`
+ALTER TABLE `lineas_de_compras`
   MODIFY `id_lineas_de_compra` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT de la tabla `lineas de ventas`
+-- AUTO_INCREMENT de la tabla `lineas_de_ventas`
 --
-ALTER TABLE `lineas de ventas`
+ALTER TABLE `lineas_de_ventas`
   MODIFY `id_linea_de_ventas` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `localidades`

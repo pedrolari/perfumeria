@@ -4,12 +4,16 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
-public class BajaArticulo extends JInternalFrame{
+public class BajaArticulo extends JInternalFrame implements ActionListener{
 	private JPanel principal, centro;
 	private JLabel lb1;
 	private JComboBox<String> combo;
@@ -42,5 +46,26 @@ public class BajaArticulo extends JInternalFrame{
 		
 		this.getContentPane().add(principal);
 		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public void rellenarCombo(){
+		combo.removeAllItems();
+		
+		try {
+			Conexion c = new Conexion();
+			
+			ResultSet rs=c.consultar("select * from articulos");
+			while(rs.next()){
+				combo.addItem(rs.getString(1));
+			}
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }
