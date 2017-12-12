@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
@@ -36,7 +37,7 @@ public class CompraArticulo extends JInternalFrame {
 	private String[] columnas = { "Id", "Articulo", "Cantidad", "Precio", "Total" };
 	private Articulo nuevo;
 	private String ticketID, ticketARTICULO;
-	private int ticketCANTIDAD, maxID;;
+	private int ticketCANTIDAD, maxID;
 	private double ticketPRECIO, ticketTOTAL, totalLINEAPEDIDO;
 	private Conexion con;
 	private ResultSet resultado;
@@ -122,10 +123,8 @@ public class CompraArticulo extends JInternalFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO HA DE GRABAR UN FICHERO DE TEXTO PARA GENERAR EL TICKET
-				//HA DE GENERAR UN PEDIDO Y LINEA DE PEDIDO
-				//CONTROLAR AL NO INTRODUCIR NINGUNA CANTIDAD PARA QUE NO DE ERROR
-				
+
+				//TODO RESETEAR O PONER EL BOTON COMPRAR NO VISIBLE Y PONER LIMPIAR PARA QUE NO INSERTE CON EL MISMO ID PEDIDO
 				
 				
 				int resp = JOptionPane.showConfirmDialog(null, "¿Esta seguro re realizar el pedido?", "Alerta!", JOptionPane.YES_NO_OPTION);
@@ -149,7 +148,7 @@ public class CompraArticulo extends JInternalFrame {
 						e1.printStackTrace();
 					}
 					try {
-						if(resultado.next()){
+						if(resultado.next() && resultado.getInt(1)>0){
 							maxID = resultado.getInt(1);
 						}else{
 							maxID = 1;
@@ -189,7 +188,7 @@ public class CompraArticulo extends JInternalFrame {
 					
 					//SE REALIZA LA INSERCCION EN TABLA VENTAS DEL PEDIDO CON IDMAX
 					try {
-						con.modificar("INSERT INTO ventas(id_venta, fecha_venta, total_pedido) VALUES ('"+maxID+"', CURDATE(), '"+totalLINEAPEDIDO+"')");
+						con.modificar("INSERT INTO ventas(id_venta, user, dni, fecha_venta, total_pedido) VALUES ('"+maxID+"', ' ', ' ', CURDATE(), '"+totalLINEAPEDIDO+"')");
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
