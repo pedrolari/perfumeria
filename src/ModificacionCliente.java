@@ -16,6 +16,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
@@ -33,6 +34,7 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 	private JRadioButton[] sex;
 	private Dni d;
 	private JDateChooser date1,date2;
+	private Clientes c;
 	ModificacionCliente(){
 		//tamaño 1050,500
 		this.setPreferredSize(new Dimension(1050, 640));
@@ -46,8 +48,8 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 		ptotal.setBackground(Color.white);
 		ptotal.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(41, 53, 65), 1), "MODIFICACIÓN CLIENTE",TitledBorder.LEFT,TitledBorder.TOP,new Font(null, Font.BOLD,25), new Color(41, 53, 65)));
 		this.getContentPane().add(ptotal);
-		pcen=new JPanel(new GridLayout(9, 2,50,15));
-		pcen.setBorder(new EmptyBorder(0, 20, 0, 20));
+		pcen=new JPanel(new GridLayout(9, 2,50,10));
+		pcen.setBorder(new EmptyBorder(50, 250, 50, 250));
 		ptotal.add(pcen,BorderLayout.CENTER);
 		pcen.setBackground(Color.white);
 		
@@ -59,7 +61,7 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 		}
 		
 		//parte derecha
-		txtdni=new HintTextField("Introduce 8 numeros");
+		txtdni=new HintTextField("numeros y la letra");
 		txtnom=new JTextField(11);
 		txtnom.setEnabled(false);
 		txtapels=new JTextField(10);
@@ -130,19 +132,91 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		if(arg0.getSource()==btnbuscar){
-			//funcion que busque en la base de datos e instancien un cliente
-			//funcion que cargue los datos del cliente en los textfield
-			//activa el resto de textfield y bloquea el del dni
+			try {
+				c = new Clientes();
+				c=buscarCliente(txtdni.getText());
+				cargarCliente(c);
+				activarTextfield(true);
+				btnmod.setEnabled(true);
+				
+			} catch (ClassNotFoundException | SQLException e) {
+				JOptionPane.showMessageDialog(this, "Error al cargar el cliente, vuelva a intentarlo");
+				e.printStackTrace();
+				
+			}
 		}else if(arg0.getSource()==btnmod){
+			if(!comprobarCambioTxt(txtnom, c.getNombre())){
+				c.setNombre(txtnom.getText());
+				try {
+					//c.actualizarClienteBBDD(c.getDni(), "nombre", "emo3abcd");
+					c.actualizarClienteBBDD(c.getDni(), "nombre", txtnom.getText());
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					JOptionPane.showMessageDialog(this, e.getMessage());
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					JOptionPane.showMessageDialog(this, e.getMessage());
+				}
+			}
 			
 		}
 		
 	}
-	public Clientes buscarCliente(int id) throws ClassNotFoundException, SQLException{
-		Clientes c=new Clientes();
-		ResultSet rs = c.mostrarDatosClientePorDni(id);
+	public Clientes buscarCliente(String id) throws ClassNotFoundException, SQLException{
+		Clientes c2=new Clientes();
+		ResultSet rs = c2.mostrarDatosClientePorDni(id);
 		if(rs.next()){
-			
+			c2.setDni(rs.getString(1));
+			c2.setNombre(rs.getString(2));
+			c2.setApellidos(rs.getString(3));
+			c2.setDireccion(rs.getString(4));
+			c2.setTelefono(rs.getInt(5));
+			c2.setEmail(rs.getString(6));
+			c2.setSexo(rs.getString(7).charAt(0));
+			c2.setFecha_nacimiento(rs.getDate(8));
+			c2.setFecha_ingreso(rs.getDate(9));
+		}else{
+			JOptionPane.showMessageDialog(this, "No se encontro cliente con DNI "+id);
 		}
+		return c2;
+	}
+	public void cargarCliente(Clientes c){
+		txtnom.setText(c.getNombre());
+		txtapels.setText(c.getApellidos());
+		txtdir.setText(c.getDireccion());
+		txttel.setText(String.valueOf(c.getTelefono()));
+		txtmail.setText(c.getEmail());
+		date1.setDate(c.getFecha_nacimiento());
+		date2.setDate(c.getFecha_ingreso());
+		if(c.getSexo()=='V'){
+			sex[0].setSelected(true);
+		}else if(c.getSexo()=='H'){
+			sex[1].setSelected(true);
+		}
+		
+	}
+	public void activarTextfieldDni(boolean cond){
+		txtdni.setEnabled(cond);
+	}
+	public void activarTextfield(Boolean cond){
+		txtnom.setEnabled(cond);
+		txtapels.setEnabled(cond);
+		txtdir.setEnabled(cond);
+		txttel.setEnabled(cond);
+		txtmail.setEnabled(cond);
+		date1.setEnabled(cond);
+		sex[0].setEnabled(cond);
+		sex[1].setEnabled(cond);
+		//date2.setEnabled(cond);
+	}
+	public boolean comprobarCambioTxt(JTextField tf, String valor){
+		boolean cond=true;
+		
+		if(!tf.getText().equals(valor)){
+			cond=false;
+		}
+		return cond;
 	}
 }
