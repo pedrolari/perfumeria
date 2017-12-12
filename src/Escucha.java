@@ -52,7 +52,7 @@ public class Escucha implements ActionListener {
 						String nom = rs.getString("nom");
 						String ape = rs.getString("ape");
 						vent.getjPanelCentro().removeAll();
-						PantallaPrin p=new PantallaPrin(rol,nom,ape);
+						PantallaPrin p=new PantallaPrin(rol,nom,ape,vent, v);
 						vent.setSize(1360,700);
 						vent.setExtendedState(JFrame.MAXIMIZED_BOTH);
 						vent.setLocationRelativeTo(null);
