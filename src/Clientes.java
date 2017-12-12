@@ -83,7 +83,7 @@ public class Clientes {
 	 * @throws SQLException 
 	 * @throws ClassNotFoundException 
 	 */
-	public void borrarClienteBBDD(int dni) throws ClassNotFoundException, SQLException{
+	public void borrarClienteBBDD(String dni) throws ClassNotFoundException, SQLException{
 		con = new Conexion();
 		con.modificar("DELETE FROM clientes WHERE dni = '"+dni+"'");
 	}
@@ -97,7 +97,7 @@ public class Clientes {
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	public void actualizarClienteBBDD(int dni, String campo, String valor) throws ClassNotFoundException, SQLException{
+	public void actualizarClienteBBDD(String dni, String campo, String valor) throws ClassNotFoundException, SQLException{
 		con = new Conexion();
 		con.modificar("UPDATE clientes SET "+campo+"='"+valor+"' WHERE dni = '"+dni+"'");
 	}
