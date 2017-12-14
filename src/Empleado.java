@@ -39,8 +39,10 @@ public class Empleado {
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	public void insertar(Conexion c) throws SQLException{
+	public void insertar() throws SQLException, ClassNotFoundException{
+		Conexion c=new Conexion();
 		c.modificar("insert into empleados values('"+user+"','"+pass+"','"+nombre+"','"+apellidos+"','"+telefono+"','"+rol+"')");
+		c.close();
 	}
 	
 	/**
@@ -53,8 +55,10 @@ public class Empleado {
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	public void modificar(String user, String campo, String valor, Conexion c) throws SQLException{
+	public void modificar(String user, String campo, String valor) throws SQLException, ClassNotFoundException{
+		Conexion c=new Conexion();
 		c.modificar("update empleados set "+campo+"='"+valor+"' where user like '"+user+"'");
+		c.close();
 	}
 	
 	/**
@@ -66,9 +70,10 @@ public class Empleado {
 	 * @throws SQLException
 	 * @return boolean
 	 */
-	public boolean buscar(String user, Conexion c) throws ClassNotFoundException, SQLException{
+	public boolean buscar(String user) throws ClassNotFoundException, SQLException{
 		boolean enc=false;
 		
+		Conexion c=new Conexion();
 		ResultSet rs=c.consultar("select * from empleados where user like '"+user+"'");
 		if(rs.next()){
 			this.user=rs.getString(1);
@@ -79,6 +84,8 @@ public class Empleado {
 			this.rol=rs.getInt(6);
 			enc=true;
 		}
+		
+		c.close();
 		
 		return enc;
 	}
@@ -92,8 +99,10 @@ public class Empleado {
 	 * @throws SQLException
 	 * @return boolean
 	 */
-	public void eliminar(String user, Conexion c) throws SQLException{
+	public void eliminar(String user) throws SQLException, ClassNotFoundException{
+		Conexion c=new Conexion();
 		c.modificar("delete from empleados where user like '"+user+"'");
+		c.close();
 	}
 
 	public String getUser() {
