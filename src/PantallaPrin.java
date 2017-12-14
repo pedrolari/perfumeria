@@ -221,7 +221,16 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 		// TODO Auto-generated method stub
 		
 		if(e.getSource().equals(this.getJbOpcMenu()[0]))
-		{
+		{	if(this.getJbOpcMenu1().getActionListeners().length!=0)
+			this.getJbOpcMenu1().removeActionListener(this.getJbOpcMenu1().getActionListeners()[0]);// quita el action listener actual
+		if(this.getJbOpcMenu2().getActionListeners().length!=0)
+			this.getJbOpcMenu2().removeActionListener(this.getJbOpcMenu2().getActionListeners()[0]);// quita el action listener actual
+		if(this.getJbOpcMenu3().getActionListeners().length!=0)
+			this.getJbOpcMenu3().removeActionListener(this.getJbOpcMenu3().getActionListeners()[0]);// quita el action listener actual
+		if(this.getJbOpcMenu4().getActionListeners().length!=0)
+			this.getJbOpcMenu4().removeActionListener(this.getJbOpcMenu4().getActionListeners()[0]);// quita el action listener actual
+		if(this.getJbOpcMenu5().getActionListeners().length!=0)
+			this.getJbOpcMenu5().removeActionListener(this.getJbOpcMenu5().getActionListeners()[0]);// quita el action listener actual
 			JpanelCargarJIframe.removeAll();
 			JpanelCargarJIframe.updateUI();
 			this.getJlMenu().setText("EMPLEADOS");
@@ -260,12 +269,22 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 			
 		}
 		else if(e.getSource().equals(this.getJbOpcMenu()[1]))
-		{
+		{	
+			if(this.getJbOpcMenu1().getActionListeners().length!=0)
+				this.getJbOpcMenu1().removeActionListener(this.getJbOpcMenu1().getActionListeners()[0]);// quita el action listener actual
+			if(this.getJbOpcMenu2().getActionListeners().length!=0)
+				this.getJbOpcMenu2().removeActionListener(this.getJbOpcMenu2().getActionListeners()[0]);// quita el action listener actual
+			if(this.getJbOpcMenu3().getActionListeners().length!=0)
+				this.getJbOpcMenu3().removeActionListener(this.getJbOpcMenu3().getActionListeners()[0]);// quita el action listener actual
+			if(this.getJbOpcMenu4().getActionListeners().length!=0)
+				this.getJbOpcMenu4().removeActionListener(this.getJbOpcMenu4().getActionListeners()[0]);// quita el action listener actual
+			if(this.getJbOpcMenu5().getActionListeners().length!=0)
+				this.getJbOpcMenu5().removeActionListener(this.getJbOpcMenu5().getActionListeners()[0]);// quita el action listener actual
 			JpanelCargarJIframe.removeAll();
 			JpanelCargarJIframe.updateUI();
 			this.getJlMenu().setText("PROVEEDORES");
 			this.getJlMenu().setVisible(true);
-			this.getJbOpcMenu1().setText("ALTA");
+			this.getJbOpcMenu1().setText("ALTA PROVEEDOR");
 			this.getJbOpcMenu1().setVisible(true);
 			
 			this.getJbOpcMenu1().addActionListener(new ActionListener() {
@@ -337,6 +356,16 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 		
 		else if(e.getSource().equals(this.getJbOpcMenu()[2]))
 		{
+			if(this.getJbOpcMenu1().getActionListeners().length!=0)
+				this.getJbOpcMenu1().removeActionListener(this.getJbOpcMenu1().getActionListeners()[0]);// quita el action listener actual
+			if(this.getJbOpcMenu2().getActionListeners().length!=0)
+				this.getJbOpcMenu2().removeActionListener(this.getJbOpcMenu2().getActionListeners()[0]);// quita el action listener actual
+			if(this.getJbOpcMenu3().getActionListeners().length!=0)
+				this.getJbOpcMenu3().removeActionListener(this.getJbOpcMenu3().getActionListeners()[0]);// quita el action listener actual
+			if(this.getJbOpcMenu4().getActionListeners().length!=0)
+				this.getJbOpcMenu4().removeActionListener(this.getJbOpcMenu4().getActionListeners()[0]);// quita el action listener actual
+			if(this.getJbOpcMenu5().getActionListeners().length!=0)
+				this.getJbOpcMenu5().removeActionListener(this.getJbOpcMenu5().getActionListeners()[0]);// quita el action listener actual
 			JpanelCargarJIframe.removeAll();
 			JpanelCargarJIframe.updateUI();
 			this.getJlMenu().setText("CLIENTES");
@@ -400,6 +429,16 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 		}
 		else if(e.getSource().equals(this.getJbOpcMenu()[3]))
 		{
+			if(this.getJbOpcMenu1().getActionListeners().length!=0)
+				this.getJbOpcMenu1().removeActionListener(this.getJbOpcMenu1().getActionListeners()[0]);// quita el action listener actual
+			if(this.getJbOpcMenu2().getActionListeners().length!=0)
+				this.getJbOpcMenu2().removeActionListener(this.getJbOpcMenu2().getActionListeners()[0]);// quita el action listener actual
+			if(this.getJbOpcMenu3().getActionListeners().length!=0)
+				this.getJbOpcMenu3().removeActionListener(this.getJbOpcMenu3().getActionListeners()[0]);// quita el action listener actual
+			if(this.getJbOpcMenu4().getActionListeners().length!=0)
+				this.getJbOpcMenu4().removeActionListener(this.getJbOpcMenu4().getActionListeners()[0]);// quita el action listener actual
+			if(this.getJbOpcMenu5().getActionListeners().length!=0)
+				this.getJbOpcMenu5().removeActionListener(this.getJbOpcMenu5().getActionListeners()[0]);// quita el action listener actual
 			JpanelCargarJIframe.removeAll();
 			JpanelCargarJIframe.updateUI();
 			this.getJlMenu().setText("ARTICULOS");
@@ -412,7 +451,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 				public void actionPerformed(ActionEvent e) {
 					// TODO ALTA DEL ARTICULO
 					JpanelCargarJIframe.removeAll();
-					AltaArticulo aa=new AltaArticulo();
+					DevolverArticulo aa=new DevolverArticulo();
 					JpanelCargarJIframe.add(aa);
 					aa.setVisible(true);
 					
@@ -450,7 +489,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 					// TODO BAJA DE ARTICULO
 					JpanelCargarJIframe.removeAll();
 					
-				}
+				 }
 			});
 			
 			this.getJbOpcMenu4().setText("COMPRA");
