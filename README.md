@@ -80,28 +80,41 @@ Funciones empleado:
 	- articulo (alta,modificacion,baja,compra,pedido)
 	- proveedores(alta,modificaciones, baja, pedido)
 
-
-Primera funcionalidad:
-	Cliente: 
-		- Alta (Emilio)
-		- Modificación (Emilio)
-		-Baja (Amadeo)
-		- Compra (Carlos)
-	Empleado:
-		- Alta (Manuel)
-		- Modificacion (Luis)
-		- Baja (Amadeo)
-	Proveedor
-		- Alta (Carlos)
-		-Modificacion (Manuel)
-		-Baja (Amadeo)
-		-Pedido(Rafa)
-	Articulo
-		-Alta(Amadeo)
-		-Modificacion(Alejandro)
-		-Baja (Amadeo)
-		-Compras (Alejandro)
-
+Hecho:
 Login:
 	Interfaz:(Manuel y Rafa)
 	Funcionalidad:(Manuel y Rafa)
+
+Proveedor
+		- Alta (Carlos) ok
+		-Modificacion (Manuel) ok
+		-Pedido(Rafa) ok
+Cliente: 
+		- Alta (Emilio) ok
+		- Modificación (Emilio) ok
+Empleado:
+		- Alta (Manuel) ok
+		- Modificacion (Luis) ok
+Articulo
+		-Modificacion(Alejandro) ok
+
+
+Pendiente:
+
+Primera funcionalidad:
+	Cliente: 
+		- Baja (Amadeo)
+		- Compra (Carlos)
+		- Devoluciones ()
+	Empleado:
+		- Baja (Amadeo)
+	Proveedor
+		-Baja (Amadeo) 	
+		-Devoluciones()
+	Articulo
+		-Alta(Amadeo) pendiente funcionalidad
+		-Baja (Amadeo)
+		-Compras (Alejandro)
+		- Devoluciones ()
+
+
