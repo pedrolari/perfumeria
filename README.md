@@ -89,32 +89,30 @@ Proveedor
 		- Alta (Carlos) ok
 		-Modificacion (Manuel) ok
 		-Pedido(Rafa) ok
+		-Baja (Amadeo) ok
 Cliente: 
 		- Alta (Emilio) ok
 		- Modificación (Emilio) ok
+		- Baja (Amadeo) ok
 Empleado:
 		- Alta (Manuel) ok
 		- Modificacion (Luis) ok
+		- Baja (Amadeo) ok
 Articulo
 		-Modificacion(Alejandro) ok
-
+		-Baja (Amadeo)
 
 Pendiente:
 
 Primera funcionalidad:
 	Cliente: 
-		- Baja (Amadeo)
 		- Compra (Carlos)
-		- Devoluciones ()
-	Empleado:
-		- Baja (Amadeo)
+		- Devoluciones (Mario)
 	Proveedor
-		-Baja (Amadeo) 	
-		-Devoluciones()
+		-Devoluciones(Mario)
 	Articulo
-		-Alta(Amadeo) pendiente funcionalidad
-		-Baja (Amadeo)
+		-Alta(Amadeo) pendiente funcionalidad (Emilio)
 		-Compras (Alejandro)
-		- Devoluciones ()
+		- Devoluciones (Mario)
 
 
