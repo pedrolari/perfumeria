@@ -53,6 +53,7 @@ public class BajaCliente extends JInternalFrame implements ActionListener{
 		tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		tabla.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
+		tabla.getTableHeader().setReorderingAllowed(false);
 		
 		tabla.getColumnModel().getColumn(0).setPreferredWidth(114);
 		tabla.getColumnModel().getColumn(1).setPreferredWidth(114);

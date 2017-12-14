@@ -53,11 +53,13 @@ public class BajaProveedor extends JInternalFrame implements ActionListener{
 		tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		tabla.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
+		tabla.getTableHeader().setReorderingAllowed(false);
 		
 		tabla.getColumnModel().getColumn(0).setPreferredWidth(200);
 		tabla.getColumnModel().getColumn(1).setPreferredWidth(199);
 		tabla.getColumnModel().getColumn(2).setPreferredWidth(199);
 		tabla.getColumnModel().getColumn(3).setPreferredWidth(199);
+		
 		
 		scroll = new JScrollPane(tabla);
 		scroll.setPreferredSize(new Dimension(800, 400));
