@@ -451,9 +451,19 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 				public void actionPerformed(ActionEvent e) {
 					// TODO ALTA DEL ARTICULO
 					JpanelCargarJIframe.removeAll();
-					DevolverArticulo aa=new DevolverArticulo();
-					JpanelCargarJIframe.add(aa);
-					aa.setVisible(true);
+					AltaArticulo aa;
+					try {
+						aa = new AltaArticulo();
+						JpanelCargarJIframe.add(aa);
+						aa.setVisible(true);
+					} catch (ClassNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
 					
 				}
 			});
