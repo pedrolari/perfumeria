@@ -79,6 +79,8 @@ public class CompraCliente extends JInternalFrame{
 
 	}
 
+
+	
 	private void AnadirProveedor() {
 		lista.removeAllElements();
 		lista.setSelectedItem(-1);
@@ -105,7 +107,7 @@ public class CompraCliente extends JInternalFrame{
 				lista2.removeAllElements();
 				try {
 
-					//COMPROBAR PORQUE SOLO FUNCIONA LA PRIMERA VEZ
+				
 					
 					ResultSet rs = c.consultar("SELECT * FROM `articulos` WHERE cif ='" + jc1.getSelectedItem() + "'");
 					while (rs.next()) {
@@ -229,6 +231,8 @@ public class CompraCliente extends JInternalFrame{
 
 		});
 	}
+	
+	
 
 	// FALTA INSERTAR 
 	
@@ -236,6 +240,7 @@ public class CompraCliente extends JInternalFrame{
 		// TODO Auto-generated method stub
 
 		jt1 = new JTextField();
+		  
 		jt2 = new JTextField();
 		jt3 = new JTextField();
 
@@ -243,7 +248,7 @@ public class CompraCliente extends JInternalFrame{
 		jpPrimerPanel.setBackground(Color.white);
 
 
-		DefaultTableModel modelo = new DefaultTableModel();
+		
 
 		for (int i = 0; i < columnas.length; i++) {
 			modelo.addColumn(columnas[i]);
@@ -276,8 +281,7 @@ public class CompraCliente extends JInternalFrame{
 				AnadirProveedor();
 				modelo.addRow(new Object[] {});
 				jbAñadir.setEnabled(false);
-				
-
+			
 			}
 		});
 
@@ -311,7 +315,7 @@ public class CompraCliente extends JInternalFrame{
 				SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd");
 
 				try {
-					c.modificar("INSERT INTO compras (user, cif, fecha_compra) VALUES ('" + "root" + "','" + "B11111111"
+					c.modificar("INSERT INTO ventas (user, dni, fecha_venta) VALUES ('" + "usuario" + "','" + "dni"
 							+ "','" + form.format(d) + "')");
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
@@ -320,7 +324,7 @@ public class CompraCliente extends JInternalFrame{
 
 				try {
 
-					ResultSet rs = c.consultar("SELECT max(id_compra) as num from compras");
+					ResultSet rs = c.consultar("SELECT max(id_venta) as num from ventas");
 					rs.next();
 					num = rs.getInt("num");
 
@@ -351,8 +355,7 @@ public class CompraCliente extends JInternalFrame{
 							rs.next();
 							int num2 = rs.getInt("id_articulo");
 							c.modificar(
-									"INSERT INTO `lineas de compras`( `id_compra`, `id_articulo`, `cantidad`, `precio`) VALUES ('"
-											+ num + "','" + num2 + "','" + modelo.getValueAt(i, 2) + "','"
+									"INSERT INTO `lineas de ventas`(  `id_venta`, `id_articulo`, `cantidad`, `precio`) VALUES ('"+num+"','" + num2 + "','" + modelo.getValueAt(i, 2) + "','"
 											+ modelo.getValueAt(i, 3) + "')");
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block
