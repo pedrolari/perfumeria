@@ -6,9 +6,15 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
@@ -28,17 +34,17 @@ import javax.swing.table.TableColumn;
 public class CompraArticulo extends JInternalFrame {
 
 	
-	private JLabel lb1;
+	private JLabel lb1, totalPedido, total_pedido;
 	private JTextField tf1, tfCantidad;
 	private JPanel principal, jpBuscar, jpListaCompra, jpPagos;
-	private JButton btnBusqueda, btnPagar, btnFactura;
+	private JButton btnBusqueda, btnPagar, btnLimpiar;
 	private DefaultTableModel lineaPedido;
 	private JTable listaCompra;
 	private String[] columnas = { "Id", "Articulo", "Cantidad", "Precio", "Total" };
 	private Articulo nuevo;
 	private String ticketID, ticketARTICULO;
 	private int ticketCANTIDAD, maxID;
-	private double ticketPRECIO, ticketTOTAL, totalLINEAPEDIDO;
+	private double ticketPRECIO, ticketTOTAL, totalLINEAPEDIDO, lineaPRECIO, lineaTOTAL;
 	private Conexion con;
 	private ResultSet resultado;
 	
@@ -80,7 +86,15 @@ public class CompraArticulo extends JInternalFrame {
 							@Override
 							public void actionPerformed(ActionEvent e) {
 								listaCompra.setValueAt((Integer.parseInt(tfCantidad.getText()) * nuevo.getPrecio()), listaCompra.getSelectedRow(), 4);
+								lineaPRECIO = Double.parseDouble(lineaPedido.getValueAt(listaCompra.getSelectedRow(),4).toString());        
+								lineaTOTAL += lineaPRECIO;
 								
+								//ACTUALIZAMOS EL TOTAL DEL PEDIDO
+								DecimalFormat df = new DecimalFormat("#.##");      
+								total_pedido.setText(df.format(lineaTOTAL)+"€");
+//								total_pedido.setText(""+lineaTOTAL +"€");
+
+
 							}
 						});
 					}
@@ -92,13 +106,16 @@ public class CompraArticulo extends JInternalFrame {
 			}
 		});
 		
-
-		
-		
-		
+		totalPedido = new JLabel("TOTAL PEDIDO:");
+		total_pedido = new JLabel();
+		total_pedido.setFont(new Font("Courier", Font.BOLD,40));
+		total_pedido.setForeground(new Color(255, 202, 40));
+		total_pedido.setText("0 €");
 		jpBuscar.add(lb1);
 		jpBuscar.add(tf1);
 		jpBuscar.add(btnBusqueda);
+		jpBuscar.add(totalPedido);
+		jpBuscar.add(total_pedido);
 		//===================================================================
 		
 		//PANEL DE COMPRA
@@ -149,7 +166,7 @@ public class CompraArticulo extends JInternalFrame {
 					}
 					try {
 						if(resultado.next() && resultado.getInt(1)>0){
-							maxID = resultado.getInt(1);
+							maxID = resultado.getInt(1)+1;
 						}else{
 							maxID = 1;
 						}
@@ -172,7 +189,7 @@ public class CompraArticulo extends JInternalFrame {
 	                    	
 	                    	//Obtenemos el total de cada lina de pedido y lo sumamos a totalLINEAPEDIDO
 	                    	totalLINEAPEDIDO += ticketTOTAL; 
-	                    	
+
 	                    	//INSERTAMOS CADA LINEA CORRECTA EN LA BASE DE DATOS DE LINEA DE VENTAS
 	                    	try {
 								con.modificar("INSERT INTO lineas_de_ventas (id_venta, id_articulo, cantidad, precio) VALUES ('"+maxID+"', '"+ticketID+"', '"+ticketCANTIDAD+"', '"+ticketPRECIO+"')");
@@ -189,19 +206,30 @@ public class CompraArticulo extends JInternalFrame {
 					//SE REALIZA LA INSERCCION EN TABLA VENTAS DEL PEDIDO CON IDMAX
 					try {
 						con.modificar("INSERT INTO ventas(id_venta, user, dni, fecha_venta, total_pedido) VALUES ('"+maxID+"', ' ', ' ', CURDATE(), '"+totalLINEAPEDIDO+"')");
+						vaciarTodo();
+						generarTicketCompra(listaCompra, maxID);
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				}
 				else{
-					JOptionPane.showMessageDialog(null, "Pedido canceladO");
+					JOptionPane.showMessageDialog(null, "Pedido cancelado");
+					vaciarTodo();
 				}
 			}
 		});
-		btnFactura = new JButton("GENERAR FACTURA");
+		btnLimpiar = new JButton("LIMPIAR");
+		btnLimpiar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				vaciarTodo();
+				
+			}
+		});
 		jpPagos.add(btnPagar);
-		jpPagos.add(btnFactura);
+		jpPagos.add(btnLimpiar);
 		//===================================================================
 		
 		principal.add(jpBuscar, BorderLayout.WEST);
@@ -210,6 +238,80 @@ public class CompraArticulo extends JInternalFrame {
 		
 		this.getContentPane().add(principal);
 	}
-	
 
+	public void vaciarTodo(){
+		lineaPedido.setRowCount(0);
+		total_pedido.setText("0 €");
+		tf1.setText("");
+	}
+	
+	public void generarTicketCompra(JTable listaCompra, int maxID){
+		Calendar fecha = GregorianCalendar.getInstance();
+		
+		File fichero=new File("ticket.txt");
+		FileWriter fw = null;
+		try {
+			fw = new FileWriter(fichero);
+		} catch (IOException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		};
+		PrintWriter pw=new PrintWriter(fw);
+		
+		int lineaTicket=1;
+		String nombreProducto;
+		int cantidadProducto;
+		double precioProducto;
+		double totalLineaProducto;
+		double totalTicket = 0;
+		
+		pw.println("                      PERFUMERIAS PACO                          ");
+		pw.println("================================================================");
+		pw.println("NUMERO TICKET: "+maxID);
+		pw.println("FECHA: " + fecha.get(Calendar.DAY_OF_MONTH)+"/"+ (fecha.get(Calendar.MONTH)+1)+"/"+ fecha.get(Calendar.YEAR));
+		pw.println("================================================================");
+		pw.println("Nº    NOMBRE           PRECIO           CANTIDAD           TOTAL");
+		
+		
+		
+		ResultSet resultado = null;
+		try {
+			resultado = con.consultar("SELECT articulos.nombre, articulos.precio, lineas_de_ventas.cantidad, (articulos.precio * lineas_de_ventas.cantidad) as total FROM lineas_de_ventas, articulos WHERE lineas_de_ventas.id_venta='"+maxID+"' AND articulos.id_articulo = lineas_de_ventas.id_articulo");
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		};
+
+		try {
+			while(resultado.next())
+			{
+				nombreProducto = resultado.getString(1);
+				precioProducto = resultado.getDouble(2);
+				cantidadProducto = resultado.getInt(3);
+				totalLineaProducto = resultado.getDouble(4);
+				totalTicket += totalLineaProducto;
+				
+				pw.println(lineaTicket+"    "+ nombreProducto +"           "+ precioProducto +"           "+ cantidadProducto +"           "+ totalLineaProducto);
+
+				
+				lineaTicket++;
+			}
+			pw.println("================================================================");
+			pw.println("TOTAL..............................................."+ totalTicket);
+			
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+
+		JOptionPane.showMessageDialog(null, "Ticket generado correctamente");
+		pw.close();
+		try {
+			fw.close();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
 }
+
