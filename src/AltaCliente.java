@@ -4,8 +4,10 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -122,7 +124,7 @@ public class AltaCliente extends JInternalFrame implements ActionListener{
 		pcen.add(lbl[8]);
 		pcen.add(date2);
 		
-		
+		//botones
 		psur=new JPanel(new FlowLayout(FlowLayout.CENTER));
 		ptotal.add(psur, BorderLayout.SOUTH);
 		btn=new JButton("Enviar");
@@ -142,28 +144,42 @@ public class AltaCliente extends JInternalFrame implements ActionListener{
 			Date d1= date1.getDate();
 			Date d2=date2.getDate();
 			
-			
-			if(comprobar()&&comprobarRB()){
-				if(comprobarFecha(date1)&&comprobarFecha(date2)) {
-					java.sql.Date sqlDate1 = new java.sql.Date(d1.getTime());
-					java.sql.Date sqlDate2 = new java.sql.Date(d2.getTime());
-					if(comprobarFechaExiste(date1)) {
-						Clientes c=new Clientes(d.recogerdniconletra(txtdni.getText()), Integer.parseInt(txttel.getText()), txtnom.getText(), txtapels.getText(), txtdir.getText(), txtmail.getText(), recogerSexo(), sqlDate1,sqlDate2);
-						try {
-							c.insertarClienteBBDD();
-							vaciar();
-						} catch (ClassNotFoundException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						} catch (SQLException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
+			try {
+				if(comprobar()&&comprobarRB()&&comprobarDniBBDD(txtdni.getText())&&comprobarNumerosDentro(txtnom.getText())&&comprobarNumerosDentro(txtapels.getText())){
+					if(comprobarFecha(date1)&&comprobarFecha(date2)) {
+						java.sql.Date sqlDate1 = new java.sql.Date(d1.getTime());
+						java.sql.Date sqlDate2 = new java.sql.Date(d2.getTime());
+						if(comprobarFechaExiste(date1)) {
+							Clientes c=new Clientes(d.recogerdniconletra(txtdni.getText()), Integer.parseInt(txttel.getText()), txtnom.getText(), txtapels.getText(), txtdir.getText(), txtmail.getText(), recogerSexo(), sqlDate1,sqlDate2);
+							try {
+								c.insertarClienteBBDD();
+								JOptionPane.showMessageDialog(this, "Se creó cliente nuevo con DNI "+txtdni.getText());
+								vaciar();
+							} catch (ClassNotFoundException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							} catch (SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							
+						}else {
+							JOptionPane.showMessageDialog(this, "La fecha de nacimiento introducida no es valida");
 						}
-						
-					}else {
-						JOptionPane.showMessageDialog(this, "La fecha de nacimiento introducida no es valida");
 					}
 				}
+			} catch (NumberFormatException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (HeadlessException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
 		}else if(e.getSource()==btnborrar){
 			vaciar();
@@ -252,26 +268,45 @@ public class AltaCliente extends JInternalFrame implements ActionListener{
 			if(año%4==0 || (año%100!=0&&año%400==0)){
 				if(dia<1||dia>29){
 					cond=false;
-		
 				}
 			}else {
 				if(dia<1||dia>28){
 					cond=false;
-				
 				}
 			}
 		}else if(mes==4||mes==6||mes==9||mes==11){
 			if(dia<1||dia>30){
 				cond=false;
-				
 			}
 		}else{
 			if(dia<1||dia>31){
 				cond=false;
-				
 			}
 		}
 
+		return cond;
+	}
+	public boolean comprobarDniBBDD(String dni) throws ClassNotFoundException, SQLException {
+		boolean cond=true;
+		Conexion c=new Conexion();
+		ResultSet rs=c.consultar("select * from clientes where dni like '"+dni+"'");
+		if(rs.next()) {
+			cond=false;
+			JOptionPane.showMessageDialog(this, "DNI en uso");
+		}
+		c.close();
+		return cond;
+	}
+	public boolean comprobarNumerosDentro(String s) {
+		boolean cond=true;
+		for (int j = 0; j < s.length() && cond; j++) {
+			try{
+				Integer.parseInt(String.valueOf(s.charAt(j)));
+				cond=false;
+				JOptionPane.showMessageDialog(this, "No se permiten numeros en los campos nombre y apellidos");
+			}catch(NumberFormatException e) {}
+		
+		}
 		return cond;
 	}
 	public char recogerSexo() {

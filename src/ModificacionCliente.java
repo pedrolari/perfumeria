@@ -134,22 +134,38 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		if(arg0.getSource()==btnbuscar){
+			c = new Clientes();
+			ResultSet rs;
 			try {
-				c = new Clientes();
-				c=buscarCliente(txtdni.getText());
-				cargarCliente(c);
-				activarTextfield(true);
-				btnmod.setEnabled(true);
+				rs = c.mostrarDatosClientePorDni(txtdni.getText());
+				if(rs.next()){
+					try {
+						c=buscarCliente(txtdni.getText());
+						cargarCliente(c);
+						activarTextfield(true);
+						btnmod.setEnabled(true);
+					
+					} catch (ClassNotFoundException | SQLException e) {
+					JOptionPane.showMessageDialog(this, "Error al cargar el cliente, vuelva a intentarlo");
+					e.printStackTrace();
+					}
+				}else{
+					JOptionPane.showMessageDialog(this, "No se encontro cliente con DNI "+txtdni.getText());
+				}
 				
-			} catch (ClassNotFoundException | SQLException e) {
-				JOptionPane.showMessageDialog(this, "Error al cargar el cliente, vuelva a intentarlo");
-				e.printStackTrace();
-				
+			} catch (ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
+			
 		}else if(arg0.getSource()==btnmod){
 			
 			try {
 				modificar();
+				
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -174,8 +190,6 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 			c2.setSexo(rs.getString(7).charAt(0));
 			c2.setFecha_nacimiento(rs.getDate(8));
 			c2.setFecha_ingreso(rs.getDate(9));
-		}else{
-			JOptionPane.showMessageDialog(this, "No se encontro cliente con DNI "+id);
 		}
 		return c2;
 	}
@@ -210,7 +224,6 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 	}
 	public boolean comprobarCambioTxt(JTextField tf, String valor){
 		boolean cond=true;
-		
 		if(!tf.getText().equals(valor)){
 			cond=false;
 		}
@@ -218,40 +231,68 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 	}
 	public void modificar() throws ClassNotFoundException, SQLException{
 		if(comprobar()){
-			if(!comprobarCambioTxt(txtnom, c.getNombre())){
-				c.setNombre(txtnom.getText());
-				c.actualizarClienteBBDD(c.getDni(), "nombre", c.getNombre());
+			if(!comprobarCambioTxt(txtnom, c.getNombre())&&comprobarNumerosDentro(txtnom.getText())){
+				if(JOptionPane.showConfirmDialog(this, "¿Desea cambiar el nombre del cliente?","Modificacion cliente", JOptionPane.YES_NO_OPTION)==0) {
+					c.setNombre(txtnom.getText());
+					c.actualizarClienteBBDD(c.getDni(), "nombre", c.getNombre());
+					JOptionPane.showMessageDialog(this, "Se modificó el nombre del cliente "+c.getDni());
+				}
+				
 			}
-			if(!comprobarCambioTxt(txtapels, c.getApellidos())){
-				c.setApellidos(txtapels.getText());
-				c.actualizarClienteBBDD(c.getDni(), "apellidos", c.getApellidos());
+			if(!comprobarCambioTxt(txtapels, c.getApellidos())&& comprobarNumerosDentro(txtapels.getText())){
+				if(JOptionPane.showConfirmDialog(this, "¿Desea cambiar el apellido del cliente?","Modificacion cliente", JOptionPane.YES_NO_OPTION)==0) {
+					c.setApellidos(txtapels.getText());
+					c.actualizarClienteBBDD(c.getDni(), "apellidos", c.getApellidos());
+					JOptionPane.showMessageDialog(this, "Se modificó los apellidos del cliente "+c.getDni());
+				}
 			}
 			if(!comprobarCambioTxt(txtdir, c.getDireccion())){
-				c.setDireccion(txtdir.getText());
-				c.actualizarClienteBBDD(c.getDni(), "direccion", c.getDireccion());
+				if(JOptionPane.showConfirmDialog(this, "¿Desea cambiar la dirección del cliente?","Modificacion cliente", JOptionPane.YES_NO_OPTION)==0) {
+					c.setDireccion(txtdir.getText());
+					c.actualizarClienteBBDD(c.getDni(), "direccion", c.getDireccion());
+					JOptionPane.showMessageDialog(this, "Se modificó la direcció del cliente "+c.getDni());
+				}
 			}
 			if(!comprobarCambioTxt(txttel, String.valueOf(c.getTelefono()))){
-				c.setDireccion(txttel.getText());
-				c.actualizarClienteBBDD(c.getDni(), "telefono", String.valueOf(c.getTelefono()));
+				if(JOptionPane.showConfirmDialog(this, "¿Desea cambiar el teléfono del cliente?","Modificacion cliente", JOptionPane.YES_NO_OPTION)==0) {
+					c.setDireccion(txttel.getText());
+					c.actualizarClienteBBDD(c.getDni(), "telefono", String.valueOf(c.getTelefono()));
+					JOptionPane.showMessageDialog(this, "Se modificó el telefono del cliente "+c.getDni());
+				}
 				
 			}
 			if(!comprobarCambioTxt(txtmail, c.getEmail())){
-				c.setEmail(txtmail.getText());
-				c.actualizarClienteBBDD(c.getDni(), "email", c.getEmail());
+				if(JOptionPane.showConfirmDialog(this, "¿Desea cambiar el email del cliente?","Modificacion cliente", JOptionPane.YES_NO_OPTION)==0) {
+					c.setEmail(txtmail.getText());
+					c.actualizarClienteBBDD(c.getDni(), "email", c.getEmail());
+					JOptionPane.showMessageDialog(this, "Se modificó el email del cliente "+c.getDni());
+				}
 				
 			}
 			if(sex[0].isSelected() && c.getSexo()!='V'){
-				c.setSexo('V');
+				if(JOptionPane.showConfirmDialog(this, "¿Desea cambiar el sexo del cliente?","Modificacion cliente", JOptionPane.YES_NO_OPTION)==0) {
+					c.setSexo('V');
+					c.actualizarClienteBBDD(c.getDni(), "sexo", String.valueOf(c.getSexo()));
+					JOptionPane.showMessageDialog(this, "Se modificó el sexo del cliente "+c.getDni());
+				}
 			}else if(sex[1].isSelected() && c.getSexo()!='H'){
-				c.setSexo('H');
+				if(JOptionPane.showConfirmDialog(this, "¿Desea cambiar el sexo del cliente?","Modificacion cliente", JOptionPane.YES_NO_OPTION)==0) {
+					c.setSexo('V');
+					c.actualizarClienteBBDD(c.getDni(), "sexo", String.valueOf(c.getSexo()));
+					JOptionPane.showMessageDialog(this, "Se modificó el sexo del cliente "+c.getDni());
+				}
 			}
 			c.actualizarClienteBBDD(c.getDni(), "sexo", String.valueOf(c.getSexo()));
 			java.sql.Date sqlDate1 = new java.sql.Date(date1.getDate().getTime());
 			if(!sqlDate1.equals(c.getFecha_nacimiento())){
-				Conexion con=new Conexion();
-				c.setFecha_nacimiento(sqlDate1);
-				JOptionPane.showMessageDialog(this, getFechaSQL(date1));
-				con.modificar("update clientes set fecha_nacimiento = '"+getFechaSQL(date1)+"' where dni like '"+c.getDni()+"'");
+				if(JOptionPane.showConfirmDialog(this, "¿Desea cambiar la fecha de nacimiento del cliente?","Modificacion cliente", JOptionPane.YES_NO_OPTION)==0) {
+					Conexion con=new Conexion();
+					c.setFecha_nacimiento(sqlDate1);
+					JOptionPane.showMessageDialog(this, getFechaSQL(date1));
+					con.modificar("update clientes set fecha_nacimiento = '"+getFechaSQL(date1)+"' where dni like '"+c.getDni()+"'");
+					JOptionPane.showMessageDialog(this, "Se modificó la fecha de nacimiento del cliente "+c.getDni());
+				}
+				
 			}
 		}
 	}
@@ -268,34 +309,43 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 	public boolean comprobar(){
 		boolean cond=true;
 		Validaciones v=new Validaciones();
+	//	JOptionPane.showMessageDialog(this, String.valueOf(cond));
 		if(v.campovacio(txtnom.getText())){
 			cond=false;
+		//	JOptionPane.showMessageDialog(this, "1"+String.valueOf(cond));
 			JOptionPane.showMessageDialog(this, "El campo nombre no puede estar vacío");
-		}
-		if(v.campovacio(txtapels.getText())){
+		}else if(v.campovacio(txtapels.getText())){
 			cond=false;
+		//	JOptionPane.showMessageDialog(this, "2"+String.valueOf(cond));
 			JOptionPane.showMessageDialog(this, "El campo apellido no puede estar vacío");
-		}
-		if(v.campovacio(txtdir.getText())){
+		}else if(v.campovacio(txtdir.getText())){
 			cond=false;
+		//	JOptionPane.showMessageDialog(this, "3"+String.valueOf(cond));
 			JOptionPane.showMessageDialog(this, "El campo direccion no puede estar vacío");
-		}
-		if(v.campovacio(txttel.getText())){
+		}else if(v.campovacio(txttel.getText())){
 			cond=false;
+		//	JOptionPane.showMessageDialog(this, "4"+String.valueOf(cond));
 			JOptionPane.showMessageDialog(this, "El campo telefono no puede estar vacío");
-		}
-		if(v.campovacio(txtmail.getText())){
+		}else if(v.campovacio(txtmail.getText())){
 			cond=false;
+			//JOptionPane.showMessageDialog(this, "5"+String.valueOf(cond));
 			JOptionPane.showMessageDialog(this, "El campo email no puede estar vacío");
-		}
-		if(comprobarFecha(date1)){
+		}else if(!comprobarFecha(date1)){
+			cond=false;
+			//JOptionPane.showMessageDialog(this, "6"+String.valueOf(cond));
+		}else if(!comprobarFechaExiste(date1)){
+			cond=false;
+			//JOptionPane.showMessageDialog(this, "7"+String.valueOf(cond));
+			JOptionPane.showMessageDialog(this, "La fecha es erronea");
+		}else if(v.validartelefono(txttel.getText())){
+			JOptionPane.showMessageDialog(this, "Telefono no válido");
+			cond=false;
+		}else if(!v.validaremail(txtmail.getText())){
+			JOptionPane.showMessageDialog(this, "Email no válido");
 			cond=false;
 			
 		}
-		if(comprobarFechaExiste(date1)){
-			cond=false;
-			JOptionPane.showMessageDialog(this, "La fecha es erronea");
-		}
+	//	JOptionPane.showMessageDialog(this, "8"+String.valueOf(cond));
 		return cond;
 	}
 	public boolean comprobarFecha(JDateChooser jd) {
@@ -354,6 +404,18 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 			}
 		}
 
+		return cond;
+	}
+	public boolean comprobarNumerosDentro(String s) {
+		boolean cond=true;
+		for (int j = 0; j < s.length() && cond; j++) {
+			try{
+				Integer.parseInt(String.valueOf(s.charAt(j)));
+				cond=false;
+				JOptionPane.showMessageDialog(this, "No se permiten numeros en los campos nombre y apellidos");
+			}catch(NumberFormatException e) {}
+		
+		}
 		return cond;
 	}
 	public String getFecha(JDateChooser jd) {
