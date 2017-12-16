@@ -34,8 +34,8 @@ public class CompraCliente extends JInternalFrame{
 	private JTextField jt1, jt2, jt3;
 	private Conexion c;
 	private Validaciones v;
-	private double numero = 0;
-	private int num;
+	private double numero = 0, total=0;
+	private int num, cont=0;
 	private String provnom="";
 	
 	private DefaultTableModel modelo;
@@ -206,8 +206,7 @@ public class CompraCliente extends JInternalFrame{
 							
 							jt2.setEnabled(false);
 							jt3.setEnabled(false);
-						
-							
+
 							}
 							else
 							{
@@ -248,8 +247,7 @@ public class CompraCliente extends JInternalFrame{
 		jpPrimerPanel.setBackground(Color.white);
 
 
-		
-
+		DefaultTableModel modelo=new DefaultTableModel();
 		for (int i = 0; i < columnas.length; i++) {
 			modelo.addColumn(columnas[i]);
 		}
@@ -281,6 +279,7 @@ public class CompraCliente extends JInternalFrame{
 				AnadirProveedor();
 				modelo.addRow(new Object[] {});
 				jbAñadir.setEnabled(false);
+				
 			
 			}
 		});
@@ -298,7 +297,7 @@ public class CompraCliente extends JInternalFrame{
 				} catch (Exception e2) {
 					// TODO: handle exception
 				}
-
+					cont--;
 			}
 		});
 
@@ -314,9 +313,17 @@ public class CompraCliente extends JInternalFrame{
 				Date d = new Date();
 				SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd");
 
+				
+				//FALTA PASAR EL NOMBRE DE USUARIO PARA METER NOMBRE Y DNI
+				
+				for(int i=0;i<miTable.getRowCount();i++)
+				{
+					total+=Double.parseDouble(""+modelo.getValueAt(i, 4));
+				}
+				
 				try {
-					c.modificar("INSERT INTO ventas (user, dni, fecha_venta) VALUES ('" + "usuario" + "','" + "dni"
-							+ "','" + form.format(d) + "')");
+					c.modificar("INSERT INTO ventas (user, dni, fecha_venta, total_pedido) VALUES ('" + "usuario" + "','" + "dni"
+							+ "','" + form.format(d) + "', "+total+")");
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -355,13 +362,21 @@ public class CompraCliente extends JInternalFrame{
 							rs.next();
 							int num2 = rs.getInt("id_articulo");
 							c.modificar(
-									"INSERT INTO `lineas de ventas`(  `id_venta`, `id_articulo`, `cantidad`, `precio`) VALUES ('"+num+"','" + num2 + "','" + modelo.getValueAt(i, 2) + "','"
+									"INSERT INTO `lineas_de_ventas`(  `id_venta`, `id_articulo`, `cantidad`, `precio`) VALUES ('"+num+"','" + num2 + "','" + modelo.getValueAt(i, 2) + "','"
 											+ modelo.getValueAt(i, 3) + "')");
+							
+							ResultSet rs1=c.consultar("SELECT stock FROM articulos WHERE id_articulo="+num2);
+							rs1.next();
+							
+							int cant=rs1.getInt("stock")-Integer.parseInt(""+modelo.getValueAt(i, 2));
+							
+							c.modificar("UPDATE articulos SET stock="+cant+" WHERE id_articulo="+num2);
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 					}
+					JOptionPane.showMessageDialog(null, "Datos insertados correctamente.");
 				} else {
 					JOptionPane.showMessageDialog(null, "Campos Incompletos");
 				}

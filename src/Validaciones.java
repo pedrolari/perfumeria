@@ -37,6 +37,20 @@ public class Validaciones {
 	/**
 	 * 
 	 * @param num Se le pasa el número en formato String.
+	 * @return  Devuelve true si es double.
+	 */
+	public boolean isDouble(String cadena){
+		try {
+			Double.parseDouble(cadena);
+			return true;
+		} catch (NumberFormatException nfe){
+			return false;
+		}
+	}
+	
+	/**
+	 * 
+	 * @param num Se le pasa el número en formato String.
 	 * @return  Devuelve true si el teléfono NO es valido.
 	 */
 	public boolean validartelefono(String num)
