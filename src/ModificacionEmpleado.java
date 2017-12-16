@@ -161,7 +161,7 @@ public class ModificacionEmpleado extends JInternalFrame {
 
 		try {
 			c = new Conexion();
-			e.buscar(this.cbEmpleado.getItemAt(cbEmpleado.getSelectedIndex()), c);
+			e.buscar(this.cbEmpleado.getItemAt(cbEmpleado.getSelectedIndex()));
 			this.datosEmp[0].setText(e.getUser());
 			this.datosEmp[1].setText(e.getPass());
 			this.datosEmp[2].setText(e.getNombre());
