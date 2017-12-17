@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-12-2017 a las 17:16:35
+-- Tiempo de generación: 17-12-2017 a las 17:20:21
 -- Versión del servidor: 10.1.21-MariaDB
 -- Versión de PHP: 7.1.1
 
@@ -46,12 +46,48 @@ CREATE TABLE `articulos` (
 
 INSERT INTO `articulos` (`id_articulo`, `nombre`, `precio`, `descripcion`, `volumen`, `embalaje`, `cif`, `id_categoria`, `stock`) VALUES
 (1, 'Victory League', '7.55', 'Fragancia oriental amaderada para hombre, que se ha lanzado en 2006. El frasco es de cristal transparente y el tapón es de color negro. La fragancia está compuesta por canela, lavanda, almizcle, vainilla, albahaca, pera, cedro y bergamota.', '100ml', 'Cristal', 'A11111111', 4, 10),
-(2, 'Agua de Bambu', '21.00', 'Agua de Bambú de Adolfo Domínguez es un “Eau de Toilette” para mujer que se incluye en la familia Floral Acuática. Se trata de una variante de Bambú, que se ve aligerada y refrescada.', '100ml', 'Cristal', 'B11111111', 7, 10),
+(2, 'Blu Mediterraneo', '90.11', 'Blu Mediterraneo Fico di Amalfi de Acqua di Parma es una fragancia de la familia olfativa floral frutal.', '150ml', 'Cristal', 'B11111111', 18, 10),
 (3, 'Eau de Toilette', '51.30', 'CH de Carolina Herrera es un “Eau de Toilette” para mujer perteneciente a la familia Floral Oriental.', '50ml', 'Cristal', 'A11111111', 13, 10),
 (4, 'Extreme Power', '4.59', 'EXTREME POWER, es una fragancia para hombre amaderada, que fue lanzada en 2012. El frasco es de cristal transparente con unas curvas bien marcadas y el tapón es de color negro.', '100ml', 'Cristal', 'A11111111', 5, 10),
-(5, 'Agua Fresca eau  ', '31.45', 'Agua Fresca de Adolfo Domínguez es un “Eau de Toilette” masculino de notas aromáticas fougère, creado para hombres amantes de la naturaleza y todo lo que ésta conlleva, aromas verdes, acuáticos y especiados unidos en una sola fragancia.', '230', 'Cristal', 'A11111111', 8, 10),
-(6, 'CH Men', '79.63', 'CH Men de Carolina Herrera es un “Eau de Toilette” para hombre de notas orientales y especiadas. En esta ocasión, Herrera, nos relata un viaje, con fecha de inicio y con un destino final,', '200', 'Cristal', 'A11111111', 14, 10),
-(7, 'Nenuco agua ', '2.55', 'Colonia elaborada con una cuidada selección de ingredientes naturales, siendo el toque final indispensable para proporcionar una agradable sensación de frescor y bienestar en el cuidado diario del niño y de toda la familia. ', '600', 'Plastico', 'A11111111', 17, 10);
+(5, 'Colonia Assoluta', '106.38', 'Acqua di Parma Colonia Assoluta es una fragancia de la familia olfativa cítrica aromática.', '180ml', 'Cristal', 'B11111111', 18, 10),
+(6, 'CH Men', '79.63', 'CH Men de Carolina Herrera es un “Eau de Toilette” para hombre de notas orientales y especiadas. En esta ocasión, Herrera, nos relata un viaje, con fecha de inicio y con un destino final,', '200ml', 'Cristal', 'A11111111', 14, 10),
+(7, 'Agua de Colonia', '2.55', 'Colonia elaborada con una cuidada selección de ingredientes naturales, siendo el toque final indispensable para proporcionar una agradable sensación de frescor y bienestar en el cuidado diario del niño y de toda la familia. ', '600ml', 'Plastico', 'A11111111', 17, 10),
+(8, 'Dynamic Pulse', '4.95', 'La fragancia contiene cítricos, menta, cedro, notas florales, notas afrutadas, notas amaderadas y haba tonka.', '100ml', 'Plástico', 'A11111111', 5, 10),
+(9, 'Ice Dive', '4.95', 'Ice Dive es una fragancia de la familia olfativa aromática especiada.', '100ml', 'Plástico', 'A11111111', 5, 10),
+(10, 'Floral Dream', '4.95', 'Fragancia moderna y dinámica llena de emociones. La nota principal es la bergamota; en el corazón, lirio y rosa y en la base, haba tonka y vainilla.', '50ml', 'Cristal', 'A11111111', 4, 10),
+(11, 'Fizzy Energy', '6.95', 'Fizzy Energy es una fragancia de la familia olfativa floral frutal.', '75ml', 'Plástico', 'A11111111', 4, 10),
+(12, 'Kids Girl Edition', '24.95', 'Kids Girl es una fragancia de la familia olfativa floral frutal.', '100ml', 'Cristal', 'B11111111', 6, 10),
+(13, 'Kids Boy Edition', '24.95', 'Kids Girl es una fragancia de la familia olfativa floral frutal.', '100ml', 'Cristal', 'B11111111', 6, 10),
+(14, 'Baby Tous', '29.95', 'Baby Tous es una fragancia de la familia olfativa floral frutal sin alcohol', '100ml', 'Plástico', 'B11111111', 6, 10),
+(15, 'Agua Fresca', '25.95', 'Agua Fresca es una fragancia de la familia olfativa aromática fougère.', '120ml', 'Cristal', 'A22222222', 8, 10),
+(16, 'Bambú', '21.95', 'Bambu es una fragancia de la familia olfativa amaderada acuática. La fragancia contiene bambú, ámbar, flor del algodonero, jazmín y agua de mar.', '120ml', 'Cristal', 'A22222222', 8, 10),
+(17, 'Agua Fresca Vetiver', '22.95', 'Vetiver Hombre es una fragancia de la familia olfativa amaderada chipre.', '120ml', 'Cristal', 'A22222222', 8, 10),
+(18, 'Agua Fresca de Rosas', '26.95', 'La fragancia contiene rosa, jazmín, lirio de los valles (muguete), sándalo, musgo de roble y almizcle.', '120ml', 'Cristal', 'A22222222', 7, 10),
+(19, 'Azahar', '28.95', 'Azahar es una fragancia de la familia olfativa cítrica. La fragancia contiene petit grain, flor del naranjo africano, neroli, naranja y notas amaderadas.', '100ml', 'Cristal', 'A22222222', 7, 10),
+(20, 'Té Verde', '24.95', 'Te Verde es una fragancia de la familia olfativa aromática verde.', '100ml', 'Cristal', 'A22222222', 7, 10),
+(21, 'Eau de Cartier', '54.95', 'Cartier\r\n\r\nEau de Cartier Concentrée es una fragancia de la familia olfativa cítrica aromática.', '200ml', 'Cristal', 'A22222222', 9, 10),
+(22, 'La Panthere Legere', '52.95', 'La Panthere Legere es una fragancia de la familia olfativa chipre floral.', '50ml', 'Cristal', 'A22222222', 9, 10),
+(23, 'Only the Brave', '81.86', 'Only The Brave es una fragancia de la familia olfativa amaderada especiada.', '200ml', 'Cristal', 'A22222222', 10, 10),
+(24, 'Fuel for Life', '55.95', 'Fuel for Life Homme es una fragancia de la familia olfativa aromática fougère.', '75ml', 'Cristal', 'A22222222', 10, 10),
+(25, 'CK One', '54.95', 'CK One es una fragancia de la familia olfativa cítrica aromática.', '200ml', 'Cristal', 'A22222222', 11, 10),
+(26, 'Eternity', '29.95', 'Eternity es una fragancia de la familia olfativa floral.', '100ml', 'Cristal', 'A22222222', 11, 10),
+(27, 'Euphoria', '64.95', 'Euphoria Men es una fragancia de la familia olfativa amaderada aromática.', '100ml', 'Cristal', 'A22222222', 12, 10),
+(28, 'CK One Shock', '62.90', 'CK One Shock for Him es una fragancia de la familia olfativa oriental especiada.', '200ml', 'Cristal', 'A22222222', 12, 10),
+(29, '212 VIP', '56.95', '212 VIP es una fragancia de la familia olfativa oriental vainilla.', '80ml', 'Plástico', 'A33333333', 13, 10),
+(30, 'CH Chic', '49.95', 'Chic es una fragancia de la familia olfativa floral.', '80ml', 'Cristal', 'A33333333', 13, 10),
+(31, '212 Men', '56.95', '212 Men es una fragancia perteneciente a la familia olfativa amaderada.', '100ml', 'Plástico', 'A33333333', 14, 10),
+(32, 'CH Men Sport', '27.95', 'Las notas altas son bergamota, toronja (pomelo) y salvia; las notas medias son enebro de Virginia, notas marinas y pimienta de Sichuan; las notas de base son sándalo, musgo de roble y vetiver.', '100ml', 'Cristal', 'A33333333', 14, 10),
+(33, 'Boss Femme', '39.95', 'Boss Femme es una fragancia de la familia olfativa floral frutal.', '75ml', 'Cristal', 'A33333333', 15, 10),
+(34, 'Deep Red', '35.95', 'Deep Red es una fragancia de la familia olfativa floral frutal.', '90ml', 'Cristal', 'A33333333', 15, 10),
+(35, 'Boss Bottled', '85.95', 'Boss Bottled es una fragancia de la familia olfativa amaderada especiada.', '200ml', 'Cristal', 'A33333333', 16, 10),
+(36, 'Hugo Dark Blue', '26.95', 'Hugo Dark Blue es una fragancia de la familia olfativa oriental especiada.', '75ml', 'Cristal', 'A33333333', 16, 10),
+(37, 'Agua Siempre Fresca', '3.95', 'Toque final indispensable para proporcionar una agradable sensación de frescor y bienestar en el cuidado diario del niño y de toda la familia, debido a una selección de ingredientes de extractos naturales citricos y florales', '600ml', 'Plástico', 'A33333333', 17, 10),
+(38, 'Essenza di Colonia', '94.36', 'Essenza di Colonia es una fragancia de la familia olfativa cítrica aromática.', '100ml', 'Cristal', 'B11111111', 19, 10),
+(39, 'Colonia Oud', '134.59', 'Colonia Oud es una fragancia de la familia olfativa Oriental Amaderada.', '100ml', 'Cristal', 'B11111111', 19, 10),
+(40, 'Emporio Armani Lei', '54.95', 'Emporio Armani Lei es una fragancia de la familia olfativa oriental vainilla.', '100ml', 'Plástico', 'B11111111', 20, 10),
+(41, 'Armani Code', '68.95', 'Armani Code for Women es una fragancia de la familia olfativa floral para mujeres.', '75ml', 'Cristal', 'B11111111', 20, 10),
+(42, 'Aqua di Gio', '59.95', 'Acqua di Gio es una fragancia de la familia olfativa aromática acuática.', '100ml', 'Cristal', 'B11111111', 21, 10),
+(43, 'Diamons for Men', '57.95', 'Emporio Armani Diamonds for Men es una fragancia de la familia olfativa amaderada aromática. ', '75ml', 'Cristal', 'B11111111', 21, 10);
 
 -- --------------------------------------------------------
 
@@ -75,18 +111,22 @@ INSERT INTO `categorias` (`id_categoria`, `nombre`, `id_categoria_padre`) VALUES
 (3, 'Niños', 0),
 (4, 'Adidas', 1),
 (5, 'Adidas', 2),
-(6, 'Adidas', 3),
+(6, 'Tous', 3),
 (7, 'Adolfo Dominguez', 1),
 (8, 'Adolfo Dominguez', 2),
-(9, 'Armani', 1),
-(10, 'Armani', 2),
+(9, 'Cartier', 1),
+(10, 'Diesel', 2),
 (11, 'Calvin Klein', 1),
 (12, 'Calvin Klein', 2),
 (13, 'Carolina Herrera', 1),
 (14, 'Carolina Herrera', 2),
 (15, 'Hugo Boss', 1),
 (16, 'Hugo Boss', 2),
-(17, 'Nenuco', 3);
+(17, 'Nenuco', 3),
+(18, 'Acqua di Parma', 1),
+(19, 'Acqua di Parma', 2),
+(20, 'Giorgio Armani', 1),
+(21, 'Giorgio Armani', 2);
 
 -- --------------------------------------------------------
 
@@ -105,6 +145,14 @@ CREATE TABLE `clientes` (
   `fecha_nacimiento` date NOT NULL,
   `fecha_ingreso` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+--
+-- Volcado de datos para la tabla `clientes`
+--
+
+INSERT INTO `clientes` (`dni`, `nombre`, `apellidos`, `direccion`, `telefono`, `email`, `sexo`, `fecha_nacimiento`, `fecha_ingreso`) VALUES
+('11111111H', 'Maria Jesús', 'Martín Clemente', 'C/San Francisco', 647852144, 'mariaj@gmail.com', 'M', '1990-07-20', '2017-12-17'),
+('12345678Z', 'Juan', 'Rodríguez Pérez', 'C/San Andrés', 654789852, 'juan@gmail.com', 'H', '1989-12-19', '2017-12-17');
 
 -- --------------------------------------------------------
 
@@ -16460,6 +16508,7 @@ CREATE TABLE `proveedores` (
 
 INSERT INTO `proveedores` (`cif`, `nombre`, `telefono`, `direccion`) VALUES
 ('A11111111', 'Mercamadrid', 912541789, 'C/Prueba, 1'),
+('A22222222', 'El Corte Inglés', 915487525, 'C/De Prueba, 5'),
 ('A3333333', 'Perfumerias Paco', 923235689, 'C/Prueba,3'),
 ('B11111111', 'Mercasalamanca', 923457896, 'C/Prueba, 2');
 
@@ -16676,12 +16725,12 @@ ALTER TABLE `ventas`
 -- AUTO_INCREMENT de la tabla `articulos`
 --
 ALTER TABLE `articulos`
-  MODIFY `id_articulo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_articulo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 --
 -- AUTO_INCREMENT de la tabla `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 --
 -- AUTO_INCREMENT de la tabla `compras`
 --
