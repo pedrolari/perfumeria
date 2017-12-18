@@ -114,7 +114,6 @@ Primera funcionalidad:
 		-Devoluciones(Mario)
 	Articulo
 		-Alta(Amadeo) pendiente funcionalidad (Emilio)
-		
 		- Devoluciones (Mario)
 
 

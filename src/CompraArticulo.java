@@ -47,6 +47,7 @@ public class CompraArticulo extends JInternalFrame {
 	private double ticketPRECIO, ticketTOTAL, totalLINEAPEDIDO, lineaPRECIO, lineaTOTAL;
 	private Conexion con;
 	private ResultSet resultado;
+	private Validaciones comprobar= new Validaciones();
 	
 	CompraArticulo (){
 		this.setPreferredSize(new Dimension(1050, 640));
@@ -71,37 +72,56 @@ public class CompraArticulo extends JInternalFrame {
 			public void actionPerformed(ActionEvent e) {
 				//BUSQUEDA DE PRODUCTO E INSERCCION EN LISTA DE COMPRA
 				nuevo = new Articulo();
-				if(!tf1.getText().equals("")){
-					if(nuevo.find(Integer.parseInt(tf1.getText()))){
-						// AÑADIR POR VECTOR LOS DATOS DEL OBJETO NUEVO
-						lineaPedido.addRow(new Object[]{nuevo.getId_articulo(),nuevo.getNombre(),0,nuevo.getPrecio(), 0});
-						//AÑADIMOS UN JTEXTFIELD EN LA TABLA PARA CALCULAR LAS CANTIDADES
-						tfCantidad =  new JTextField();
-						TableColumn tc1 = listaCompra.getColumnModel().getColumn(2);
-						tc1.setCellEditor(new DefaultCellEditor(tfCantidad));
-						
-						//CUANDO SE PINCHE EN LA CELDA DE CANTIDAD HABRA UN ESCUCHADOR PARA REALIZAR EL CALCULO
-						tfCantidad.addActionListener(new ActionListener() {
-							
-							@Override
-							public void actionPerformed(ActionEvent e) {
-								listaCompra.setValueAt((Integer.parseInt(tfCantidad.getText()) * nuevo.getPrecio()), listaCompra.getSelectedRow(), 4);
-								lineaPRECIO = Double.parseDouble(lineaPedido.getValueAt(listaCompra.getSelectedRow(),4).toString());        
-								lineaTOTAL += lineaPRECIO;
+				
+				if(comprobar.isNumeric(tf1.getText())){
+					if(!tf1.getText().equals("")){
+						if(buscarIdCompra(tf1.getText())==false){
+							if(nuevo.find(Integer.parseInt(tf1.getText()))){
+								// AÑADIR POR VECTOR LOS DATOS DEL OBJETO NUEVO
+								lineaPedido.addRow(new Object[]{nuevo.getId_articulo(),nuevo.getNombre(),0,nuevo.getPrecio(), 0});
+								//AÑADIMOS UN JTEXTFIELD EN LA TABLA PARA CALCULAR LAS CANTIDADES
+								tfCantidad =  new JTextField();
+								TableColumn tc1 = listaCompra.getColumnModel().getColumn(2);
+								tc1.setCellEditor(new DefaultCellEditor(tfCantidad));
 								
-								//ACTUALIZAMOS EL TOTAL DEL PEDIDO
-								DecimalFormat df = new DecimalFormat("#.##");      
-								total_pedido.setText(df.format(lineaTOTAL)+"€");
-//								total_pedido.setText(""+lineaTOTAL +"€");
+								//CUANDO SE PINCHE EN LA CELDA DE CANTIDAD HABRA UN ESCUCHADOR PARA REALIZAR EL CALCULO
+								tfCantidad.addActionListener(new ActionListener() {
+									
+									@Override
+									public void actionPerformed(ActionEvent e) {
+										
+										if(comprobar.isNumeric(tfCantidad.getText())){
+											listaCompra.setValueAt((Integer.parseInt(tfCantidad.getText()) * nuevo.getPrecio()), listaCompra.getSelectedRow(), 4);
+											lineaPRECIO = Double.parseDouble(lineaPedido.getValueAt(listaCompra.getSelectedRow(),4).toString());        
+											lineaTOTAL += lineaPRECIO;
+											
+											//ACTUALIZAMOS EL TOTAL DEL PEDIDO
+											DecimalFormat df = new DecimalFormat("#.##");      
+											total_pedido.setText(df.format(lineaTOTAL)+"€");
+//											total_pedido.setText(""+lineaTOTAL +"€");
+										}else
+										{
+											JOptionPane.showMessageDialog(null, "Introduce la cantidad correcta");
+										}
 
 
+
+									}
+								});
 							}
-						});
-					}
-					else{
-						JOptionPane.showMessageDialog(null, "El producto no existe en la BBDD");
+							else{
+								JOptionPane.showMessageDialog(null, "El producto no existe en la BBDD");
+							}
+						}else{
+							JOptionPane.showMessageDialog(null, "El producto ya existe en la compra");
+						}
 					}
 				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, "Introduce un Id de Articulo correcto");
+				}
+
 				
 			}
 		});
@@ -141,82 +161,85 @@ public class CompraArticulo extends JInternalFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				//TODO RESETEAR O PONER EL BOTON COMPRAR NO VISIBLE Y PONER LIMPIAR PARA QUE NO INSERTE CON EL MISMO ID PEDIDO
-				
-				
-				int resp = JOptionPane.showConfirmDialog(null, "¿Esta seguro que desea realizar la compra?", "Alerta!", JOptionPane.YES_NO_OPTION);
+				if(comprobarCantidadVacia()==false){
+					int resp = JOptionPane.showConfirmDialog(null, "¿Esta seguro que desea realizar la compra?", "Alerta!", JOptionPane.YES_NO_OPTION);
 
-				if(resp==0)	
-				{
-					//OBTENEMOS EL ID MAXIMO DE LA COMPRA PARA INSERTAR LAS LINEAS DE VENTAS
-					try {
-						con = new Conexion();
-					} catch (ClassNotFoundException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					try {
-						resultado = con.consultar("SELECT MAX(id_venta) as id_venta FROM ventas");
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					try {
-						if(resultado.next() && resultado.getInt(1)>0){
-							maxID = resultado.getInt(1)+1;
-						}else{
-							maxID = 1;
+					if(resp==0)	
+					{
+						//OBTENEMOS EL ID MAXIMO DE LA COMPRA PARA INSERTAR LAS LINEAS DE VENTAS
+						try {
+							con = new Conexion();
+						} catch (ClassNotFoundException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
 						}
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-
-					
-					//RECORRO TODAS LAS FILAS PARA HACER EL INSERT DE LINA DE VENTAS
-					for(int i=0;i<lineaPedido.getRowCount();i++){
-	                    ticketID = String.valueOf(lineaPedido.getValueAt(i,0));
-	                    ticketARTICULO = String.valueOf(lineaPedido.getValueAt(i,1));
-	                    ticketCANTIDAD = Integer.parseInt(lineaPedido.getValueAt(i,2).toString());
-	                    ticketPRECIO = Double.parseDouble(lineaPedido.getValueAt(i,3).toString());
-	                    ticketTOTAL = Double.parseDouble(lineaPedido.getValueAt(i,4).toString());                    
-	                    
-	                    if(!ticketID.equals("") && !ticketARTICULO.equals("") && ticketCANTIDAD!=0 && ticketTOTAL!=0){
-	                    	//JOptionPane.showMessageDialog(null,ticketID+""+ticketARTICULO+""+ticketCANTIDAD+""+ticketPRECIO+""+ticketTOTAL);
-	                    	
-	                    	//Obtenemos el total de cada lina de pedido y lo sumamos a totalLINEAPEDIDO
-	                    	totalLINEAPEDIDO += ticketTOTAL; 
-
-	                    	//INSERTAMOS CADA LINEA CORRECTA EN LA BASE DE DATOS DE LINEA DE VENTAS
-	                    	try {
-								con.modificar("INSERT INTO lineas_de_ventas (id_venta, id_articulo, cantidad, precio) VALUES ('"+maxID+"', '"+ticketID+"', '"+ticketCANTIDAD+"', '"+ticketPRECIO+"')");
-							} catch (SQLException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
+						try {
+							resultado = con.consultar("SELECT MAX(id_venta) as id_venta FROM ventas");
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						try {
+							if(resultado.next() && resultado.getInt(1)>0){
+								maxID = resultado.getInt(1)+1;
+							}else{
+								maxID = 1;
 							}
-	                    }
-	                    else{
-	                    	JOptionPane.showMessageDialog(null,"Indica la cantidad de producto");
-	                    }
-	                } 
-					
-					//SE REALIZA LA INSERCCION EN TABLA VENTAS DEL PEDIDO CON IDMAX
-					try {
-						con.modificar("INSERT INTO ventas(id_venta, user, dni, fecha_venta, total_pedido) VALUES ('"+maxID+"', ' ', ' ', CURDATE(), '"+totalLINEAPEDIDO+"')");
-						vaciarTodo();
-						generarTicketCompra(listaCompra, maxID);
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+
+						
+						//RECORRO TODAS LAS FILAS PARA HACER EL INSERT DE LINA DE VENTAS
+						for(int i=0;i<lineaPedido.getRowCount();i++){
+		                    ticketID = String.valueOf(lineaPedido.getValueAt(i,0));
+		                    ticketARTICULO = String.valueOf(lineaPedido.getValueAt(i,1));
+		                    ticketCANTIDAD = Integer.parseInt(lineaPedido.getValueAt(i,2).toString());
+		                    ticketPRECIO = Double.parseDouble(lineaPedido.getValueAt(i,3).toString());
+		                    ticketTOTAL = Double.parseDouble(lineaPedido.getValueAt(i,4).toString());                    
+		                    
+		                    if(!ticketID.equals("") && !ticketARTICULO.equals("") && ticketCANTIDAD!=0 && ticketTOTAL!=0){
+		                    	//JOptionPane.showMessageDialog(null,ticketID+""+ticketARTICULO+""+ticketCANTIDAD+""+ticketPRECIO+""+ticketTOTAL);
+		                    	
+		                    	//Obtenemos el total de cada lina de pedido y lo sumamos a totalLINEAPEDIDO
+		                    	totalLINEAPEDIDO += ticketTOTAL; 
+
+		                    	//INSERTAMOS CADA LINEA CORRECTA EN LA BASE DE DATOS DE LINEA DE VENTAS
+		                    	try {
+									con.modificar("INSERT INTO lineas_de_ventas (id_venta, id_articulo, cantidad, precio) VALUES ('"+maxID+"', '"+ticketID+"', '"+ticketCANTIDAD+"', '"+ticketPRECIO+"')");
+								} catch (SQLException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+		                    }
+		                    else{
+		                    	JOptionPane.showMessageDialog(null,"Indica la cantidad de producto");
+		                    }
+		                } 
+						
+						//SE REALIZA LA INSERCCION EN TABLA VENTAS DEL PEDIDO CON IDMAX
+						try {
+							con.modificar("INSERT INTO ventas(id_venta, user, dni, fecha_venta, total_pedido) VALUES ('"+maxID+"', ' ', ' ', CURDATE(), '"+totalLINEAPEDIDO+"')");
+							vaciarTodo();
+							generarTicketCompra(listaCompra, maxID);
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					}
+					else{
+						JOptionPane.showMessageDialog(null, "Compra cancelada");
+						vaciarTodo();
+					}
+				}else{
+					JOptionPane.showMessageDialog(null, "Corrige la linea de pedido con cantidad 0");
 				}
-				else{
-					JOptionPane.showMessageDialog(null, "Compra cancelada");
-					vaciarTodo();
-				}
+				
+				
 			}
 		});
 		btnLimpiar = new JButton("LIMPIAR");
@@ -237,6 +260,40 @@ public class CompraArticulo extends JInternalFrame {
 		principal.add(jpPagos, BorderLayout.SOUTH);
 		
 		this.getContentPane().add(principal);
+	}
+	
+	public boolean buscarIdCompra(String idCompra){
+		boolean enc = false;
+		int val;
+		int num = Integer.parseInt(idCompra);
+
+		for (int fila = 1; fila <= lineaPedido.getRowCount()&&enc==false; fila++) {
+            val = (int) lineaPedido.getValueAt(fila - 1, 0);
+            if (num==val) {
+//            	JOptionPane.showMessageDialog(null, "Producto Encontrado");
+            	enc = true;
+            }
+        }
+		return enc;
+	}
+	
+	
+	//TODO revisar por que solo se hace una sola vez la comprobacion de cantidad vacia
+	
+	public boolean comprobarCantidadVacia(){
+		boolean enc = false;
+		int val;
+
+		for (int fila = 1; fila <= lineaPedido.getRowCount()&&enc==false; fila++) {
+			
+            val = (int) lineaPedido.getValueAt(fila - 1, 2);
+            if (val==0) {
+            	JOptionPane.showMessageDialog(null, "Cantidad Vacia en fila "+lineaPedido.getColumnName(2));
+            	enc = true;
+            }
+
+        }
+		return enc;
 	}
 
 	public void vaciarTodo(){
