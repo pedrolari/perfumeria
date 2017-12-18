@@ -30,6 +30,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 	private JButton  jbOpcMenu []=new JButton[6];
 	private JButton jbAjuste, jbcerrar, jbOpcMenu1 ,jbOpcMenu2,jbOpcMenu3,jbOpcMenu4,jbOpcMenu5;
 
+	private String usuario;
 	//jbOpc1, jbOpc2, jbOpc3, jbOpc4, jbOpc5
 	
 	public PantallaPrin(String user, int rol, String nom, String ape, Ventana vent) {
@@ -37,15 +38,17 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 		((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
 		this.setBorder(null);
 		this.setLayout(new BorderLayout(0, 0));
-
-		Componentes(user,nom,ape,rol,vent);
+		usuario=user;
+		Componentes(nom,ape,rol,vent);
 	}
 
-	private void Componentes(String nom, String ape, String user, int rol, Ventana vent) {
+	private void Componentes(String nom, String ape, int rol, Ventana vent) {
 		// TODO Auto-generated method stub
-		ParteOeste(rol,user);
+		ParteOeste(rol);
 		ParteCentro(nom,ape,vent);
-
+		
+	
+		
 		// jpcsur = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		// jpcsur.setPreferredSize(new Dimension(this.getWidth(), 50));
 		// jpcsur.setBackground(new Color(41, 53, 65));
@@ -171,7 +174,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 		
 	}
 
-	private void ParteOeste(int rol, String user) {
+	private void ParteOeste(int rol) {
 		jpOeste = new JPanel(new BorderLayout(0, 0));
 
 		jpOesteNorte = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
@@ -358,7 +361,8 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 					JpanelCargarJIframe.removeAll();
 				
 					try {
-						PedidoProveedor	pp = new PedidoProveedor();
+						System.out.println(usuario +"dffgghhg");
+						PedidoProveedor	pp = new PedidoProveedor(usuario);
 						JpanelCargarJIframe.add(pp);
 						pp.setVisible(true);
 					} catch (ClassNotFoundException e1) {
@@ -444,7 +448,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 					JpanelCargarJIframe.removeAll();
 					CompraCliente cc = null;
 					try {
-						cc = new CompraCliente(user);
+						cc = new CompraCliente(usuario);
 					} catch (ClassNotFoundException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

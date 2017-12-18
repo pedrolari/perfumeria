@@ -45,22 +45,22 @@ public class PedidoProveedor extends JInternalFrame {
 	private DefaultTableModel modelo;
 	private String[] columnas = { "Proveedor", "Articulo", "Cantidad", "Precio", "Total" };
 
-	public PedidoProveedor() throws ClassNotFoundException, SQLException {
+	public PedidoProveedor(String usuario) throws ClassNotFoundException, SQLException {
 		// TODO Auto-generated constructor stub
 		c = new Conexion();
 		this.setPreferredSize(new Dimension(1050, 600));
 		this.setResizable(false);
 		this.setLayout(new BorderLayout(20, 20));
-       this.getContentPane().setBackground(Color.white);
+		this.getContentPane().setBackground(Color.white);
 		this.setBorder(null);
 		((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
-		componentes();
+		componentes(usuario);
 	}
 
 	private void FormatoTabla() {
 
 		lista = new DefaultComboBoxModel();
-		
+
 		jc1 = new JComboBox<>(lista);
 
 		lista2 = new DefaultComboBoxModel();
@@ -82,10 +82,10 @@ public class PedidoProveedor extends JInternalFrame {
 		lista.setSelectedItem(-1);
 		lista2.removeAllElements();
 		lista2.setSelectedItem(-1);
-		
+
 		numero = 0;
 		try {
-			ResultSet rs = c.consultar("SELECT * FROM proveedores");
+			ResultSet rs = c.consultar("SELECT * FROM proveedores WHERE cif NOT like 'A3333333'");
 			while (rs.next()) {
 				lista.addElement(rs.getString("cif"));
 			}
@@ -113,18 +113,17 @@ public class PedidoProveedor extends JInternalFrame {
 					e2.printStackTrace();
 				}
 
-
 				jc2.addActionListener(new ActionListener() {
 
-					
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						// TODO Auto-generated method stub
-					
+
 						numero = 0;
 						try {
 
-							ResultSet rs = c.consultar("SELECT * FROM articulos WHERE nombre='" + jc2.getSelectedItem() + "'");
+							ResultSet rs = c
+									.consultar("SELECT * FROM articulos WHERE nombre='" + jc2.getSelectedItem() + "'");
 							rs.next();
 							numero = rs.getDouble("precio");
 
@@ -149,22 +148,18 @@ public class PedidoProveedor extends JInternalFrame {
 					}
 				});
 
-			
-
 			}
 
 		});
 	}
 
-	private void componentes() throws SQLException {
+	private void componentes(String usuario) throws SQLException {
 		// TODO Auto-generated method stub
 
 		jt1 = new JTextField();
-		
 
 		jpPrimerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		jpPrimerPanel.setBackground(Color.white);
-
 
 		DefaultTableModel modelo = new DefaultTableModel();
 
@@ -176,7 +171,6 @@ public class PedidoProveedor extends JInternalFrame {
 
 		JScrollPane panelScroll = new JScrollPane(miTable);
 
-
 		panelScroll.setPreferredSize(new Dimension(1000, 300));
 		jpPrimerPanel.add(panelScroll);
 
@@ -187,20 +181,36 @@ public class PedidoProveedor extends JInternalFrame {
 		jbAñadir = new JButton("Añadir");
 		jpSegundoPanel.add(jbAñadir);
 
-	
-
 		jbAñadir.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 
-				FormatoTabla();
-				AnadirProveedor();
-				modelo.addRow(new Object[] {});
+				boolean bComprobar = false;
+
+				for (int i = 0; i < miTable.getRowCount(); i++) {
+					for (int j = 0; j < miTable.getRowCount() ; j++) {
+						
+						if(i!=j) {
+							if (modelo.getValueAt(i, 1).toString().equalsIgnoreCase(modelo.getValueAt(j, 1).toString())) {
+								bComprobar = true;
+							}
+						}
+						
+					}
+
+				}
+
+				if (bComprobar == false) {
+					FormatoTabla();
+					AnadirProveedor();
+					modelo.addRow(new Object[] {});
+				} else {
+					JOptionPane.showMessageDialog(null, "Producto repetido ");
+				}
 
 			}
 		});
-
 
 		jbQuitar = new JButton("Quitar");
 		jpSegundoPanel.add(jbQuitar);
@@ -218,7 +228,6 @@ public class PedidoProveedor extends JInternalFrame {
 			}
 		});
 
-
 		jbenviar = new JButton("Enviar");
 		jpSegundoPanel.add(jbenviar);
 
@@ -231,8 +240,8 @@ public class PedidoProveedor extends JInternalFrame {
 				SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd");
 
 				try {
-					c.modificar("INSERT INTO compras (user, cif, fecha_compra) VALUES ('" + "root" + "','" + "B11111111"
-							+ "','" + form.format(d) + "')");
+					c.modificar("INSERT INTO compras (user, cif, fecha_compra) VALUES ('" + usuario + "','"
+							+ "A3333333" + "','" + form.format(d) + "')");
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -287,6 +296,7 @@ public class PedidoProveedor extends JInternalFrame {
 		});
 
 		this.getContentPane().add(BorderLayout.SOUTH, jpSegundoPanel);
+
 	}
 
 }
