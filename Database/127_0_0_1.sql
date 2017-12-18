@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-12-2017 a las 17:20:21
+-- Tiempo de generación: 18-12-2017 a las 16:42:19
 -- Versión del servidor: 10.1.21-MariaDB
 -- Versión de PHP: 7.1.1
 
@@ -165,7 +165,8 @@ CREATE TABLE `compras` (
   `user` varchar(20) NOT NULL,
   `cif` varchar(20) NOT NULL,
   `fecha_compra` date NOT NULL,
-  `total_pedido` double NOT NULL
+  `total_pedido` double NOT NULL,
+  `estado` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
