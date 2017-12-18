@@ -27,7 +27,7 @@ public class BajaEmpleado extends JInternalFrame implements ActionListener{
 	private JButton btn;
 	
 	BajaEmpleado(){
-		this.setPreferredSize(new Dimension(1050, 500));
+		this.setPreferredSize(new Dimension(1050, 600));
 		this.setBorder(null);
 		((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
 		this.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER));
