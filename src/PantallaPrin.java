@@ -27,7 +27,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 	private ImageIcon imagen, imagencarnet;
 	private JLabel jlImagen, jlRol, jlNombre, jlPersona, jlMenu;
 	private JScrollPane barraScrollPanelCargarJIframe;
-	private JButton  jbOpcMenu []=new JButton[5];
+	private JButton  jbOpcMenu []=new JButton[6];
 	private JButton jbAjuste, jbcerrar, jbOpcMenu1 ,jbOpcMenu2,jbOpcMenu3,jbOpcMenu4,jbOpcMenu5;
 
 	//jbOpc1, jbOpc2, jbOpc3, jbOpc4, jbOpc5
@@ -185,7 +185,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 		jpOesteCentro.setPreferredSize(new Dimension(200, this.getHeight()));
 		jpOesteCentro.setBackground(new Color(41, 53, 65));
 
-		String[] noms={"Empleados", "Proveedores", "Clientes", "Articulos", "Salir"};
+		String[] noms={"Empleados", "Proveedores", "Clientes", "Articulos","Pedidos", "Salir"};
 		
 		/*Inicializacion de los botones de menu y caracteristicas*/
 		for (int i = 0; i < jbOpcMenu.length; i++) {
@@ -565,6 +565,44 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 			});
 		}
 		else if(e.getSource().equals(this.getJbOpcMenu()[4]))
+		{
+			if(this.getJbOpcMenu1().getActionListeners().length!=0)
+				this.getJbOpcMenu1().removeActionListener(this.getJbOpcMenu1().getActionListeners()[0]);// quita el action listener actual
+			if(this.getJbOpcMenu2().getActionListeners().length!=0)
+				this.getJbOpcMenu2().removeActionListener(this.getJbOpcMenu2().getActionListeners()[0]);// quita el action listener actual
+			if(this.getJbOpcMenu3().getActionListeners().length!=0)
+				this.getJbOpcMenu3().removeActionListener(this.getJbOpcMenu3().getActionListeners()[0]);// quita el action listener actual
+			if(this.getJbOpcMenu4().getActionListeners().length!=0)
+				this.getJbOpcMenu4().removeActionListener(this.getJbOpcMenu4().getActionListeners()[0]);// quita el action listener actual
+			if(this.getJbOpcMenu5().getActionListeners().length!=0)
+				this.getJbOpcMenu5().removeActionListener(this.getJbOpcMenu5().getActionListeners()[0]);// quita el action listener actual
+			JpanelCargarJIframe.removeAll();
+			JpanelCargarJIframe.updateUI();
+			this.getJlMenu().setText("PEDIDOS");
+			this.getJlMenu().setVisible(true);
+			this.getJbOpcMenu1().setText("PENDIENTES");
+			this.getJbOpcMenu1().setVisible(true);
+			this.getJbOpcMenu1().addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// ARTICULOS PENDIENTES, PARA CARGAR EN BBDD CUANDO LLEGUEN
+					JpanelCargarJIframe.removeAll();
+					
+					PedidiosPendientes pp= new PedidiosPendientes();
+					JpanelCargarJIframe.add(pp);
+					pp.setVisible(true);
+					
+					
+				}
+			});
+			this.getJbOpcMenu2().setVisible(false);
+			this.getJbOpcMenu3().setVisible(false);
+			this.getJbOpcMenu4().setVisible(false);
+			this.getJbOpcMenu5().setVisible(false);
+			
+		}
+		else if(e.getSource().equals(this.getJbOpcMenu()[5]))
 		{
 			System.exit(0);
 		}
