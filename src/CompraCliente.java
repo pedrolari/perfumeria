@@ -233,7 +233,7 @@ public class CompraCliente extends JInternalFrame{
 	
 	
 
-	// FALTA INSERTAR 
+	
 	
 	private void componentes() throws SQLException {
 		// TODO Auto-generated method stub
@@ -273,8 +273,7 @@ public class CompraCliente extends JInternalFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-
-				
+					
 				FormatoTabla();
 				AnadirProveedor();
 				modelo.addRow(new Object[] {});
