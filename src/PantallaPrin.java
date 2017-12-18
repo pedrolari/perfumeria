@@ -32,18 +32,18 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 
 	//jbOpc1, jbOpc2, jbOpc3, jbOpc4, jbOpc5
 	
-	public PantallaPrin(int rol, String nom, String ape, Ventana vent) {
+	public PantallaPrin(String user, int rol, String nom, String ape, Ventana vent) {
 		// TODO Auto-generated constructor stub
 		((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
 		this.setBorder(null);
 		this.setLayout(new BorderLayout(0, 0));
 
-		Componentes(nom,ape,rol,vent);
+		Componentes(user,nom,ape,rol,vent);
 	}
 
-	private void Componentes(String nom, String ape, int rol, Ventana vent) {
+	private void Componentes(String nom, String ape, String user, int rol, Ventana vent) {
 		// TODO Auto-generated method stub
-		ParteOeste(rol);
+		ParteOeste(rol,user);
 		ParteCentro(nom,ape,vent);
 
 		// jpcsur = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -171,7 +171,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 		
 	}
 
-	private void ParteOeste(int rol) {
+	private void ParteOeste(int rol, String user) {
 		jpOeste = new JPanel(new BorderLayout(0, 0));
 
 		jpOesteNorte = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
@@ -444,7 +444,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 					JpanelCargarJIframe.removeAll();
 					CompraCliente cc = null;
 					try {
-						cc = new CompraCliente();
+						cc = new CompraCliente(user);
 					} catch (ClassNotFoundException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
