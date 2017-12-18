@@ -49,10 +49,11 @@ public class Escucha implements ActionListener {
 					rs = c.consultar("SELECT user as user, rol as num,nombre as nom, apellidos as ape FROM empleados WHERE user like '"+v.getJtUser().getText()+"' and pass like '"+v.getJtPass().getText()+"'");
 					if (rs.next() == true) {
 						int rol = rs.getInt("num");
+						String user = rs.getString("user");
 						String nom = rs.getString("nom");
 						String ape = rs.getString("ape");
 						vent.getjPanelCentro().removeAll();
-						PantallaPrin p=new PantallaPrin(rol,nom,ape,vent);
+						PantallaPrin p=new PantallaPrin(user,rol,nom,ape,vent);
 						vent.setSize(1360,700);
 						vent.setExtendedState(JFrame.MAXIMIZED_BOTH);
 						vent.setLocationRelativeTo(null);
