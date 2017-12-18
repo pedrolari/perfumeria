@@ -101,7 +101,9 @@ Empleado:
 Articulo
 		-Modificacion(Alejandro) ok
 		-Baja (Amadeo)
-
+		-Compras (Alejandro)
+		
+		
 Pendiente:
 
 Primera funcionalidad:
@@ -112,7 +114,7 @@ Primera funcionalidad:
 		-Devoluciones(Mario)
 	Articulo
 		-Alta(Amadeo) pendiente funcionalidad (Emilio)
-		-Compras (Alejandro)
+		
 		- Devoluciones (Mario)
 
 

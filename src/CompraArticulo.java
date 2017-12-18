@@ -49,7 +49,7 @@ public class CompraArticulo extends JInternalFrame {
 	private ResultSet resultado;
 	
 	CompraArticulo (){
-		this.setPreferredSize(new Dimension(1050, 600));
+		this.setPreferredSize(new Dimension(1050, 640));
 		this.setBorder(null);
 		((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
 		this.getContentPane().setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -144,7 +144,7 @@ public class CompraArticulo extends JInternalFrame {
 				//TODO RESETEAR O PONER EL BOTON COMPRAR NO VISIBLE Y PONER LIMPIAR PARA QUE NO INSERTE CON EL MISMO ID PEDIDO
 				
 				
-				int resp = JOptionPane.showConfirmDialog(null, "¿Esta seguro re realizar el pedido?", "Alerta!", JOptionPane.YES_NO_OPTION);
+				int resp = JOptionPane.showConfirmDialog(null, "¿Esta seguro que desea realizar la compra?", "Alerta!", JOptionPane.YES_NO_OPTION);
 
 				if(resp==0)	
 				{
@@ -214,7 +214,7 @@ public class CompraArticulo extends JInternalFrame {
 					}
 				}
 				else{
-					JOptionPane.showMessageDialog(null, "Pedido cancelado");
+					JOptionPane.showMessageDialog(null, "Compra cancelada");
 					vaciarTodo();
 				}
 			}
