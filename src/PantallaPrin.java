@@ -548,7 +548,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 				public void actionPerformed(ActionEvent arg0) {
 
 					JpanelCargarJIframe.removeAll();
-					CompraArticulo ca = new CompraArticulo();
+					CompraArticulo ca = new CompraArticulo(usuario);
 					JpanelCargarJIframe.add(ca);
 					ca.setVisible(true);
 

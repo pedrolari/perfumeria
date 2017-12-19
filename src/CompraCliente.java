@@ -495,15 +495,15 @@ public class CompraCliente extends JInternalFrame{
 			e2.printStackTrace();
 		};
 
-		ResultSet rs=c.consultar("SELECT user, dni FROM ventas WHERE id_venta="+maxID);
+		ResultSet rs=c.consultar("SELECT dni FROM ventas WHERE id_venta="+maxID);
 		rs.next();
 		
 		pw.println("                      PERFUMERIAS PACO                          ");
 		pw.println("======================================================================");
 		pw.println("NUMERO TICKET: "+maxID);
 		pw.println("FECHA: " + fecha.get(Calendar.DAY_OF_MONTH)+"/"+ (fecha.get(Calendar.MONTH)+1)+"/"+ fecha.get(Calendar.YEAR));
-		pw.println("VENDEDOR: "+rs.getString(1));
-		pw.println("CLIENTE: "+rs.getString(2));
+		pw.println("VENDEDOR: "+nomuser);
+		pw.println("CLIENTE: "+rs.getString(1));
 		pw.println("======================================================================");
 		pw.println("Nº    NOMBRE                       PRECIO       CANTIDAD       TOTAL");
 		

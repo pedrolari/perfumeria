@@ -41,14 +41,17 @@ public class CompraArticulo extends JInternalFrame {
 	private JTable listaCompra;
 	private String[] columnas = { "Id", "Articulo", "Cantidad", "Precio", "Total" };
 	private Articulo nuevo;
-	private String ticketID, ticketARTICULO;
+	private String ticketID, ticketARTICULO, nomusu;
 	private int ticketCANTIDAD, maxID;
 	private double ticketPRECIO, ticketTOTAL, totalLINEAPEDIDO, lineaPRECIO, lineaTOTAL;
 	private Conexion con;
 	private ResultSet resultado;
 	private Validaciones comprobar = new Validaciones();
 
-	CompraArticulo() {
+	CompraArticulo(String nom) {
+		
+		nomusu=nom;
+		
 		this.setPreferredSize(new Dimension(1050, 640));
 		this.setBorder(null);
 		((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
@@ -293,63 +296,74 @@ public class CompraArticulo extends JInternalFrame {
 		tf1.setText("");
 	}
 
-	public void generarTicketCompra(JTable listaCompra, int maxID) {
+	public void generarTicketCompra(JTable listaCompra, int maxID) throws SQLException{
 		Calendar fecha = GregorianCalendar.getInstance();
-
-		File fichero = new File("ticket.txt");
+		
+		File fichero=new File("ticket.txt");
 		FileWriter fw = null;
 		try {
 			fw = new FileWriter(fichero);
 		} catch (IOException e3) {
 			// TODO Auto-generated catch block
 			e3.printStackTrace();
-		}
-
-		PrintWriter pw = new PrintWriter(fw);
-
-		int lineaTicket = 1;
+		};
+		PrintWriter pw=new PrintWriter(fw);
+		
+		int lineaTicket=1;
 		String nombreProducto;
 		int cantidadProducto;
 		double precioProducto;
 		double totalLineaProducto;
 		double totalTicket = 0;
-
-		pw.println("                      PERFUMERIAS PACO                          ");
-		pw.println("================================================================");
-		pw.println("NUMERO TICKET: " + maxID);
-		pw.println("FECHA: " + fecha.get(Calendar.DAY_OF_MONTH) + "/" + (fecha.get(Calendar.MONTH) + 1) + "/"
-				+ fecha.get(Calendar.YEAR));
-		pw.println("================================================================");
-		pw.println("Nº    NOMBRE           PRECIO           CANTIDAD           TOTAL");
-
+		
 		ResultSet resultado = null;
 		try {
-			resultado = con.consultar(
-					"SELECT articulos.nombre, articulos.precio, lineas_de_ventas.cantidad, (articulos.precio * lineas_de_ventas.cantidad) as total FROM lineas_de_ventas, articulos WHERE lineas_de_ventas.id_venta='"
-							+ maxID + "' AND articulos.id_articulo = lineas_de_ventas.id_articulo");
+			resultado = con.consultar("SELECT articulos.nombre, articulos.precio, lineas_de_ventas.cantidad, (articulos.precio * lineas_de_ventas.cantidad) as total FROM lineas_de_ventas, articulos WHERE lineas_de_ventas.id_venta='"+maxID+"' AND articulos.id_articulo = lineas_de_ventas.id_articulo");
 		} catch (SQLException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
-		}
-
+		};
+		
+		
+		pw.println("                      PERFUMERIAS PACO                          ");
+		pw.println("======================================================================");
+		pw.println("NUMERO TICKET: "+maxID);
+		pw.println("FECHA: " + fecha.get(Calendar.DAY_OF_MONTH)+"/"+ (fecha.get(Calendar.MONTH)+1)+"/"+ fecha.get(Calendar.YEAR));
+		pw.println("VENDEDOR: "+nomusu);
+		pw.println("======================================================================");
+		pw.println("Nº    NOMBRE                       PRECIO       CANTIDAD       TOTAL");
+		
+		
+		
+		
 		try {
-			while (resultado.next()) {
+			while(resultado.next())
+			{
 				nombreProducto = resultado.getString(1);
 				precioProducto = resultado.getDouble(2);
 				cantidadProducto = resultado.getInt(3);
 				totalLineaProducto = resultado.getDouble(4);
 				totalTicket += totalLineaProducto;
+				
+				if(nombreProducto.length()<20)
+				{
+					int cant=20-nombreProducto.length();
+					for(int i=0;i<cant;i++)
+					{
+						nombreProducto=nombreProducto+darespacios();
+					}
+				}
+				
+				pw.println(lineaTicket+"    "+ nombreProducto +"           "+ precioProducto +"€           "+ cantidadProducto +"           "+ totalLineaProducto+"€");
 
-				pw.println(lineaTicket + "    " + nombreProducto + "           " + precioProducto + "           "
-						+ cantidadProducto + "           " + totalLineaProducto);
-
+				
 				lineaTicket++;
 			}
-			pw.println("================================================================");
 			DecimalFormat df = new DecimalFormat("#.00");
-
-			pw.println("TOTAL..................................................." + df.format(totalTicket) + " €");
-
+			
+			pw.println("======================================================================");
+			pw.println("TOTAL..........................................................."+ df.format(totalTicket)+"€");
+			
 		} catch (SQLException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
@@ -363,5 +377,10 @@ public class CompraArticulo extends JInternalFrame {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+	}
+	
+	public String darespacios()
+	{
+		return " ";
 	}
 }
