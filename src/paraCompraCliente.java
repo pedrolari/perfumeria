@@ -1,4 +1,4 @@
-package Imagenes;
+
 
 import javax.swing.*;
 
@@ -51,3 +51,4 @@ public class paraCompraCliente {
 	
 	
 }
+

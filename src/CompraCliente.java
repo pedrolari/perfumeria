@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.*;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
@@ -22,6 +23,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
+
 public class CompraCliente extends JInternalFrame{
 	
 	
@@ -35,13 +37,13 @@ public class CompraCliente extends JInternalFrame{
 	private Conexion c;
 	private Validaciones v;
 	private double numero = 0, total=0;
-	private int num, cont=0;
-	private String provnom="";
+	private int num, cont=0, cont1=0;
+	private String provnom="", nomuser;
 	
 	private DefaultTableModel modelo;
 	private String[] columnas = { "Proveedor", "Articulo", "Cantidad", "Precio", "Total" };
 
-	public CompraCliente() throws ClassNotFoundException, SQLException {	
+	public CompraCliente(String user) throws ClassNotFoundException, SQLException {	
 		// TODO Auto-generated constructor stub
 		c = new Conexion();
 		this.setPreferredSize(new Dimension(1050, 600));
@@ -51,31 +53,47 @@ public class CompraCliente extends JInternalFrame{
 		this.setBorder(null);
 		((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
 		componentes();
+		nomuser=user;
 	}
+	
+	ArrayList <paraCompraCliente> listacom=new ArrayList<paraCompraCliente>();
 
 	private void FormatoTabla() {
 
+		
+		
 		lista = new DefaultComboBoxModel();
 		
 		jc1 = new JComboBox<>(lista);
+		
+		
 
 		lista2 = new DefaultComboBoxModel();
 		jc2 = new JComboBox<>(lista2);
+		jt1 = new JTextField(); 
+		jt2 = new JTextField();
+		jt3 = new JTextField();
+		
+		listacom.add(new paraCompraCliente(jc1, jc2, jt1, jt2, jt3));
+		
+		
+		
+		paraCompraCliente c=listacom.get(cont1);
 
 		TableColumn tc1 = miTable.getColumnModel().getColumn(0);
-		tc1.setCellEditor(new DefaultCellEditor(jc1));
+		tc1.setCellEditor(new DefaultCellEditor(c.getC1()));
 
 		TableColumn tc2 = miTable.getColumnModel().getColumn(1);
-		tc2.setCellEditor(new DefaultCellEditor(jc2));
+		tc2.setCellEditor(new DefaultCellEditor(c.getC2()));
 
 		TableColumn tc3 = miTable.getColumnModel().getColumn(2);
-		tc3.setCellEditor(new DefaultCellEditor(jt1));
+		tc3.setCellEditor(new DefaultCellEditor(c.getT1()));
 		
 		TableColumn tc4 = miTable.getColumnModel().getColumn(3);
-		tc4.setCellEditor(new DefaultCellEditor(jt2));
+		tc4.setCellEditor(new DefaultCellEditor(c.getT2()));
 		
 		TableColumn tc5 = miTable.getColumnModel().getColumn(4);
-		tc5.setCellEditor(new DefaultCellEditor(jt3));
+		tc5.setCellEditor(new DefaultCellEditor(c.getT3()));
 
 	}
 
@@ -98,8 +116,9 @@ public class CompraCliente extends JInternalFrame{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		paraCompraCliente com=listacom.get(cont1);
 
-		jc1.addActionListener(new ActionListener() {
+		com.getC1().addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -109,7 +128,7 @@ public class CompraCliente extends JInternalFrame{
 
 				
 					
-					ResultSet rs = c.consultar("SELECT * FROM `articulos` WHERE cif ='" + jc1.getSelectedItem() + "'");
+					ResultSet rs = c.consultar("SELECT * FROM `articulos` WHERE cif ='" + com.getC1().getSelectedItem() + "'");
 					while (rs.next()) {
 						
 						boolean enc=false;
@@ -141,7 +160,7 @@ public class CompraCliente extends JInternalFrame{
 				}
 
 
-				jc2.addActionListener(new ActionListener() {
+				com.getC2().addActionListener(new ActionListener() {
 
 					
 					@Override
@@ -151,7 +170,7 @@ public class CompraCliente extends JInternalFrame{
 						numero = 1;
 						try {
 
-							ResultSet rs = c.consultar("SELECT * FROM articulos WHERE nombre='" + jc2.getSelectedItem() + "'");
+							ResultSet rs = c.consultar("SELECT * FROM articulos WHERE nombre='" + com.getC2().getSelectedItem() + "'");
 							rs.next();
 							numero = rs.getDouble("precio");
 							
@@ -169,14 +188,14 @@ public class CompraCliente extends JInternalFrame{
 
 				});
 
-				jt1.addActionListener(new ActionListener() {
+				com.getT1().addActionListener(new ActionListener() {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						// TODO Auto-generated method stub
 						ResultSet rs=null;
 						try {
-							rs=c.consultar("SELECT stock FROM articulos WHERE nombre LIKE '"+jc2.getSelectedItem().toString()+"'");
+							rs=c.consultar("SELECT stock FROM articulos WHERE nombre LIKE '"+com.getC2().getSelectedItem().toString()+"'");
 							
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block
@@ -186,31 +205,30 @@ public class CompraCliente extends JInternalFrame{
 						try {
 							rs.next();
 							v=new Validaciones();
-							if(v.isNumeric(jt1.getText().toString())==false)
+							if(v.isNumeric(com.getT1().getText().toString())==false)
 							{
 								jt1.setText("1");
 								
 								JOptionPane.showMessageDialog(null, "Introduce un número.");
 							}
-							else if(Integer.parseInt(jt1.getText().toString())<1)
+							else if(Integer.parseInt(com.getT1().getText().toString())<1)
 							{
 								jt1.setText("1");
 								
 								JOptionPane.showMessageDialog(null, "No puede ser menor que 1.");
 							}
-							else if(rs.getInt("stock")>=Integer.parseInt(jt1.getText().toString()))
+							else if(rs.getInt("stock")>=Integer.parseInt(com.getT1().getText().toString()))
 							{
-							miTable.setValueAt(Integer.parseInt(jt1.getText()) * numero, miTable.getSelectedRow(), 4);
+							miTable.setValueAt(Integer.parseInt(com.getT1().getText()) * numero, miTable.getSelectedRow(), 4);
 							provnom=provnom+""+lista.getSelectedItem().toString()+"-"+lista2.getSelectedItem().toString()+"/";
 							jbAñadir.setEnabled(true);
 							
-							jt2.setEnabled(false);
-							jt3.setEnabled(false);
+						
 
 							}
 							else
 							{
-								jt1.setText("1");
+								com.getT1().setText("1");
 								JOptionPane.showMessageDialog(null, "No disponemos de tanto stock.");
 							}
 						} catch (NumberFormatException e1) {
@@ -238,10 +256,7 @@ public class CompraCliente extends JInternalFrame{
 	private void componentes() throws SQLException {
 		// TODO Auto-generated method stub
 
-		jt1 = new JTextField();
-		  
-		jt2 = new JTextField();
-		jt3 = new JTextField();
+	
 
 		jpPrimerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		jpPrimerPanel.setBackground(Color.white);
@@ -274,12 +289,29 @@ public class CompraCliente extends JInternalFrame{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 					
+				
+				
+			
 				FormatoTabla();
 				AnadirProveedor();
 				modelo.addRow(new Object[] {});
-				jbAñadir.setEnabled(false);
+				jbAñadir.setEnabled(false);	
 				
-			
+			/*	if(cont1>0)
+				{
+					System.out.println("ENTRO A DESHabilitar");
+				paraCompraCliente c=listacom.get(cont1);
+				c.getC1().setEnabled(false);
+				c.getC2().setEnabled(false);
+				c.getT1().setEnabled(false);
+				c.getT2().setEnabled(false);
+				c.getT3().setEnabled(false);
+				}*/
+				
+				
+				cont1++;
+				
+					
 			}
 		});
 
@@ -320,65 +352,98 @@ public class CompraCliente extends JInternalFrame{
 					total+=Double.parseDouble(""+modelo.getValueAt(i, 4));
 				}
 				
-				try {
-					c.modificar("INSERT INTO ventas (user, dni, fecha_venta, total_pedido) VALUES ('" + "usuario" + "','" + "dni"
-							+ "','" + form.format(d) + "', "+total+")");
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				String dni=JOptionPane.showInputDialog("Introduzca el dni del cliente: ");
+				
+				if(dni.length()==0)
+				{
+					JOptionPane.showMessageDialog(null, "No puedes dejar el campo dni vacío.");
 				}
+				else
+				{
+					
+					Clientes cli = new Clientes();
+					ResultSet rs;
+					try {
+						rs = cli.mostrarDatosClientePorDni(dni);
+						if(rs.next()){
+							try {
+								c.modificar("INSERT INTO ventas (user, dni, fecha_venta, total_pedido) VALUES ('" + nomuser + "','"+dni
+										+ "','" + form.format(d) + "', "+total+")");
+							} catch (SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
 
-				try {
+							try {
 
-					ResultSet rs = c.consultar("SELECT max(id_venta) as num from ventas");
-					rs.next();
-					num = rs.getInt("num");
+								ResultSet rs3 = c.consultar("SELECT max(id_venta) as num from ventas");
+								rs3.next();
+								num = rs3.getInt("num");
 
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+							} catch (SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
 
-				boolean check = true;
+							boolean check = true;
 
-				for (int i = 0; i < miTable.getRowCount(); i++) {
-					for (int j = 0; j < miTable.getColumnCount(); j++) {
+							for (int i = 0; i < miTable.getRowCount(); i++) {
+								for (int j = 0; j < miTable.getColumnCount(); j++) {
 
-						if (modelo.getValueAt(i, j) == null || modelo.getValueAt(i, j).toString().equalsIgnoreCase("0")
-								|| modelo.getValueAt(i, j).toString().equalsIgnoreCase("0.0")) {
-							check = false;
+									if (modelo.getValueAt(i, j) == null || modelo.getValueAt(i, j).toString().equalsIgnoreCase("0")
+											|| modelo.getValueAt(i, j).toString().equalsIgnoreCase("0.0")) {
+										check = false;
+									}
+									System.out.println(modelo.getValueAt(i, j));
+								}
+							}
+
+							if (check == true) {
+
+								for (int i = 0; i < miTable.getRowCount(); i++) {
+									try {
+										ResultSet rs1 = c.consultar(
+												"SELECT * FROM `articulos` WHERE `nombre`= '" + modelo.getValueAt(i, 1) + "'");
+										rs1.next();
+										int num2 = rs1.getInt("id_articulo");
+										c.modificar(
+												"INSERT INTO `lineas_de_ventas`(  `id_venta`, `id_articulo`, `cantidad`, `precio`) VALUES ('"+num+"','" + num2 + "','" + modelo.getValueAt(i, 2) + "','"
+														+ modelo.getValueAt(i, 3) + "')");
+										
+										ResultSet rs2=c.consultar("SELECT stock FROM articulos WHERE id_articulo="+num2);
+										rs2.next();
+										
+										int cant=rs2.getInt("stock")-Integer.parseInt(""+modelo.getValueAt(i, 2));
+										
+										c.modificar("UPDATE articulos SET stock="+cant+" WHERE id_articulo="+num2);
+									} catch (SQLException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
+								}
+								JOptionPane.showMessageDialog(null, "Datos insertados correctamente.");
+							
+								// FALTA BORRAR LAS LINEAS AL ENVIAR
+								
+								
+							} else {
+								JOptionPane.showMessageDialog(null, "Campos Incompletos");
+							}
+						}else{
+							JOptionPane.showMessageDialog(null, "No se encontro cliente con DNI "+dni);
 						}
-						System.out.println(modelo.getValueAt(i, j));
+						
+					} catch (ClassNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
+					
+					
 				}
-
-				if (check == true) {
-
-					for (int i = 0; i < miTable.getRowCount(); i++) {
-						try {
-							ResultSet rs = c.consultar(
-									"SELECT * FROM `articulos` WHERE `nombre`= '" + modelo.getValueAt(i, 1) + "'");
-							rs.next();
-							int num2 = rs.getInt("id_articulo");
-							c.modificar(
-									"INSERT INTO `lineas_de_ventas`(  `id_venta`, `id_articulo`, `cantidad`, `precio`) VALUES ('"+num+"','" + num2 + "','" + modelo.getValueAt(i, 2) + "','"
-											+ modelo.getValueAt(i, 3) + "')");
-							
-							ResultSet rs1=c.consultar("SELECT stock FROM articulos WHERE id_articulo="+num2);
-							rs1.next();
-							
-							int cant=rs1.getInt("stock")-Integer.parseInt(""+modelo.getValueAt(i, 2));
-							
-							c.modificar("UPDATE articulos SET stock="+cant+" WHERE id_articulo="+num2);
-						} catch (SQLException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-					}
-					JOptionPane.showMessageDialog(null, "Datos insertados correctamente.");
-				} else {
-					JOptionPane.showMessageDialog(null, "Campos Incompletos");
-				}
+				
 
 			}
 		});
