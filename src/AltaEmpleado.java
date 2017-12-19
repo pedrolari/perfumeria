@@ -36,7 +36,7 @@ public class AltaEmpleado extends JInternalFrame implements ActionListener{
 	private JPanel[] auxt = new JPanel[7];
 	private JPanel tras,prin,izq,der,sur;
 	private JButton carga,limpiar;
-	private Conexion c;
+	private Empleado c;
 	
 	public AltaEmpleado() {
 		// TODO Auto-generated constructor stub
@@ -74,15 +74,14 @@ public class AltaEmpleado extends JInternalFrame implements ActionListener{
 						JOptionPane.showMessageDialog(null, "Telefono introducido no valido!");
 					}else{
 						try {
-							c = new Conexion();
+							c = new Empleado(usu.getText(),repass.getText(),nom.getText(),ape.getText(),Integer.parseInt(tel.getText()),Integer.parseInt(rol.getText()));
 							String [] opciones ={"Si","No"};
 							int eleccion = JOptionPane.showOptionDialog(null,"En realidad desea crear","Mensaje de Confirmacion",
 							JOptionPane.YES_NO_OPTION,
 							JOptionPane.QUESTION_MESSAGE,null,opciones,"Si");
 							
 							if (eleccion == JOptionPane.YES_OPTION){
-							c.modificar("INSERT INTO empleados(user,pass,nombre,apellidos,telefono,rol) "
-									+ "VALUES('"+usu.getText()+"','"+repass.getText()+"','"+nom.getText()+"','"+ape.getText()+"','"+tel.getText()+"','"+rol.getText()+"')");
+							c.insertar();
 							JOptionPane.showMessageDialog(null,"Datos Registrados correctamente");
 									
 							}
