@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -32,7 +33,7 @@ public class CompraCliente extends JInternalFrame{
 	
 	private JTable miTable;
 	private DefaultTableModel fila;
-	private JButton jbAñadir, jbQuitar, jbenviar;
+	private BotonInterior jbAñadir, jbQuitar, jbenviar;
 	private JPanel jpPrimerPanel, jpSegundoPanel;
 	private DefaultComboBoxModel lista, lista2;
 	private JComboBox jc1, jc2;
@@ -284,7 +285,7 @@ public class CompraCliente extends JInternalFrame{
 
 		jpSegundoPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		jpSegundoPanel.setBackground(Color.white);
-		jbAñadir = new JButton("Añadir");
+		jbAñadir = new BotonInterior("Añadir");
 		jpSegundoPanel.add(jbAñadir);
 
 	
@@ -323,7 +324,7 @@ public class CompraCliente extends JInternalFrame{
 		});
 
 
-		jbQuitar = new JButton("Quitar");
+		jbQuitar = new BotonInterior("Quitar");
 		jpSegundoPanel.add(jbQuitar);
 		jbQuitar.addActionListener(new ActionListener() {
 			@Override
@@ -340,7 +341,7 @@ public class CompraCliente extends JInternalFrame{
 		});
 
 
-		jbenviar = new JButton("Enviar");
+		jbenviar = new BotonInterior("Enviar");
 		jpSegundoPanel.add(jbenviar);
 
 		jbenviar.addActionListener(new ActionListener() {
@@ -498,13 +499,13 @@ public class CompraCliente extends JInternalFrame{
 		rs.next();
 		
 		pw.println("                      PERFUMERIAS PACO                          ");
-		pw.println("================================================================");
+		pw.println("======================================================================");
 		pw.println("NUMERO TICKET: "+maxID);
 		pw.println("FECHA: " + fecha.get(Calendar.DAY_OF_MONTH)+"/"+ (fecha.get(Calendar.MONTH)+1)+"/"+ fecha.get(Calendar.YEAR));
 		pw.println("VENDEDOR: "+rs.getString(1));
 		pw.println("CLIENTE: "+rs.getString(2));
-		pw.println("================================================================");
-		pw.println("Nº    NOMBRE           PRECIO           CANTIDAD           TOTAL");
+		pw.println("======================================================================");
+		pw.println("Nº    NOMBRE                       PRECIO       CANTIDAD       TOTAL");
 		
 		
 		
@@ -518,18 +519,24 @@ public class CompraCliente extends JInternalFrame{
 				totalLineaProducto = resultado.getDouble(4);
 				totalTicket += totalLineaProducto;
 				
-				if(nombreProducto.length()<=6)
+				if(nombreProducto.length()<20)
 				{
-					nombreProducto=nombreProducto+"     ";
+					int cant=20-nombreProducto.length();
+					for(int i=0;i<cant;i++)
+					{
+						nombreProducto=nombreProducto+darespacios();
+					}
 				}
 				
-				pw.println(lineaTicket+"    "+ nombreProducto +"           "+ precioProducto +"           "+ cantidadProducto +"           "+ totalLineaProducto);
+				pw.println(lineaTicket+"    "+ nombreProducto +"           "+ precioProducto +"€           "+ cantidadProducto +"           "+ totalLineaProducto+"€");
 
 				
 				lineaTicket++;
 			}
-			pw.println("================================================================");
-			pw.println("TOTAL..............................................."+ totalTicket);
+			DecimalFormat df = new DecimalFormat("#.00");
+			
+			pw.println("======================================================================");
+			pw.println("TOTAL..........................................................."+ df.format(totalTicket)+"€");
 			
 		} catch (SQLException e2) {
 			// TODO Auto-generated catch block
@@ -544,6 +551,11 @@ public class CompraCliente extends JInternalFrame{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+	}
+	
+	public String darespacios()
+	{
+		return " ";
 	}
 	
 }
