@@ -39,7 +39,7 @@ public class ModificacionEmpleado extends JInternalFrame {
 	private JComboBox<String> cbEmpleado;
 	private DefaultComboBoxModel<String> modelEmp;
 	private GridBagConstraints cons;
-	private Conexion c;
+	private Empleado e;
 
 	/**
 	 * Constructor de la clase, defino los paneles, un gridbag donde lo coloco,
@@ -63,8 +63,10 @@ public class ModificacionEmpleado extends JInternalFrame {
 						TitledBorder.LEFT, TitledBorder.TOP, new Font(null, Font.BOLD, 25), Color.GRAY));
 		principal.setPreferredSize(new Dimension(400, 600));
 		principal.setLayout(new BorderLayout());
+		principal.setBackground(Color.WHITE);
 		// Panel central, gridbaglayout
 		centro = new JPanel(new GridBagLayout());
+
 		centro.setPreferredSize(principal.getPreferredSize());
 		cons = new GridBagConstraints();
 		centro.setBorder(new EmptyBorder(0, 20, 0, 20));
@@ -82,7 +84,7 @@ public class ModificacionEmpleado extends JInternalFrame {
 		cons.gridx = 3;
 		cons.gridwidth = 1;
 		centro.add(btSend, cons);
-
+		centro.setBackground(Color.white);
 		principal.add(centro);
 		this.getContentPane().add(principal);
 		// LLamo a los listener
@@ -150,14 +152,14 @@ public class ModificacionEmpleado extends JInternalFrame {
 	 */
 	private void setEmpleadoModel() {
 		modelEmp = new DefaultComboBoxModel<String>();
-		modelEmp.addElement("Seleccione Empleado");
 
+		modelEmp.addElement("Seleccionar Nombre Empleado - Usuario");
 		try {
 			Conexion c = new Conexion();
 			ResultSet rs = c.consultar("SELECT * FROM EMPLEADOS");
 
 			while (rs.next()) {
-				modelEmp.addElement(rs.getString(1));
+				modelEmp.addElement(rs.getString("nombre") + " - " + rs.getString("user"));
 
 			}
 		} catch (ClassNotFoundException | SQLException e) {
@@ -170,18 +172,24 @@ public class ModificacionEmpleado extends JInternalFrame {
 	}
 
 	private void loadEmpleadoData() {
-		Conexion c = null;
-		Empleado e = new Empleado();
 
+		e = new Empleado();
+
+		String[] user = cbEmpleado.getSelectedItem().toString().split("-");
 		try {
-			c = new Conexion();
-			e.buscar(this.cbEmpleado.getItemAt(cbEmpleado.getSelectedIndex()));
-			this.datosEmp[0].setText(e.getUser());
-			this.datosEmp[1].setText(e.getPass());
-			this.datosEmp[2].setText(e.getNombre());
-			this.datosEmp[3].setText(e.getApellidos());
-			this.datosEmp[4].setText(String.valueOf(e.getTelefono()));
-			this.datosEmp[5].setText(String.valueOf(e.getRol()));
+
+			if (e.buscar(user[1].trim())) {
+				this.datosEmp[0].setText(e.getUser());
+				this.datosEmp[1].setText(e.getPass());
+				this.datosEmp[2].setText(e.getNombre());
+				this.datosEmp[3].setText(e.getApellidos());
+				this.datosEmp[4].setText(String.valueOf(e.getTelefono()));
+				this.datosEmp[5].setText(String.valueOf(e.getRol()));
+			} else {
+				for (int i = 0; i < datosEmp.length; i++) {
+					datosEmp[i].setText("Seleccionar Empleado");
+				}
+			}
 
 		} catch (ClassNotFoundException | SQLException e1) {
 			System.out.println("Error en la conexion");
@@ -282,21 +290,29 @@ public class ModificacionEmpleado extends JInternalFrame {
 			private void saveData() {
 
 				String[] campos = { "user", "pass", "nombre", "apellidos", "telefono", "rol" };
-				Empleado e = new Empleado();
-				try {
-					Conexion c = new Conexion();
-					// Primero el usuario
-					e.modificar(cbEmpleado.getSelectedItem().toString(), campos[0], datosEmp[0].getText());
-					for (int i = 1; i < campos.length; i++) {
-						System.out.println("campo" + i);
-						// Y ahora el resto de campos
-						e.modificar(datosEmp[0].getText(), campos[i], datosEmp[i].getText());
-					}
-					setEmpleadoModel();
+				String[] opciones = { "Si", "No" };
+				int eleccion = JOptionPane.showOptionDialog(null, "Actualizar " + e.getUser(),
+						"Mensaje de Confirmacion", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+						opciones, "Si");
 
-				} catch (ClassNotFoundException | SQLException e1) {
-					System.out.println(e1.getMessage());
-					e1.printStackTrace();
+				if (eleccion == JOptionPane.YES_OPTION) {
+					try {
+						Conexion c = new Conexion();
+						// Primero el nombre de usuario
+						e.modificar(e.getUser(), campos[0], datosEmp[0].getText());
+						for (int i = 1; i < campos.length; i++) {
+							System.out.println("campo" + i);
+							// Y ahora el resto de campos
+							e.modificar(datosEmp[0].getText(), campos[i], datosEmp[i].getText());
+						}
+						setEmpleadoModel();
+
+					} catch (ClassNotFoundException | SQLException e1) {
+						System.out.println(e1.getMessage());
+						e1.printStackTrace();
+					}
+					JOptionPane.showMessageDialog(null, "Datos Registrados correctamente");
+
 				}
 
 			}

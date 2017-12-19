@@ -30,6 +30,9 @@ public class Login extends JInternalFrame {
 		this.setLayout(new BorderLayout(0, 0));
 		this.setPreferredSize(new Dimension(ventana.getWidth(), ventana.getHeight()));
 		componentes();
+		//Coloco el boton de acceso como default para que escuche el intro
+		this.getRootPane().setDefaultButton(jbAcceso);
+
 	}
 
 	private void componentes() {
