@@ -34,17 +34,15 @@ public class AltaEmpleado extends JInternalFrame implements ActionListener{
 	private JPasswordField pass,repass;
 	private JPanel[] aux = new JPanel[7];
 	private JPanel[] auxt = new JPanel[7];
-	private JPanel prin,izq,der,sur;
+	private JPanel tras,prin,izq,der,sur;
 	private JButton carga,limpiar;
 	private Conexion c;
 	
 	public AltaEmpleado() {
 		// TODO Auto-generated constructor stub
-		this.setSize(1050,640);
 		this.setResizable(false);
-		this.setLayout(new FlowLayout(FlowLayout.CENTER,1,100));
+		this.setLayout(new FlowLayout(FlowLayout.CENTER,1,10));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//this.getContentPane().setBackground(new Color(19, 34, 41));
 		this.setBorder(null);
 		((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
 		componentes();
@@ -109,10 +107,15 @@ public class AltaEmpleado extends JInternalFrame implements ActionListener{
 	
 		prin = new JPanel();
 		prin.setBackground(Color.WHITE);
-		prin.setPreferredSize(new Dimension(300, 400));
-		prin.setLayout(new BorderLayout());
+		prin.setPreferredSize(new Dimension(1000, 600));
+		prin.setLayout(new FlowLayout(FlowLayout.CENTER,1,70));
 		prin.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(41, 53, 65)), "Datos de Usuario",TitledBorder.LEFT, TitledBorder.TOP, new Font(null, Font.BOLD, 25),new Color(41, 53, 65)));
 		
+		
+		tras = new JPanel();
+		tras.setBackground(Color.white);
+		tras.setPreferredSize(new Dimension(300, 400));
+		tras.setLayout(new BorderLayout());
 		
 		jl = new JLabel(" Usuario: ");
 		jl.setFont(new Font(null, Font.BOLD, 15));
@@ -199,9 +202,11 @@ public class AltaEmpleado extends JInternalFrame implements ActionListener{
 		sur.add(carga);
 		sur.add(limpiar);
 		
-		prin.add(BorderLayout.CENTER, izq);
-		prin.add(BorderLayout.EAST, der);
-		prin.add(BorderLayout.SOUTH, sur);
+		tras.add(BorderLayout.CENTER, izq);
+		tras.add(BorderLayout.EAST, der);
+		tras.add(BorderLayout.SOUTH, sur);
+		
+		prin.add(tras);
 
 		this.getContentPane().add(prin);
 		this.getContentPane().setBackground(Color.white);
