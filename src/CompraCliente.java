@@ -4,10 +4,13 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.*;
 
 import javax.swing.DefaultCellEditor;
@@ -75,10 +78,11 @@ public class CompraCliente extends JInternalFrame{
 		jt3 = new JTextField();
 		
 		listacom.add(new paraCompraCliente(jc1, jc2, jt1, jt2, jt3));
+		listacom.set(cont1, new paraCompraCliente(jc1, jc2, jt1, jt2, jt3));
 		
 		
-		
-		paraCompraCliente c=listacom.get(cont1);
+		paraCompraCliente c=new paraCompraCliente();
+		c=listacom.get(cont1);
 
 		TableColumn tc1 = miTable.getColumnModel().getColumn(0);
 		tc1.setCellEditor(new DefaultCellEditor(c.getC1()));
@@ -116,7 +120,8 @@ public class CompraCliente extends JInternalFrame{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		paraCompraCliente com=listacom.get(cont1);
+		paraCompraCliente com=listacom.get(cont1);//new paraCompraCliente();
+				//com=l;
 
 		com.getC1().addActionListener(new ActionListener() {
 
@@ -128,7 +133,7 @@ public class CompraCliente extends JInternalFrame{
 
 				
 					
-					ResultSet rs = c.consultar("SELECT * FROM `articulos` WHERE cif ='" + com.getC1().getSelectedItem() + "'");
+					ResultSet rs = c.consultar("SELECT * FROM `articulos` WHERE cif ='" + com.getC1().getSelectedItem() + "' AND stock>0");
 					while (rs.next()) {
 						
 						boolean enc=false;
@@ -297,16 +302,18 @@ public class CompraCliente extends JInternalFrame{
 				modelo.addRow(new Object[] {});
 				jbAñadir.setEnabled(false);	
 				
-			/*	if(cont1>0)
-				{
+				if(cont1>0)
+				{  
 					System.out.println("ENTRO A DESHabilitar");
-				paraCompraCliente c=listacom.get(cont1);
+				paraCompraCliente c=new paraCompraCliente();
+				c=listacom.get(cont1-1);
 				c.getC1().setEnabled(false);
+				c.getC1().setEditable(false);
 				c.getC2().setEnabled(false);
 				c.getT1().setEnabled(false);
 				c.getT2().setEnabled(false);
 				c.getT3().setEnabled(false);
-				}*/
+				}
 				
 				
 				cont1++;
@@ -345,13 +352,23 @@ public class CompraCliente extends JInternalFrame{
 				SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd");
 
 				
-				//FALTA PASAR EL NOMBRE DE USUARIO PARA METER NOMBRE Y DNI
 				
-				for(int i=0;i<miTable.getRowCount();i++)
-				{
-					total+=Double.parseDouble(""+modelo.getValueAt(i, 4));
+				
+				
+				boolean check = true;
+
+				for (int i = 0; i < miTable.getRowCount(); i++) {
+					for (int j = 0; j < miTable.getColumnCount(); j++) {
+
+						if (modelo.getValueAt(i, j) == null || modelo.getValueAt(i, j).toString().equalsIgnoreCase("0")
+								|| modelo.getValueAt(i, j).toString().equalsIgnoreCase("0.0")) {
+							check = false;
+						}
+						System.out.println(modelo.getValueAt(i, j));
+					}
 				}
-				
+
+				if (check == true) {
 				String dni=JOptionPane.showInputDialog("Introduzca el dni del cliente: ");
 				
 				if(dni.length()==0)
@@ -360,6 +377,7 @@ public class CompraCliente extends JInternalFrame{
 				}
 				else
 				{
+				
 					
 					Clientes cli = new Clientes();
 					ResultSet rs;
@@ -367,6 +385,12 @@ public class CompraCliente extends JInternalFrame{
 						rs = cli.mostrarDatosClientePorDni(dni);
 						if(rs.next()){
 							try {
+
+								for(int i=0;i<miTable.getRowCount();i++)
+								{
+									total+=Double.parseDouble(""+modelo.getValueAt(i, 4));
+								}
+								
 								c.modificar("INSERT INTO ventas (user, dni, fecha_venta, total_pedido) VALUES ('" + nomuser + "','"+dni
 										+ "','" + form.format(d) + "', "+total+")");
 							} catch (SQLException e1) {
@@ -385,20 +409,7 @@ public class CompraCliente extends JInternalFrame{
 								e1.printStackTrace();
 							}
 
-							boolean check = true;
 
-							for (int i = 0; i < miTable.getRowCount(); i++) {
-								for (int j = 0; j < miTable.getColumnCount(); j++) {
-
-									if (modelo.getValueAt(i, j) == null || modelo.getValueAt(i, j).toString().equalsIgnoreCase("0")
-											|| modelo.getValueAt(i, j).toString().equalsIgnoreCase("0.0")) {
-										check = false;
-									}
-									System.out.println(modelo.getValueAt(i, j));
-								}
-							}
-
-							if (check == true) {
 
 								for (int i = 0; i < miTable.getRowCount(); i++) {
 									try {
@@ -421,14 +432,16 @@ public class CompraCliente extends JInternalFrame{
 										e1.printStackTrace();
 									}
 								}
+								generarTicketCompra(miTable, num);
 								JOptionPane.showMessageDialog(null, "Datos insertados correctamente.");
 							
-								// FALTA BORRAR LAS LINEAS AL ENVIAR
+								
+								modelo.setRowCount(0);
+								jbAñadir.setEnabled(true);
 								
 								
-							} else {
-								JOptionPane.showMessageDialog(null, "Campos Incompletos");
-							}
+							
+							
 						}else{
 							JOptionPane.showMessageDialog(null, "No se encontro cliente con DNI "+dni);
 						}
@@ -440,17 +453,97 @@ public class CompraCliente extends JInternalFrame{
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
+					} 
 					
-					
-				}
+				}else {
+								JOptionPane.showMessageDialog(null, "Campos Incompletos");
 				
 
 			}
+		}
 		});
 
 		this.getContentPane().add(BorderLayout.SOUTH, jpSegundoPanel);
 	}
 	
-	
+	public void generarTicketCompra(JTable listaCompra, int maxID) throws SQLException{
+		Calendar fecha = GregorianCalendar.getInstance();
+		
+		File fichero=new File("ticket.txt");
+		FileWriter fw = null;
+		try {
+			fw = new FileWriter(fichero);
+		} catch (IOException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		};
+		PrintWriter pw=new PrintWriter(fw);
+		
+		int lineaTicket=1;
+		String nombreProducto;
+		int cantidadProducto;
+		double precioProducto;
+		double totalLineaProducto;
+		double totalTicket = 0;
+		
+		ResultSet resultado = null;
+		try {
+			resultado = c.consultar("SELECT articulos.nombre, articulos.precio, lineas_de_ventas.cantidad, (articulos.precio * lineas_de_ventas.cantidad) as total FROM lineas_de_ventas, articulos WHERE lineas_de_ventas.id_venta='"+maxID+"' AND articulos.id_articulo = lineas_de_ventas.id_articulo");
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		};
+
+		ResultSet rs=c.consultar("SELECT user, dni FROM ventas WHERE id_venta="+maxID);
+		rs.next();
+		
+		pw.println("                      PERFUMERIAS PACO                          ");
+		pw.println("================================================================");
+		pw.println("NUMERO TICKET: "+maxID);
+		pw.println("FECHA: " + fecha.get(Calendar.DAY_OF_MONTH)+"/"+ (fecha.get(Calendar.MONTH)+1)+"/"+ fecha.get(Calendar.YEAR));
+		pw.println("VENDEDOR: "+rs.getString(1));
+		pw.println("CLIENTE: "+rs.getString(2));
+		pw.println("================================================================");
+		pw.println("Nº    NOMBRE           PRECIO           CANTIDAD           TOTAL");
+		
+		
+		
+		
+		try {
+			while(resultado.next())
+			{
+				nombreProducto = resultado.getString(1);
+				precioProducto = resultado.getDouble(2);
+				cantidadProducto = resultado.getInt(3);
+				totalLineaProducto = resultado.getDouble(4);
+				totalTicket += totalLineaProducto;
+				
+				if(nombreProducto.length()<=6)
+				{
+					nombreProducto=nombreProducto+"     ";
+				}
+				
+				pw.println(lineaTicket+"    "+ nombreProducto +"           "+ precioProducto +"           "+ cantidadProducto +"           "+ totalLineaProducto);
+
+				
+				lineaTicket++;
+			}
+			pw.println("================================================================");
+			pw.println("TOTAL..............................................."+ totalTicket);
+			
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+
+		JOptionPane.showMessageDialog(null, "Ticket generado correctamente");
+		pw.close();
+		try {
+			fw.close();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
 	
 }

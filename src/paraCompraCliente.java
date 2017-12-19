@@ -6,7 +6,8 @@ public class paraCompraCliente {
 
 	private JComboBox c1, c2;
 	private JTextField t1, t2, t3;
-
+	public paraCompraCliente()
+	{}
 	public paraCompraCliente(JComboBox c1, JComboBox c2, JTextField t1, JTextField t2, JTextField t3) {
 		super();
 		this.c1 = c1;
