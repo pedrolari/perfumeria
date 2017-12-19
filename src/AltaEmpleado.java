@@ -73,24 +73,32 @@ public class AltaEmpleado extends JInternalFrame implements ActionListener{
 					if(v.validartelefono(tel.getText())){
 						JOptionPane.showMessageDialog(null, "Telefono introducido no valido!");
 					}else{
-						try {
-							c = new Empleado(usu.getText(),repass.getText(),nom.getText(),ape.getText(),Integer.parseInt(tel.getText()),Integer.parseInt(rol.getText()));
-							String [] opciones ={"Si","No"};
-							int eleccion = JOptionPane.showOptionDialog(null,"En realidad desea crear","Mensaje de Confirmacion",
-							JOptionPane.YES_NO_OPTION,
-							JOptionPane.QUESTION_MESSAGE,null,opciones,"Si");
-							
-							if (eleccion == JOptionPane.YES_OPTION){
-							c.insertar();
-							JOptionPane.showMessageDialog(null,"Datos Registrados correctamente");
+						if(v.isNumeric(tel.getText())){
+							if(rol.getText().equalsIgnoreCase("1") || rol.getText().equalsIgnoreCase("0")){
+								try {
+									c = new Empleado(usu.getText(),repass.getText(),nom.getText(),ape.getText(),Integer.parseInt(tel.getText()),Integer.parseInt(rol.getText()));
+									String [] opciones ={"Si","No"};
+									int eleccion = JOptionPane.showOptionDialog(null,"En realidad desea crear","Mensaje de Confirmacion",
+									JOptionPane.YES_NO_OPTION,
+									JOptionPane.QUESTION_MESSAGE,null,opciones,"Si");
 									
+									if (eleccion == JOptionPane.YES_OPTION){
+									c.insertar();
+									JOptionPane.showMessageDialog(null,"Datos Registrados correctamente");
+											
+									}
+								} catch (ClassNotFoundException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								} catch (SQLException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+							}else{
+								JOptionPane.showMessageDialog(null, "Solo se admite 1 o 0 en casilla rol!");
 							}
-						} catch (ClassNotFoundException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						} catch (SQLException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
+						}else{
+							JOptionPane.showMessageDialog(null, "Datos errones en teléfono!");
 						}
 					}
 				}else{
