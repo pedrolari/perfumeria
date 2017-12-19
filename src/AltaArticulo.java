@@ -32,12 +32,14 @@ public class AltaArticulo extends JInternalFrame implements ActionListener{
 		this.setBorder(null);
 		((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
 		this.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER));
-		
+		this.getContentPane().setBackground(Color.white);
 		principal=new JPanel(new BorderLayout(20, 20));
 		principal.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY), "Alta Articulo", TitledBorder.LEFT, TitledBorder.TOP, new Font(null, Font.BOLD, 25), Color.GRAY));
-	
+		principal.setBackground(Color.white);
+		
 		centro=new JPanel(new GridLayout(9, 2, 20, 20));
 		centro.setBorder(new EmptyBorder(0, 20, 0, 20));
+		centro.setBackground(Color.WHITE);
 		
 		lb1=new JLabel("Nombre");
 		lb2=new JLabel("Precio");
@@ -97,7 +99,7 @@ public class AltaArticulo extends JInternalFrame implements ActionListener{
 		principal.add(centro, BorderLayout.CENTER);
 		
 		sur=new JPanel(new FlowLayout(FlowLayout.CENTER));
-		
+		sur.setBackground(Color.WHITE);
 		btn=new JButton("Insertar");
 		
 		sur.add(btn);
@@ -186,7 +188,7 @@ public class AltaArticulo extends JInternalFrame implements ActionListener{
 	public DefaultComboBoxModel<String> buscarProveedor() throws ClassNotFoundException, SQLException{
 		DefaultComboBoxModel<String> aux = new DefaultComboBoxModel<String>();
 		Conexion c=new Conexion();
-		ResultSet rs = c.consultar("select * from proveedores");
+		ResultSet rs = c.consultar("select * from proveedores where cif not like 'A3333333'");
 		while(rs.next()){
 			aux.addElement(rs.getString(2));
 		}
