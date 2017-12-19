@@ -20,9 +20,9 @@ import javax.swing.plaf.basic.BasicButtonUI;
 
 public class BotonInterior extends JButton{
 
-    private Color color1 = new Color(0x666f7f);
-    private Color color2 = new Color(0x262d3d);
-    private Color color3 = new Color(0x262d3d);
+    private Color color1 = new Color(41, 53, 65);
+    private Color color2 = Color.WHITE;
+    private Color color3 = Color.white;
 
     
     public BotonInterior(String s) {
@@ -35,6 +35,8 @@ public class BotonInterior extends JButton{
         setFont(new Font("Arial",Font.BOLD,16));
         setFocusPainted(false);
         setBorderPainted(false);
+        
+       
     }
 
     protected void paintComponent(Graphics g) {
@@ -59,6 +61,8 @@ public class BotonInterior extends JButton{
            c2=color1.brighter();
            c1=color2.brighter();
            c3=color3.darker();
+           
+           
         }
           RoundRectangle2D.Float r2d = new RoundRectangle2D.Float(0,0,getWidth(),getHeight()-1,20,20);
             g2.clip(r2d);
@@ -72,7 +76,12 @@ public class BotonInterior extends JButton{
         g2.setPaint(oldPaint);
         super.paintComponent(g);
     }
-
+    public void setEnabled(boolean b){
+    	super.setEnabled(b);
+    	if(!b){
+    		this.setForeground(Color.BLACK);
+    	}
+    }
     public Color getColor1() {
         return color1;
     }
