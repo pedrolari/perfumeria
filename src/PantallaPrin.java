@@ -215,6 +215,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 		jbOpcMenu[2].addActionListener(this);
 		jbOpcMenu[3].addActionListener(this);
 		jbOpcMenu[4].addActionListener(this);
+		jbOpcMenu[5].addActionListener(this);
 	}
 	
 	
@@ -593,9 +594,19 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 					// ARTICULOS PENDIENTES, PARA CARGAR EN BBDD CUANDO LLEGUEN
 					JpanelCargarJIframe.removeAll();
 					
-					PedidiosPendientes pp= new PedidiosPendientes();
-					JpanelCargarJIframe.add(pp);
-					pp.setVisible(true);
+					PedidiosPendientes pp;
+					try {
+						pp = new PedidiosPendientes();
+						JpanelCargarJIframe.add(pp);
+						pp.setVisible(true);
+					} catch (ClassNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
 					
 					
 				}
