@@ -41,6 +41,11 @@ public class ModificacionEmpleado extends JInternalFrame {
 	private GridBagConstraints cons;
 	private Conexion c;
 
+	/**
+	 * Constructor de la clase, defino los paneles, un gridbag donde lo coloco,
+	 * voy llamando a los métodos que he creado para dibujar los elementos y
+	 * dibujo los elementos mas simples
+	 */
 	public ModificacionEmpleado() {
 
 		super(null, false, true, false, false);
@@ -58,11 +63,12 @@ public class ModificacionEmpleado extends JInternalFrame {
 						TitledBorder.LEFT, TitledBorder.TOP, new Font(null, Font.BOLD, 25), Color.GRAY));
 		principal.setPreferredSize(new Dimension(400, 600));
 		principal.setLayout(new BorderLayout());
+		// Panel central, gridbaglayout
 		centro = new JPanel(new GridBagLayout());
 		centro.setPreferredSize(principal.getPreferredSize());
 		cons = new GridBagConstraints();
 		centro.setBorder(new EmptyBorder(0, 20, 0, 20));
-
+		// LLamo a los métodos para dibujar los elementos
 		drawComboBox();
 		drawLabels();
 		drawTextFields();
@@ -79,7 +85,7 @@ public class ModificacionEmpleado extends JInternalFrame {
 
 		principal.add(centro);
 		this.getContentPane().add(principal);
-
+		// LLamo a los listener
 		Listener();
 		loadEmpleadoData();
 
@@ -92,7 +98,7 @@ public class ModificacionEmpleado extends JInternalFrame {
 
 		cbEmpleado = new JComboBox<String>();
 		cbEmpleado.setPrototypeDisplayValue("123456789012345678901234567890");
-		setEmpleadoModel();
+		setEmpleadoModel(); // LLamo al método que extrae los datos de la bbdd
 		cons.gridx = 3;
 		cons.gridy = 0;
 		cons.gridwidth = 2;
@@ -102,7 +108,10 @@ public class ModificacionEmpleado extends JInternalFrame {
 
 	}
 
-	
+	/**
+	 * Dibujo las etiquetas, asigno una columna y mediante un bucle, voy
+	 * asignado la fila una a una
+	 */
 	private void drawLabels() {
 
 		String[] textoLbl = { "Empleado", "User", "Pass", "Nombre", "Apellidos", "Teléfono", "Rol" };
@@ -134,9 +143,14 @@ public class ModificacionEmpleado extends JInternalFrame {
 
 		}
 	}
-	
+
+	/**
+	 * Model para el combobox, busco los datos en la BBDD y muestro el id de
+	 * usuario que quiero modificar
+	 */
 	private void setEmpleadoModel() {
 		modelEmp = new DefaultComboBoxModel<String>();
+		modelEmp.addElement("Seleccione Empleado");
 
 		try {
 			Conexion c = new Conexion();
@@ -156,7 +170,7 @@ public class ModificacionEmpleado extends JInternalFrame {
 	}
 
 	private void loadEmpleadoData() {
-		Conexion c;
+		Conexion c = null;
 		Empleado e = new Empleado();
 
 		try {
@@ -174,10 +188,13 @@ public class ModificacionEmpleado extends JInternalFrame {
 			e1.printStackTrace();
 		}
 
-	
-
 	}
 
+	/**
+	 * Método que valida los campos antes de poder enviarlos
+	 * 
+	 * @return
+	 */
 	private boolean validateFields() {
 		Validaciones v = new Validaciones();
 		boolean valido = true;
@@ -185,8 +202,8 @@ public class ModificacionEmpleado extends JInternalFrame {
 		// Valido los que no pueden ser nulos
 		for (int i = 0; i < datosEmp.length; i++) {
 			if (v.campovacio(datosEmp[i].getText()) && i != 3) {
-				JOptionPane.showMessageDialog(this, "Error, ha dejado el campo "+label[i+1].getText()+" vacío", "Campo Vacío",
-						JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Error, ha dejado el campo " + label[i + 1].getText() + " vacío",
+						"Campo Vacío", JOptionPane.ERROR_MESSAGE);
 				datosEmp[i].requestFocus();
 				valido = false;
 			}
@@ -203,12 +220,20 @@ public class ModificacionEmpleado extends JInternalFrame {
 
 	}
 
+	/**
+	 * Activa desactiva los campos
+	 * 
+	 * @param enabled
+	 */
 	private void switchEnabled(boolean enabled) {
 		for (JTextField dato : datosEmp) {
 			dato.setEnabled(enabled);
 		}
 	}
 
+	/**
+	 * Método con todos los listener de cada elemento
+	 */
 	private void Listener() {
 
 		// Carga la información del empleado que he seleccionado en el combobox
@@ -245,12 +270,15 @@ public class ModificacionEmpleado extends JInternalFrame {
 				ckModificar.setSelected(false);
 
 				if (validateFields()) {
-					
+
 					saveData();
 				}
 
 			}
 
+			/**
+			 * Método que guarda los datos
+			 */
 			private void saveData() {
 
 				String[] campos = { "user", "pass", "nombre", "apellidos", "telefono", "rol" };
@@ -258,11 +286,11 @@ public class ModificacionEmpleado extends JInternalFrame {
 				try {
 					Conexion c = new Conexion();
 					// Primero el usuario
-					e.modificar(cbEmpleado.getSelectedItem().toString(), campos[0], datosEmp[0].getText(), c);
+					e.modificar(cbEmpleado.getSelectedItem().toString(), campos[0], datosEmp[0].getText());
 					for (int i = 1; i < campos.length; i++) {
 						System.out.println("campo" + i);
 						// Y ahora el resto de campos
-						e.modificar(datosEmp[0].getText(), campos[i], datosEmp[i].getText(), c);
+						e.modificar(datosEmp[0].getText(), campos[i], datosEmp[i].getText());
 					}
 					setEmpleadoModel();
 
