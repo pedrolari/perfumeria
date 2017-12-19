@@ -101,7 +101,7 @@ Empleado:
 Articulo
 		-Modificacion(Alejandro) ok
 		-Baja (Amadeo)
-		-Compras (Alejandro)
+		-Compras (Alejandro) Ok
 		
 		
 Pendiente:

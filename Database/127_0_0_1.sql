@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.5.2
+-- version 4.7.4
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-12-2017 a las 16:42:19
--- Versión del servidor: 10.1.21-MariaDB
--- Versión de PHP: 7.1.1
+-- Tiempo de generación: 19-12-2017 a las 17:12:35
+-- Versión del servidor: 10.1.28-MariaDB
+-- Versión de PHP: 7.1.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -165,8 +167,7 @@ CREATE TABLE `compras` (
   `user` varchar(20) NOT NULL,
   `cif` varchar(20) NOT NULL,
   `fecha_compra` date NOT NULL,
-  `total_pedido` double NOT NULL,
-  `estado` int(11) NOT NULL
+  `total_pedido` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -219,6 +220,25 @@ CREATE TABLE `lineas_de_ventas` (
   `cantidad` int(11) NOT NULL,
   `precio` decimal(10,0) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+--
+-- Volcado de datos para la tabla `lineas_de_ventas`
+--
+
+INSERT INTO `lineas_de_ventas` (`id_linea_de_ventas`, `id_venta`, `id_articulo`, `cantidad`, `precio`) VALUES
+(1, 1, 1, 2, '8'),
+(2, 1, 2, 3, '90'),
+(3, 2, 3, 2, '51'),
+(4, 2, 2, 1, '90'),
+(5, 3, 3, 4, '51'),
+(6, 3, 2, 2, '90'),
+(7, 4, 3, 3, '51'),
+(8, 4, 1, 1, '8'),
+(9, 4, 5, 6, '106'),
+(10, 5, 2, 3, '90'),
+(11, 5, 4, 1, '5'),
+(12, 6, 4, 1, '5'),
+(13, 6, 3, 1, '51');
 
 -- --------------------------------------------------------
 
@@ -16649,6 +16669,18 @@ CREATE TABLE `ventas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- Volcado de datos para la tabla `ventas`
+--
+
+INSERT INTO `ventas` (`id_venta`, `user`, `dni`, `fecha_venta`, `total_pedido`) VALUES
+(1, ' ', ' ', '2017-12-18', 285.43),
+(2, ' ', ' ', '2017-12-19', 270.33),
+(3, ' ', ' ', '2017-12-19', 385.41999999999996),
+(4, ' ', ' ', '2017-12-19', 799.73),
+(5, ' ', ' ', '2017-12-19', 274.91999999999996),
+(6, ' ', ' ', '2017-12-19', 55.89);
+
+--
 -- Índices para tablas volcadas
 --
 
@@ -16727,41 +16759,50 @@ ALTER TABLE `ventas`
 --
 ALTER TABLE `articulos`
   MODIFY `id_articulo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+
 --
 -- AUTO_INCREMENT de la tabla `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+
 --
 -- AUTO_INCREMENT de la tabla `compras`
 --
 ALTER TABLE `compras`
   MODIFY `id_compra` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de la tabla `lineas_de_compras`
 --
 ALTER TABLE `lineas_de_compras`
   MODIFY `id_lineas_de_compra` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de la tabla `lineas_de_ventas`
 --
 ALTER TABLE `lineas_de_ventas`
-  MODIFY `id_linea_de_ventas` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_linea_de_ventas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
 --
 -- AUTO_INCREMENT de la tabla `localidades`
 --
 ALTER TABLE `localidades`
   MODIFY `id_localidad` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8123;
+
 --
 -- AUTO_INCREMENT de la tabla `provincias`
 --
 ALTER TABLE `provincias`
   MODIFY `id_provincia` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+
 --
 -- AUTO_INCREMENT de la tabla `ventas`
 --
 ALTER TABLE `ventas`
-  MODIFY `id_venta` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_venta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
