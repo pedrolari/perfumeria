@@ -101,7 +101,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 
 		jlRol = new JLabel("Administrador"); // Rol que tiene el usuario
 		Toolkit t = Toolkit.getDefaultToolkit();
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		Dimension screenSize = t.getScreenSize();
 		if (nombre.length() >= 20) {
 			jlRol.setBorder(new EmptyBorder(0, 10, 0, screenSize.height-150));
 		} else {
@@ -202,7 +202,8 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 			jpOesteCentro.add(jbOpcMenu[i]);
 			
 		}
-		if (rol == 0) {
+		//Si el rol !=0 (admin) no muestra las opciones de EMPLEADOS
+		if (rol != 0) {
 			jbOpcMenu[0].setVisible(false);
 		}
 	
