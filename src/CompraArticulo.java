@@ -94,7 +94,8 @@ public class CompraArticulo extends JInternalFrame {
 
 										if (comprobar.isNumeric(tfCantidad.getText())) {
 											listaCompra.setValueAt(
-													(Integer.parseInt(tfCantidad.getText()) * nuevo.getPrecio()),
+													(Integer.parseInt(tfCantidad.getText()) * ((double) lineaPedido
+															.getValueAt(listaCompra.getSelectedRow(), 3))),
 													listaCompra.getSelectedRow(), 4);
 											lineaPRECIO = Double.parseDouble(
 													lineaPedido.getValueAt(listaCompra.getSelectedRow(), 4).toString());
@@ -303,7 +304,7 @@ public class CompraArticulo extends JInternalFrame {
 			// TODO Auto-generated catch block
 			e3.printStackTrace();
 		}
-		
+
 		PrintWriter pw = new PrintWriter(fw);
 
 		int lineaTicket = 1;
@@ -330,7 +331,6 @@ public class CompraArticulo extends JInternalFrame {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
-		
 
 		try {
 			while (resultado.next()) {
