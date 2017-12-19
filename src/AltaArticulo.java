@@ -28,7 +28,7 @@ public class AltaArticulo extends JInternalFrame implements ActionListener{
 	private DefaultComboBoxModel<String> dcb, dcb2,dcb3;
 	
 	public AltaArticulo() throws ClassNotFoundException, SQLException {
-		this.setPreferredSize(new Dimension(1050, 500));
+		this.setPreferredSize(new Dimension(1050, 640));
 		this.setBorder(null);
 		((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
 		this.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -38,7 +38,7 @@ public class AltaArticulo extends JInternalFrame implements ActionListener{
 		principal.setBackground(Color.white);
 		
 		centro=new JPanel(new GridLayout(9, 2, 20, 20));
-		centro.setBorder(new EmptyBorder(0, 20, 0, 20));
+		centro.setBorder(new EmptyBorder(50, 350, 40, 350));
 		centro.setBackground(Color.WHITE);
 		
 		lb1=new JLabel("Nombre");
@@ -50,6 +50,15 @@ public class AltaArticulo extends JInternalFrame implements ActionListener{
 		lb7=new JLabel("Categoría");
 		lb8=new JLabel("Subcategoría");
 		lb9=new JLabel("Stock");
+		lb1.setFont(new Font("Arial",Font.PLAIN,16));
+		lb2.setFont(new Font("Arial",Font.PLAIN,16));
+		lb3.setFont(new Font("Arial",Font.PLAIN,16));
+		lb4.setFont(new Font("Arial",Font.PLAIN,16));
+		lb5.setFont(new Font("Arial",Font.PLAIN,16));
+		lb6.setFont(new Font("Arial",Font.PLAIN,16));
+		lb7.setFont(new Font("Arial",Font.PLAIN,16));
+		lb8.setFont(new Font("Arial",Font.PLAIN,16));
+		lb9.setFont(new Font("Arial",Font.PLAIN,16));
 		
 		tf1=new JTextField(11);
 		tf2=new JTextField(11);
@@ -100,7 +109,7 @@ public class AltaArticulo extends JInternalFrame implements ActionListener{
 		
 		sur=new JPanel(new FlowLayout(FlowLayout.CENTER));
 		sur.setBackground(Color.WHITE);
-		btn=new JButton("Insertar");
+		btn=new BotonInterior("Insertar");
 		
 		sur.add(btn);
 		
@@ -150,7 +159,7 @@ public class AltaArticulo extends JInternalFrame implements ActionListener{
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				//Articulo(int id_articulo, String nombre, Double precio, String descripcion, String volumen, String embalaje,String cif, int id_categoria, int stock)
+				
 				try {
 					Articulo a=new Articulo(1,tf1.getText(),Double.parseDouble(tf2.getText()),tf3.getText(),tf4.getText()+"ml",tf5.getText(),recogerCif(),recogerIdCat(),Integer.parseInt(tf8.getText()));
 					a.insertNoId();

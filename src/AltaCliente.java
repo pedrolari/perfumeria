@@ -56,13 +56,13 @@ public class AltaCliente extends JInternalFrame implements ActionListener{
 		this.setMaximizable(false);
 		this.setBorder(null);
 		((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
-		this.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER,40,50));
-		ptotal=new JPanel(new BorderLayout(150,50));
+		this.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER,40,30));
+		ptotal=new JPanel(new BorderLayout(150,30));
 		ptotal.setBackground(Color.white);
 		ptotal.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(41, 53, 65), 1), "ALTA CLIENTE",TitledBorder.LEFT,TitledBorder.TOP,new Font(null, Font.BOLD,25), new Color(41, 53, 65)));
 		this.getContentPane().add(ptotal);
 		pcen=new JPanel(new GridLayout(9, 2,50,12));
-		pcen.setBorder(new EmptyBorder(70, 350, 70, 350));
+		pcen.setBorder(new EmptyBorder(70, 350, 40, 350));
 		ptotal.add(pcen,BorderLayout.CENTER);
 		pcen.setBackground(Color.white);
 		
@@ -71,6 +71,7 @@ public class AltaCliente extends JInternalFrame implements ActionListener{
 		lbl=new JLabel[texto.length];
 		for (int i = 0; i < texto.length; i++) {
 			lbl[i]=new JLabel(texto[i]);
+			lbl[i].setFont(new Font("Arial",Font.PLAIN,16));
 		}
 		
 		//parte derecha
@@ -127,8 +128,8 @@ public class AltaCliente extends JInternalFrame implements ActionListener{
 		//botones
 		psur=new JPanel(new FlowLayout(FlowLayout.CENTER));
 		ptotal.add(psur, BorderLayout.SOUTH);
-		btn=new JButton("Enviar");
-		btnborrar=new JButton("Borrar");
+		btn=new BotonInterior("Enviar");
+		btnborrar=new BotonInterior("Borrar");
 		btn.addActionListener(this);
 		btnborrar.addActionListener(this);
 		psur.add(btn);

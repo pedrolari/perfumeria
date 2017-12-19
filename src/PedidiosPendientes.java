@@ -39,7 +39,7 @@ public class PedidiosPendientes extends JInternalFrame implements ActionListener
 		this.setBorder(null);
 		((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
 		this.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER,40,50));
-		ptotal=new JPanel(new BorderLayout(150,50));
+		ptotal=new JPanel(new BorderLayout(150,30));
 		ptotal.setBackground(Color.white);
 		ptotal.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(41, 53, 65), 1), "PEDIDOS PENDIENTES",TitledBorder.LEFT,TitledBorder.TOP,new Font(null, Font.BOLD,25), new Color(41, 53, 65)));
 		this.getContentPane().add(ptotal);
@@ -61,7 +61,7 @@ public class PedidiosPendientes extends JInternalFrame implements ActionListener
 		psur=new JPanel(new FlowLayout(FlowLayout.CENTER,40,10));
 		psur.setBackground(Color.white);
 		ptotal.add(psur, BorderLayout.SOUTH);
-		btn=new JButton("Marcar como recibido");
+		btn=new BotonInterior("Marcar como recibido");
 		btn.addActionListener(this);
 		psur.add(btn);
 		
