@@ -58,9 +58,12 @@ public class BotonInterior extends JButton{
            c3=color3.brighter();
         }
         if (!m.isEnabled()){
-           c2=color1.brighter();
+        	c1=new Color(138,136,136);
+        	c2=new Color(40,39,39);
+        	c3=color3;
+         /*  c2=color1.brighter();
            c1=color2.brighter();
-           c3=color3.darker();
+           c3=color3.darker();*/
            
            
         }
@@ -78,8 +81,8 @@ public class BotonInterior extends JButton{
     }
     public void setEnabled(boolean b){
     	super.setEnabled(b);
-    	if(!b){
-    		this.setForeground(Color.BLACK);
+    	if(this.isEnabled()){
+    		this.setForeground(Color.WHITE);
     	}
     }
     public Color getColor1() {
