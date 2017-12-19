@@ -27,7 +27,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 	private ImageIcon imagen, imagencarnet;
 	private JLabel jlImagen, jlRol, jlNombre, jlPersona, jlMenu;
 	private JScrollPane barraScrollPanelCargarJIframe;
-	private JButton  jbOpcMenu []=new JButton[6];
+	private BotonMenu  jbOpcMenu []=new BotonMenu[6];
 	private JButton jbAjuste, jbcerrar, jbOpcMenu1 ,jbOpcMenu2,jbOpcMenu3,jbOpcMenu4,jbOpcMenu5;
 
 	private String usuario;
@@ -184,7 +184,8 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 		jpOesteNorte.setBackground(new Color(41, 53, 65));
 		jpOeste.add(BorderLayout.NORTH, jpOesteNorte);
 
-		jpOesteCentro = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 30));
+		//jpOesteCentro = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 30));
+		jpOesteCentro = new JPanel(new GridLayout(6, 1));
 		jpOesteCentro.setPreferredSize(new Dimension(200, this.getHeight()));
 		jpOesteCentro.setBackground(new Color(41, 53, 65));
 
@@ -193,12 +194,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 		/*Inicializacion de los botones de menu y caracteristicas*/
 		for (int i = 0; i < jbOpcMenu.length; i++) {
 			
-			jbOpcMenu[i]=new JButton(noms[i]);
-			jbOpcMenu[i].setForeground(Color.white);
-			jbOpcMenu[i].setOpaque(false);
-			jbOpcMenu[i].setContentAreaFilled(false);
-			jbOpcMenu[i].setBorderPainted(false);
-			jbOpcMenu[i].setPreferredSize(new Dimension(200, 50));
+			jbOpcMenu[i]=new BotonMenu(noms[i], "src/Imagenes/menu"+i+".png");			
 			jpOesteCentro.add(jbOpcMenu[i]);
 			
 		}
@@ -809,7 +805,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 		return jbOpcMenu;
 	}
 
-	public void setJbOpcMenu(JButton[] jbOpcMenu) {
+	public void setJbOpcMenu(BotonMenu[] jbOpcMenu) {
 		this.jbOpcMenu = jbOpcMenu;
 	}
 
