@@ -259,6 +259,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 				public void actionPerformed(ActionEvent e) {
 					// TODO ALTA DEL ARTICULO
 					JpanelCargarJIframe.removeAll();
+					JpanelCargarJIframe.updateUI();
 					AltaArticulo aa;
 					try {
 						aa = new AltaArticulo();
@@ -286,6 +287,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 						JpanelCargarJIframe.removeAll();
 						ModificacionArticulo ma = new ModificacionArticulo();
 						JpanelCargarJIframe.add(ma);
+						JpanelCargarJIframe.updateUI();
 						ma.setVisible(true);
 					} catch (ClassNotFoundException e1) {
 						// TODO Auto-generated catch block
@@ -322,6 +324,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 					JpanelCargarJIframe.removeAll();
 					CompraArticulo ca = new CompraArticulo(usuario);
 					JpanelCargarJIframe.add(ca);
+					JpanelCargarJIframe.updateUI();
 					ca.setVisible(true);
 
 				}
@@ -365,6 +368,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 					AltaCliente ac=new AltaCliente();
 					JpanelCargarJIframe.add(ac);
 					ac.setVisible(true);
+					JpanelCargarJIframe.updateUI();
 				
 					
 				}
@@ -379,6 +383,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 					ModificacionCliente mc=new ModificacionCliente();
 					JpanelCargarJIframe.add(mc);
 					mc.setVisible(true);
+					JpanelCargarJIframe.updateUI();
 				
 					
 				}
@@ -416,6 +421,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 					}
 					JpanelCargarJIframe.add(cc);
 					cc.setVisible(true);
+					JpanelCargarJIframe.updateUI();
 					
 				}
 				
@@ -509,6 +515,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 					AltaProveedor ap=new AltaProveedor();
 					JpanelCargarJIframe.add(ap);
 					ap.setVisible(true);
+					JpanelCargarJIframe.updateUI();
 		
 				}
 			});
@@ -559,6 +566,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
 					JpanelCargarJIframe.removeAll();
+					JpanelCargarJIframe.updateUI();
 				
 					try {
 						System.out.println(usuario +"dffgghhg");
@@ -604,6 +612,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 				public void actionPerformed(ActionEvent e) {
 					// ARTICULOS PENDIENTES, PARA CARGAR EN BBDD CUANDO LLEGUEN
 					JpanelCargarJIframe.removeAll();
+					JpanelCargarJIframe.updateUI();
 					
 					PedidiosPendientes pp;
 					try {
