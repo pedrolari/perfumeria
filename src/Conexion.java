@@ -7,12 +7,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.swing.JOptionPane;
+
 public class Conexion {
 	private Connection con;
 	Conexion() throws SQLException, ClassNotFoundException{
-		Class.forName("com.mysql.jdbc.Driver");
-		String url = "jdbc:mysql://localhost/perfumeria";
-		con = DriverManager.getConnection(url,"root","");
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			String url = "jdbc:mysql://localhost/perfumeria";
+			con = DriverManager.getConnection(url,"root","");
+		}catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Error al conectar con la Base de Datos");
+		}
 	}
 	public Connection getCon() {
 		return con;

@@ -189,7 +189,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 		jpOesteCentro.setPreferredSize(new Dimension(200, this.getHeight()));
 		jpOesteCentro.setBackground(new Color(41, 53, 65));
 
-		String[] noms={"Empleados", "Proveedores", "Clientes", "Articulos","Pedidos", "Salir"};
+		String[] noms={"ARTÍCULOS", "CLIENTES", "EMPLEADOS", "PROVEEDORES","PEDIDOS", "SALIR"};
 		
 		/*Inicializacion de los botones de menu y caracteristicas*/
 		for (int i = 0; i < jbOpcMenu.length; i++) {
@@ -198,19 +198,23 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 			jpOesteCentro.add(jbOpcMenu[i]);
 			
 		}
-		//Si el rol !=0 (admin) no muestra las opciones de EMPLEADOS
-		if (rol != 0) {
-			jbOpcMenu[0].setVisible(false);
+		//Rol=0 Admin
+		//Rol=1 Empleado Rango 1
+		//Rol=2 Empleado Rango 2
+		if(rol==1) {
+			jbOpcMenu[2].setVisible(false);
+			jbOpcMenu[3].setVisible(false);
+			jbOpcMenu[4].setVisible(false);
 		}
 	
 		jpOeste.add(BorderLayout.CENTER, jpOesteCentro);
 
 		this.getContentPane().add(BorderLayout.WEST, jpOeste);
 		
+		jbOpcMenu[3].addActionListener(this);
+		jbOpcMenu[2].addActionListener(this);
 		jbOpcMenu[0].addActionListener(this);
 		jbOpcMenu[1].addActionListener(this);
-		jbOpcMenu[2].addActionListener(this);
-		jbOpcMenu[3].addActionListener(this);
 		jbOpcMenu[4].addActionListener(this);
 		jbOpcMenu[5].addActionListener(this);
 	}
@@ -232,6 +236,195 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 			this.getJbOpcMenu4().removeActionListener(this.getJbOpcMenu4().getActionListeners()[0]);// quita el action listener actual
 		if(this.getJbOpcMenu5().getActionListeners().length!=0)
 			this.getJbOpcMenu5().removeActionListener(this.getJbOpcMenu5().getActionListeners()[0]);// quita el action listener actual
+			JpanelCargarJIframe.removeAll();
+			JpanelCargarJIframe.updateUI();
+			this.getJlMenu().setText("ARTICULOS");
+			this.getJlMenu().setVisible(true);
+			this.getJbOpcMenu1().setText("ALTA");
+			this.getJbOpcMenu1().setVisible(true);
+			this.getJbOpcMenu1().addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO ALTA DEL ARTICULO
+					JpanelCargarJIframe.removeAll();
+					AltaArticulo aa;
+					try {
+						aa = new AltaArticulo();
+						JpanelCargarJIframe.add(aa);
+						aa.setVisible(true);
+					} catch (ClassNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+					
+				}
+			});
+			this.getJbOpcMenu2().setText("MODIFICACION");
+			this.getJbOpcMenu2().setVisible(true);
+			this.getJbOpcMenu2().addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+
+					try {
+						JpanelCargarJIframe.removeAll();
+						ModificacionArticulo ma = new ModificacionArticulo();
+						JpanelCargarJIframe.add(ma);
+						ma.setVisible(true);
+					} catch (ClassNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+					
+				}
+			});
+			this.getJbOpcMenu3().setText("BAJA");
+			this.getJbOpcMenu3().setVisible(true);
+			this.getJbOpcMenu3().addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					JpanelCargarJIframe.removeAll();
+					BajaArticulo ba=new BajaArticulo();
+					JpanelCargarJIframe.add(ba);
+					ba.setVisible(true);
+					JpanelCargarJIframe.updateUI();
+				}
+			});
+			
+			this.getJbOpcMenu4().setText("COMPRA");
+			this.getJbOpcMenu4().setVisible(true);
+			this.getJbOpcMenu4().addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+
+					JpanelCargarJIframe.removeAll();
+					CompraArticulo ca = new CompraArticulo(usuario);
+					JpanelCargarJIframe.add(ca);
+					ca.setVisible(true);
+
+				}
+			});
+			this.getJbOpcMenu5().setText("PEDIDO");
+			this.getJbOpcMenu5().setVisible(true);
+			this.getJbOpcMenu5().addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO PEDDIO ARTICULOS
+					JpanelCargarJIframe.removeAll();
+					
+				}
+			});
+		}
+		else if(e.getSource().equals(this.getJbOpcMenu()[1]))
+		{	
+			if(this.getJbOpcMenu1().getActionListeners().length!=0)
+				this.getJbOpcMenu1().removeActionListener(this.getJbOpcMenu1().getActionListeners()[0]);// quita el action listener actual
+			if(this.getJbOpcMenu2().getActionListeners().length!=0)
+				this.getJbOpcMenu2().removeActionListener(this.getJbOpcMenu2().getActionListeners()[0]);// quita el action listener actual
+			if(this.getJbOpcMenu3().getActionListeners().length!=0)
+				this.getJbOpcMenu3().removeActionListener(this.getJbOpcMenu3().getActionListeners()[0]);// quita el action listener actual
+			if(this.getJbOpcMenu4().getActionListeners().length!=0)
+				this.getJbOpcMenu4().removeActionListener(this.getJbOpcMenu4().getActionListeners()[0]);// quita el action listener actual
+			if(this.getJbOpcMenu5().getActionListeners().length!=0)
+				this.getJbOpcMenu5().removeActionListener(this.getJbOpcMenu5().getActionListeners()[0]);// quita el action listener actual
+			JpanelCargarJIframe.removeAll();
+			JpanelCargarJIframe.updateUI();
+			this.getJlMenu().setText("CLIENTES");
+			this.getJlMenu().setVisible(true);
+			
+			this.getJbOpcMenu1().setText("ALTA");
+			this.getJbOpcMenu1().setVisible(true);
+			this.getJbOpcMenu1().addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					JpanelCargarJIframe.removeAll();
+					AltaCliente ac=new AltaCliente();
+					JpanelCargarJIframe.add(ac);
+					ac.setVisible(true);
+				
+					
+				}
+			});
+			this.getJbOpcMenu2().setText("MODIFICACION");
+			this.getJbOpcMenu2().setVisible(true);
+			this.getJbOpcMenu2().addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					JpanelCargarJIframe.removeAll();
+					ModificacionCliente mc=new ModificacionCliente();
+					JpanelCargarJIframe.add(mc);
+					mc.setVisible(true);
+				
+					
+				}
+			});
+			this.getJbOpcMenu3().setText("BAJA");
+			this.getJbOpcMenu3().setVisible(true);
+			this.getJbOpcMenu3().addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					JpanelCargarJIframe.removeAll();
+					BajaCliente bc=new BajaCliente();
+					JpanelCargarJIframe.add(bc);
+					bc.setVisible(true);
+					JpanelCargarJIframe.updateUI();
+				}
+			});
+			
+			this.getJbOpcMenu4().setText("COMPRA");
+			this.getJbOpcMenu4().addActionListener(new ActionListener(){
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					// TODO Auto-generated method stub
+					JpanelCargarJIframe.removeAll();
+					CompraCliente cc = null;
+					try {
+						cc = new CompraCliente(usuario);
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					JpanelCargarJIframe.add(cc);
+					cc.setVisible(true);
+					
+				}
+				
+			});
+			this.getJbOpcMenu4().setVisible(true);
+			this.getJbOpcMenu5().setVisible(false);
+		}
+		
+		else if(e.getSource().equals(this.getJbOpcMenu()[2]))
+		{
+			if(this.getJbOpcMenu1().getActionListeners().length!=0)
+				this.getJbOpcMenu1().removeActionListener(this.getJbOpcMenu1().getActionListeners()[0]);// quita el action listener actual
+			if(this.getJbOpcMenu2().getActionListeners().length!=0)
+				this.getJbOpcMenu2().removeActionListener(this.getJbOpcMenu2().getActionListeners()[0]);// quita el action listener actual
+			if(this.getJbOpcMenu3().getActionListeners().length!=0)
+				this.getJbOpcMenu3().removeActionListener(this.getJbOpcMenu3().getActionListeners()[0]);// quita el action listener actual
+			if(this.getJbOpcMenu4().getActionListeners().length!=0)
+				this.getJbOpcMenu4().removeActionListener(this.getJbOpcMenu4().getActionListeners()[0]);// quita el action listener actual
+			if(this.getJbOpcMenu5().getActionListeners().length!=0)
+				this.getJbOpcMenu5().removeActionListener(this.getJbOpcMenu5().getActionListeners()[0]);// quita el action listener actual
 			JpanelCargarJIframe.removeAll();
 			JpanelCargarJIframe.updateUI();
 			this.getJlMenu().setText("EMPLEADOS");
@@ -277,11 +470,9 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 			});
 			this.getJbOpcMenu4().setVisible(false);
 			this.getJbOpcMenu5().setVisible(false);
-			
-			
 		}
-		else if(e.getSource().equals(this.getJbOpcMenu()[1]))
-		{	
+		else if(e.getSource().equals(this.getJbOpcMenu()[3]))
+		{
 			if(this.getJbOpcMenu1().getActionListeners().length!=0)
 				this.getJbOpcMenu1().removeActionListener(this.getJbOpcMenu1().getActionListeners()[0]);// quita el action listener actual
 			if(this.getJbOpcMenu2().getActionListeners().length!=0)
@@ -376,195 +567,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 			});
 			
 			this.getJbOpcMenu5().setVisible(false);
-		}
-		
-		else if(e.getSource().equals(this.getJbOpcMenu()[2]))
-		{
-			if(this.getJbOpcMenu1().getActionListeners().length!=0)
-				this.getJbOpcMenu1().removeActionListener(this.getJbOpcMenu1().getActionListeners()[0]);// quita el action listener actual
-			if(this.getJbOpcMenu2().getActionListeners().length!=0)
-				this.getJbOpcMenu2().removeActionListener(this.getJbOpcMenu2().getActionListeners()[0]);// quita el action listener actual
-			if(this.getJbOpcMenu3().getActionListeners().length!=0)
-				this.getJbOpcMenu3().removeActionListener(this.getJbOpcMenu3().getActionListeners()[0]);// quita el action listener actual
-			if(this.getJbOpcMenu4().getActionListeners().length!=0)
-				this.getJbOpcMenu4().removeActionListener(this.getJbOpcMenu4().getActionListeners()[0]);// quita el action listener actual
-			if(this.getJbOpcMenu5().getActionListeners().length!=0)
-				this.getJbOpcMenu5().removeActionListener(this.getJbOpcMenu5().getActionListeners()[0]);// quita el action listener actual
-			JpanelCargarJIframe.removeAll();
-			JpanelCargarJIframe.updateUI();
-			this.getJlMenu().setText("CLIENTES");
-			this.getJlMenu().setVisible(true);
 			
-			this.getJbOpcMenu1().setText("ALTA");
-			this.getJbOpcMenu1().setVisible(true);
-			this.getJbOpcMenu1().addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					JpanelCargarJIframe.removeAll();
-					AltaCliente ac=new AltaCliente();
-					JpanelCargarJIframe.add(ac);
-					ac.setVisible(true);
-				
-					
-				}
-			});
-			this.getJbOpcMenu2().setText("MODIFICACION");
-			this.getJbOpcMenu2().setVisible(true);
-			this.getJbOpcMenu2().addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					JpanelCargarJIframe.removeAll();
-					ModificacionCliente mc=new ModificacionCliente();
-					JpanelCargarJIframe.add(mc);
-					mc.setVisible(true);
-				
-					
-				}
-			});
-			this.getJbOpcMenu3().setText("BAJA");
-			this.getJbOpcMenu3().setVisible(true);
-			this.getJbOpcMenu3().addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					JpanelCargarJIframe.removeAll();
-					BajaCliente bc=new BajaCliente();
-					JpanelCargarJIframe.add(bc);
-					bc.setVisible(true);
-					JpanelCargarJIframe.updateUI();
-				}
-			});
-			
-			this.getJbOpcMenu4().setText("COMPRA");
-			this.getJbOpcMenu4().addActionListener(new ActionListener(){
-
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					// TODO Auto-generated method stub
-					JpanelCargarJIframe.removeAll();
-					CompraCliente cc = null;
-					try {
-						cc = new CompraCliente(usuario);
-					} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					JpanelCargarJIframe.add(cc);
-					cc.setVisible(true);
-					
-				}
-				
-			});
-			this.getJbOpcMenu4().setVisible(true);
-			this.getJbOpcMenu5().setVisible(false);
-		}
-		else if(e.getSource().equals(this.getJbOpcMenu()[3]))
-		{
-			if(this.getJbOpcMenu1().getActionListeners().length!=0)
-				this.getJbOpcMenu1().removeActionListener(this.getJbOpcMenu1().getActionListeners()[0]);// quita el action listener actual
-			if(this.getJbOpcMenu2().getActionListeners().length!=0)
-				this.getJbOpcMenu2().removeActionListener(this.getJbOpcMenu2().getActionListeners()[0]);// quita el action listener actual
-			if(this.getJbOpcMenu3().getActionListeners().length!=0)
-				this.getJbOpcMenu3().removeActionListener(this.getJbOpcMenu3().getActionListeners()[0]);// quita el action listener actual
-			if(this.getJbOpcMenu4().getActionListeners().length!=0)
-				this.getJbOpcMenu4().removeActionListener(this.getJbOpcMenu4().getActionListeners()[0]);// quita el action listener actual
-			if(this.getJbOpcMenu5().getActionListeners().length!=0)
-				this.getJbOpcMenu5().removeActionListener(this.getJbOpcMenu5().getActionListeners()[0]);// quita el action listener actual
-			JpanelCargarJIframe.removeAll();
-			JpanelCargarJIframe.updateUI();
-			this.getJlMenu().setText("ARTICULOS");
-			this.getJlMenu().setVisible(true);
-			this.getJbOpcMenu1().setText("ALTA");
-			this.getJbOpcMenu1().setVisible(true);
-			this.getJbOpcMenu1().addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO ALTA DEL ARTICULO
-					JpanelCargarJIframe.removeAll();
-					AltaArticulo aa;
-					try {
-						aa = new AltaArticulo();
-						JpanelCargarJIframe.add(aa);
-						aa.setVisible(true);
-					} catch (ClassNotFoundException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					
-					
-				}
-			});
-			this.getJbOpcMenu2().setText("MODIFICACION");
-			this.getJbOpcMenu2().setVisible(true);
-			this.getJbOpcMenu2().addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-
-					try {
-						JpanelCargarJIframe.removeAll();
-						ModificacionArticulo ma = new ModificacionArticulo();
-						JpanelCargarJIframe.add(ma);
-						ma.setVisible(true);
-					} catch (ClassNotFoundException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					
-					
-				}
-			});
-			this.getJbOpcMenu3().setText("BAJA");
-			this.getJbOpcMenu3().setVisible(true);
-			this.getJbOpcMenu3().addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					JpanelCargarJIframe.removeAll();
-					BajaArticulo ba=new BajaArticulo();
-					JpanelCargarJIframe.add(ba);
-					ba.setVisible(true);
-					JpanelCargarJIframe.updateUI();
-				}
-			});
-			
-			this.getJbOpcMenu4().setText("COMPRA");
-			this.getJbOpcMenu4().setVisible(true);
-			this.getJbOpcMenu4().addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-
-					JpanelCargarJIframe.removeAll();
-					CompraArticulo ca = new CompraArticulo(usuario);
-					JpanelCargarJIframe.add(ca);
-					ca.setVisible(true);
-
-				}
-			});
-			this.getJbOpcMenu5().setText("PEDIDO");
-			this.getJbOpcMenu5().setVisible(true);
-			this.getJbOpcMenu5().addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO PEDDIO ARTICULOS
-					JpanelCargarJIframe.removeAll();
-					
-				}
-			});
 		}
 		else if(e.getSource().equals(this.getJbOpcMenu()[4]))
 		{
