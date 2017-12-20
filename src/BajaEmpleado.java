@@ -24,7 +24,7 @@ public class BajaEmpleado extends JInternalFrame implements ActionListener{
 	private DefaultTableModel modelo;
 	private JTable tabla;
 	private String[] columnas = { "User", "Pass", "Nombre", "Apellidos", "Telefono", "Rol"};
-	private JButton btn;
+	private BotonInterior btn;
 	
 	BajaEmpleado(){
 		this.setPreferredSize(new Dimension(1050, 600));
@@ -71,7 +71,7 @@ public class BajaEmpleado extends JInternalFrame implements ActionListener{
 				
 		sur=new JPanel(new FlowLayout(FlowLayout.CENTER));
 		
-		btn=new JButton("Borrar Empleado");
+		btn=new BotonInterior("Borrar Empleado");
 		
 		sur.add(btn);
 		

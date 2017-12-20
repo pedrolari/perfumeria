@@ -20,7 +20,7 @@ public class BajaProveedor extends JInternalFrame implements ActionListener{
 	private DefaultTableModel modelo;
 	private JTable tabla;
 	private String[] columnas = { "Cif", "Nombre", "Teléfono", "Dirección"};
-	private JButton btn;
+	private BotonInterior btn;
 	
 	BajaProveedor(){
 		this.setPreferredSize(new Dimension(1050, 600));
@@ -66,7 +66,7 @@ public class BajaProveedor extends JInternalFrame implements ActionListener{
 				
 		sur=new JPanel(new FlowLayout(FlowLayout.CENTER));
 		
-		btn=new JButton("Borrar Proveedor");
+		btn=new BotonInterior("Borrar Proveedor");
 		
 		sur.add(btn);
 		

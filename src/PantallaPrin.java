@@ -4,12 +4,14 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.ScrollPane;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -99,7 +101,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 		JpanelCentroNorte.setPreferredSize(new Dimension(this.getWidth(), 75));
 		
 
-		jlRol = new JLabel("Administrador"); // Rol que tiene el usuario
+		jlRol = new JLabel(nombre); // Rol que tiene el usuario
 		Toolkit t = Toolkit.getDefaultToolkit();
 		Dimension screenSize = t.getScreenSize();
 		if (nombre.length() >= 20) {
@@ -112,7 +114,10 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 		jlRol.setFont(new Font(null, 1, 25));
 		JpanelCentroNorte.add(jlRol);
 
-		imagencarnet = new ImageIcon(getClass().getResource("Imagenes/2369.png"));// foto del usuario
+		imagencarnet = new ImageIcon(getClass().getResource("Imagenes/user.png"));// foto del usuario
+		Image img=imagencarnet.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+		imagencarnet=new ImageIcon(img);
+		
 		jlPersona = new JLabel(imagencarnet);
 		JpanelCentroNorte.add(jlPersona);
 
@@ -123,7 +128,13 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 		jbcerrar.setOpaque(false);
 		jbcerrar.setContentAreaFilled(false);
 		jbcerrar.setBorderPainted(false);
-		jbcerrar.setIcon(new ImageIcon(getClass().getResource("Imagenes/458594.png"))); // menu desplegable
+		
+		ImageIcon ii=new ImageIcon(getClass().getResource("Imagenes/exit.png"));
+		img=ii.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+		ii=new ImageIcon(img);
+		
+		jbcerrar.setIcon(ii); // menu desplegable
+		jbcerrar.setFocusable(false);
 		JpanelCentroNorte.add(jbcerrar);
 		jbcerrar.addActionListener(new EscuchaCerrar(vent));
 

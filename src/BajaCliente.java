@@ -21,7 +21,7 @@ public class BajaCliente extends JInternalFrame implements ActionListener{
 	private DefaultTableModel modelo;
 	private JTable tabla;
 	private String[] columnas = { "Dni", "Nombre", "Apellidos", "Dirección", "Telefono", "Email", "Sexo"};
-	private JButton btn;
+	private BotonInterior btn;
 	
 	BajaCliente(){
 		this.setPreferredSize(new Dimension(1050, 600));
@@ -68,7 +68,7 @@ public class BajaCliente extends JInternalFrame implements ActionListener{
 				
 		sur=new JPanel(new FlowLayout(FlowLayout.CENTER));
 		
-		btn=new JButton("Borrar Cliente");
+		btn=new BotonInterior("Borrar Cliente");
 		
 		sur.add(btn);
 		
