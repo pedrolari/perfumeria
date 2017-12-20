@@ -35,7 +35,7 @@ public class AltaEmpleado extends JInternalFrame implements ActionListener{
 	private JPanel[] aux = new JPanel[7];
 	private JPanel[] auxt = new JPanel[7];
 	private JPanel tras,prin,izq,der,sur;
-	private JButton carga,limpiar;
+	private BotonInterior carga,limpiar;
 	private Empleado c;
 	
 	public AltaEmpleado() {
@@ -204,8 +204,8 @@ public class AltaEmpleado extends JInternalFrame implements ActionListener{
 		sur = new JPanel();
 		sur.setBackground(Color.white);
 		sur.setLayout(new FlowLayout(FlowLayout.CENTER));
-		carga = new JButton("REGISTRAR");
-		limpiar = new JButton("LIMPIAR");
+		carga = new BotonInterior("Registrar");
+		limpiar = new BotonInterior("Limpiar");
 		sur.add(carga);
 		sur.add(limpiar);
 		
@@ -379,19 +379,19 @@ public class AltaEmpleado extends JInternalFrame implements ActionListener{
 		this.sur = sur;
 	}
 
-	public JButton getCarga() {
+	public BotonInterior getCarga() {
 		return carga;
 	}
 
-	public void setCarga(JButton carga) {
+	public void setCarga(BotonInterior carga) {
 		this.carga = carga;
 	}
 
-	public JButton getLimpiar() {
+	public BotonInterior getLimpiar() {
 		return limpiar;
 	}
 
-	public void setLimpiar(JButton limpiar) {
+	public void setLimpiar(BotonInterior limpiar) {
 		this.limpiar = limpiar;
 	}
 	

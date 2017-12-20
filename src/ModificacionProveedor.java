@@ -29,7 +29,7 @@ public class ModificacionProveedor extends JInternalFrame implements ActionListe
 	private Conexion c;
 	private JPanel central,norte,sur,centralL;
 	private JTextField cif,nom,tel,dir;
-	private JButton jb,jb3;
+	private BotonInterior jb,jb3;
 	private JPanel[] jp = new JPanel[8];
 	private Proveedor p;
 	private Validaciones v;
@@ -62,16 +62,17 @@ public class ModificacionProveedor extends JInternalFrame implements ActionListe
 		central = new JPanel();
 		central.setLayout(new BorderLayout());
 		central.setBackground(Color.WHITE);
+		
 		central.setBorder(BorderFactory.createTitledBorder
 				(BorderFactory.createLineBorder(new Color(41, 53, 65)),
 						"Modificar de Proveedor",TitledBorder.LEFT, 
 						TitledBorder.TOP, new Font(null, Font.BOLD, 25),new Color(41, 53, 65)));
 		central.setPreferredSize(new Dimension(300,300));
 		
-		jb = new JButton("Modificar");
+		jb = new BotonInterior("Modificar");
 		jb.setEnabled(false);
 		jb.addActionListener(this);
-		jb3 = new  JButton("Cargar");
+		jb3 = new  BotonInterior("Cargar");
 		jb3.addActionListener(this);
 		
 		norte = new JPanel();
@@ -282,19 +283,19 @@ public class ModificacionProveedor extends JInternalFrame implements ActionListe
 		this.dir = dir;
 	}
 
-	public JButton getJb() {
+	public BotonInterior getJb() {
 		return jb;
 	}
 
-	public void setJb(JButton jb) {
+	public void setJb(BotonInterior jb) {
 		this.jb = jb;
 	}
 
-	public JButton getJb3() {
+	public BotonInterior getJb3() {
 		return jb3;
 	}
 
-	public void setJb3(JButton jb3) {
+	public void setJb3(BotonInterior jb3) {
 		this.jb3 = jb3;
 	}
 
