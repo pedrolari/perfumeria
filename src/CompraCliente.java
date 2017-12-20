@@ -17,8 +17,10 @@ import java.util.*;
 import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -34,6 +36,8 @@ public class CompraCliente extends JInternalFrame{
 	private JTable miTable;
 	private DefaultTableModel fila;
 	private BotonInterior jbAñadir, jbQuitar, jbenviar;
+	private JCheckBox cb;
+	private JLabel lbl;
 	private JPanel jpPrimerPanel, jpSegundoPanel;
 	private DefaultComboBoxModel lista, lista2;
 	private JComboBox jc1, jc2;
@@ -345,6 +349,12 @@ public class CompraCliente extends JInternalFrame{
 		jbenviar = new BotonInterior("Enviar");
 		jpSegundoPanel.add(jbenviar);
 
+		cb=new JCheckBox();
+		jpSegundoPanel.add(cb);
+		
+		lbl=new JLabel("Generar factura");
+		jpSegundoPanel.add(lbl);
+		
 		jbenviar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -435,6 +445,10 @@ public class CompraCliente extends JInternalFrame{
 									}
 								}
 								generarTicketCompra(miTable, num);
+								if(cb.isSelected())
+								{
+									//AQUI HAY QUE PONER LA FACTURA
+								}
 								JOptionPane.showMessageDialog(null, "Datos insertados correctamente.");
 							
 								
