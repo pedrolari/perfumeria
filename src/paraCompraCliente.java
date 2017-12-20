@@ -2,6 +2,7 @@
 
 import javax.swing.*;
 
+//Clase que sirve para hacer el arrayList de compracliente
 public class paraCompraCliente {
 
 	private JComboBox c1, c2;

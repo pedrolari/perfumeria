@@ -27,6 +27,8 @@ public class AltaProveedor extends JInternalFrame implements ActionListener{
 	private JButton btn;
 	private Conexion c;
 	
+	
+	//Aqui se dibuja toda la ventana
 	AltaProveedor()
 	{
 		
@@ -75,6 +77,7 @@ public class AltaProveedor extends JInternalFrame implements ActionListener{
 		
 	}
 
+	//Aqui hago la escucha con sus correspondientes validaciones, y luego inserto en la base de datos
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub

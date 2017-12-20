@@ -62,6 +62,7 @@ public class CompraCliente extends JInternalFrame{
 	
 	ArrayList <paraCompraCliente> listacom=new ArrayList<paraCompraCliente>();
 
+	//Aqui genero el formato de la linea de la tabla
 	private void FormatoTabla() {
 
 		
@@ -103,7 +104,7 @@ public class CompraCliente extends JInternalFrame{
 	}
 
 
-	
+	//Aqui añado la linea a la tabla, hago las escuchas y relleno los campos
 	private void AnadirProveedor() {
 		lista.removeAllElements();
 		lista.setSelectedItem(-1);
@@ -258,7 +259,7 @@ public class CompraCliente extends JInternalFrame{
 	
 
 	
-	
+	//Aqui hago las escuchas de los botones enviar, quitar y añadir con sus correspondientes validaciones
 	private void componentes() throws SQLException {
 		// TODO Auto-generated method stub
 
@@ -467,6 +468,8 @@ public class CompraCliente extends JInternalFrame{
 		this.getContentPane().add(BorderLayout.SOUTH, jpSegundoPanel);
 	}
 	
+	
+	//Aqui genero el ticket, el cual se usa en el boton enviar
 	public void generarTicketCompra(JTable listaCompra, int maxID) throws SQLException{
 		Calendar fecha = GregorianCalendar.getInstance();
 		
