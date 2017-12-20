@@ -17,12 +17,14 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -41,6 +43,7 @@ public class PedidoProveedor extends JInternalFrame {
 	private Conexion c;
 	private double numero = 0;
 	private int num;
+	private boolean bComprobar = false;
 
 	private DefaultTableModel modelo;
 	private String[] columnas = { "Proveedor", "Articulo", "Cantidad", "Precio", "Total" };
@@ -51,8 +54,11 @@ public class PedidoProveedor extends JInternalFrame {
 		this.setPreferredSize(new Dimension(1050, 600));
 		this.setResizable(false);
 		this.setLayout(new BorderLayout(20, 20));
-		this.getContentPane().setBackground(Color.white);
+		//this.getContentPane().setBackground(Color.white);
 		this.setBorder(null);
+		
+		this.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(41, 53, 65)), "PEDIDOS PROVEEDOR",TitledBorder.LEFT,TitledBorder.TOP,new Font(null, Font.BOLD,25), new Color(41, 53, 65)));
+		
 		((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
 		componentes(usuario);
 	}
@@ -101,6 +107,7 @@ public class PedidoProveedor extends JInternalFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				lista2.removeAllElements();
+		
 				try {
 
 					ResultSet rs = c.consultar("SELECT * FROM `articulos` WHERE cif ='" + jc1.getSelectedItem() + "'");
@@ -118,7 +125,9 @@ public class PedidoProveedor extends JInternalFrame {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						// TODO Auto-generated method stub
-
+						
+						
+						
 						numero = 0;
 						try {
 
@@ -158,8 +167,8 @@ public class PedidoProveedor extends JInternalFrame {
 
 		jt1 = new JTextField();
 
-		jpPrimerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-		jpPrimerPanel.setBackground(Color.white);
+		jpPrimerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
+	//	jpPrimerPanel.setBackground(Color.white);
 
 		DefaultTableModel modelo = new DefaultTableModel();
 
@@ -176,9 +185,10 @@ public class PedidoProveedor extends JInternalFrame {
 
 		this.getContentPane().add(BorderLayout.CENTER, jpPrimerPanel);
 
-		jpSegundoPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-		jpSegundoPanel.setBackground(Color.white);
+		jpSegundoPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
+	//	jpSegundoPanel.setBackground(Color.white);
 		jbAñadir = new JButton("Añadir");
+	
 		jpSegundoPanel.add(jbAñadir);
 
 		jbAñadir.addActionListener(new ActionListener() {
@@ -186,19 +196,31 @@ public class PedidoProveedor extends JInternalFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 
-				boolean bComprobar = false;
+				bComprobar = false;
 
 				for (int i = 0; i < miTable.getRowCount(); i++) {
-					for (int j = 0; j < miTable.getRowCount() ; j++) {
-						
-						if(i!=j) {
-							if (modelo.getValueAt(i, 1).toString().equalsIgnoreCase(modelo.getValueAt(j, 1).toString())) {
-								bComprobar = true;
-							}
-						}
-						
-					}
+					for (int j = 0; j < miTable.getColumnCount(); j++) {
 
+						if (modelo.getValueAt(i, j) == null || modelo.getValueAt(i, j).toString().equalsIgnoreCase("0")
+								|| modelo.getValueAt(i, j).toString().equalsIgnoreCase("0.0")) {
+							bComprobar = true;
+						}
+					}
+				}
+
+				if (bComprobar != true) {
+					for (int i = 0; i < miTable.getRowCount(); i++) {
+						for (int j = 0; j < miTable.getRowCount(); j++) {
+
+							if (i != j) {
+								if (modelo.getValueAt(i, 1).toString()
+										.equalsIgnoreCase(modelo.getValueAt(j, 1).toString())) {
+									bComprobar = true;
+								}
+							}
+
+						}
+					}
 				}
 
 				if (bComprobar == false) {
@@ -206,7 +228,8 @@ public class PedidoProveedor extends JInternalFrame {
 					AnadirProveedor();
 					modelo.addRow(new Object[] {});
 				} else {
-					JOptionPane.showMessageDialog(null, "Producto repetido ");
+					JOptionPane.showMessageDialog(null,
+							"Producto repetido o campos erroneos compruebe los valores de la tabla para crear una nueva fila ");
 				}
 
 			}
@@ -218,11 +241,18 @@ public class PedidoProveedor extends JInternalFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				try {
-					modelo.removeRow(miTable.getRowCount() - 1);
 
-				} catch (Exception e2) {
-					// TODO: handle exception
+				int opc2 = JOptionPane.showConfirmDialog(null, "Quiere borrar la ultima linea de pedido");
+
+				if (opc2 == JOptionPane.YES_OPTION) {
+
+					try {
+						modelo.removeRow(miTable.getRowCount() - 1);
+
+					} catch (Exception e2) {
+						// TODO: handle exception
+					}
+
 				}
 
 			}
@@ -236,62 +266,90 @@ public class PedidoProveedor extends JInternalFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 
-				Date d = new Date();
-				SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd");
+				int opc1 = JOptionPane.showConfirmDialog(null, "Quiere enviar la el pedido");
 
-				try {
-					c.modificar("INSERT INTO compras (user, cif, fecha_compra) VALUES ('" + usuario + "','"
-							+ "A3333333" + "','" + form.format(d) + "')");
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				if (opc1 == JOptionPane.YES_OPTION) {
 
-				try {
+					Date d = new Date();
+					SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd");
 
-					ResultSet rs = c.consultar("SELECT max(id_compra) as num from compras");
-					rs.next();
-					num = rs.getInt("num");
-
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-
-				boolean check = true;
-
-				for (int i = 0; i < miTable.getRowCount(); i++) {
-					for (int j = 0; j < miTable.getColumnCount(); j++) {
-
-						if (modelo.getValueAt(i, j) == null || modelo.getValueAt(i, j).toString().equalsIgnoreCase("0")
-								|| modelo.getValueAt(i, j).toString().equalsIgnoreCase("0.0")) {
-							check = false;
-						}
-						System.out.println(modelo.getValueAt(i, j));
+					try {
+						c.modificar("INSERT INTO compras (user, cif, fecha_compra) VALUES ('" + usuario + "','"
+								+ "A3333333" + "','" + form.format(d) + "')");
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
-				}
 
-				if (check == true) {
+					try {
+
+						ResultSet rs = c.consultar("SELECT max(id_compra) as num from compras");
+						rs.next();
+						num = rs.getInt("num");
+
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+
+					boolean check = true;
 
 					for (int i = 0; i < miTable.getRowCount(); i++) {
-						try {
-							ResultSet rs = c.consultar(
-									"SELECT * FROM `articulos` WHERE `nombre`= '" + modelo.getValueAt(i, 1) + "'");
-							rs.next();
-							int num2 = rs.getInt("id_articulo");
-							c.modificar(
-									"INSERT INTO `lineas de compras`( `id_compra`, `id_articulo`, `cantidad`, `precio`) VALUES ('"
-											+ num + "','" + num2 + "','" + modelo.getValueAt(i, 2) + "','"
-											+ modelo.getValueAt(i, 3) + "')");
-						} catch (SQLException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
+						for (int j = 0; j < miTable.getColumnCount(); j++) {
+
+							if (modelo.getValueAt(i, j) == null
+									|| modelo.getValueAt(i, j).toString().equalsIgnoreCase("0")
+									|| modelo.getValueAt(i, j).toString().equalsIgnoreCase("0.0")) {
+								check = false;
+							}
+
 						}
 					}
-				} else {
-					JOptionPane.showMessageDialog(null, "Campos Incompletos");
+
+					if (bComprobar != true) {
+						for (int i = 0; i < miTable.getRowCount(); i++) {
+							for (int j = 0; j < miTable.getRowCount(); j++) {
+
+								if (i != j) {
+									if (modelo.getValueAt(i, 1).toString()
+											.equalsIgnoreCase(modelo.getValueAt(j, 1).toString())) {
+										bComprobar = true;
+									}
+								}
+
+							}
+						}
+					}
+
+					if (check == true && bComprobar == false) {
+
+						for (int i = 0; i < miTable.getRowCount(); i++) {
+							try {
+								ResultSet rs = c.consultar(
+										"SELECT * FROM `articulos` WHERE `nombre`= '" + modelo.getValueAt(i, 1) + "'");
+								rs.next();
+								int num2 = rs.getInt("id_articulo");
+								c.modificar(
+										"INSERT INTO `lineas de compras`( `id_compra`, `id_articulo`, `cantidad`, `precio`) VALUES ('"
+												+ num + "','" + num2 + "','" + modelo.getValueAt(i, 2) + "','"
+												+ modelo.getValueAt(i, 3) + "')");
+							} catch (SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+						}
+					} else {
+						JOptionPane.showMessageDialog(null, "Campos Incompletos");
+					}
 				}
 
+				JOptionPane.showMessageDialog(null, "Informacion Enviada ");
+
+				int a = miTable.getRowCount() - 1;
+				for (int i = a; i >= 0; i--) {
+					modelo.removeRow(miTable.getRowCount() - 1);
+
+				}
 			}
 		});
 
