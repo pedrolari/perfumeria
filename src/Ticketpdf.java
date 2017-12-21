@@ -24,7 +24,7 @@ public class Ticketpdf {
 
 	private void crearTicket(String user, int idVent) throws SQLException, JRException, ClassNotFoundException {
 		// TODO Auto-generated method stub
-		List<Ticket> listaTicket = new ArrayList<Ticket>();
+		TicketDatasource listaTicket = new TicketDatasource();
 		int i = 1;
 		String empleado;
 		int total;
@@ -46,14 +46,13 @@ public class Ticketpdf {
 					rs.getInt("lineas_de_ventas.precio"), rs.getInt("lineas_de_ventas.cantidad"), total,
 					rs.getInt("ventas.total_pedido"));
 			//paso el objecto Ticket al Array
-			listaTicket.add(t);
+			listaTicket.addParticipante(t);
 			
 		}
 
 		JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reporte.jasper");
 		// Aqui le pasamos al jasper los parametros
-		JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, null,
-				new JRBeanCollectionDataSource(listaTicket));
+		JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, null,listaTicket);
 		// </editor-fold>
 
 		JRExporter exporter = new JRPdfExporter();

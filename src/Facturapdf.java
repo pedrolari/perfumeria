@@ -24,7 +24,7 @@ public class Facturapdf {
 
 	public void CrearPdf(String dni2,String user,int idvent) throws SQLException, ClassNotFoundException, JRException {
 		
-		List<Factura> listaPariticipantes = new ArrayList<Factura>();
+		FacturaDatasource listaPariticipantes = new FacturaDatasource();
         int i = 1;
         String cliente;
         int total;
@@ -40,13 +40,13 @@ public class Facturapdf {
 			Factura p = new Factura(i, rs.getString("empleados.nombre"),cliente,total,
 					rs.getInt("empleados.telefono"),rs.getInt("lineas_de_ventas.cantidad"),rs.getString("articulos.nombre"),
 					rs.getString("empleados.apellidos"),rs.getInt("articulos.precio"),rs.getInt("articulos.id_articulo"),rs.getString("empleados.user"));
-            listaPariticipantes.add(p);
+            listaPariticipantes.addParticipante(p);
 		}
            
 
 
         JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reporte2.jasper");
-        JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, null, new JRBeanCollectionDataSource(listaPariticipantes));
+        JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, null, listaPariticipantes);
         // </editor-fold>
 
         JRExporter exporter = new JRPdfExporter();
