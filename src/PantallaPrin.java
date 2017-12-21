@@ -639,7 +639,25 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 					
 				}
 			});
-			this.getJbOpcMenu2().setVisible(false);
+			this.getJbOpcMenu2().setText("DEVOLUCIONES");
+			this.getJbOpcMenu2().setVisible(true);
+			this.getJbOpcMenu2().addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// ARTICULOS PENDIENTES, PARA CARGAR EN BBDD CUANDO LLEGUEN
+					JpanelCargarJIframe.removeAll();
+					JpanelCargarJIframe.updateUI();
+					
+					DevolverProveedor dp;
+					dp = new DevolverProveedor();
+					JpanelCargarJIframe.add(dp);
+					dp.setVisible(true);
+					
+					
+					
+				}
+			});
 			this.getJbOpcMenu3().setVisible(false);
 			this.getJbOpcMenu4().setVisible(false);
 			this.getJbOpcMenu5().setVisible(false);
