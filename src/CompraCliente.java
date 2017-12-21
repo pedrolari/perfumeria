@@ -352,7 +352,7 @@ public class CompraCliente extends JInternalFrame{
 		jpSegundoPanel.add(jbenviar);
 
 		cb=new JCheckBox();
-		
+		cb.setBackground(Color.white);
 		jpSegundoPanel.add(cb);
 		
 		lbl=new JLabel("Generar factura");
