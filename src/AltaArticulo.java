@@ -239,6 +239,9 @@ public class AltaArticulo extends JInternalFrame implements ActionListener{
 		}else if(!v.isDouble(tf2.getText())) {
 			cond=false;
 			JOptionPane.showMessageDialog(this, "El campo precio debe ser numérico");
+		}else if(Integer.parseInt(tf2.getText())<0){
+			cond=false;
+			JOptionPane.showMessageDialog(this, "El campo precio no puede ser menor que 0");
 		}else if(v.campovacio(tf3.getText())){
 			cond=false;
 			JOptionPane.showMessageDialog(this, "El campo descripción no puede estar vacío");
@@ -248,8 +251,10 @@ public class AltaArticulo extends JInternalFrame implements ActionListener{
 		}else if(!v.isNumeric(tf4.getText())) {
 			cond=false;
 			JOptionPane.showMessageDialog(this, "El campo volumen debe ser numérico");
-		}
-		else if(v.campovacio(tf5.getText())){
+		}else if(Integer.parseInt(tf4.getText())<0){
+			cond=false;
+			JOptionPane.showMessageDialog(this, "El campo volumen no puede ser menor que 0");
+		}else if(v.campovacio(tf5.getText())){
 			cond=false;
 			JOptionPane.showMessageDialog(this, "El campo embalaje no puede estar vacío");
 		}else if(v.campovacio(tf8.getText())){
@@ -258,6 +263,9 @@ public class AltaArticulo extends JInternalFrame implements ActionListener{
 		}else if(!v.isNumeric(tf8.getText())) {
 			cond=false;
 			JOptionPane.showMessageDialog(this, "El campo stock debe ser numérico");
+		}else if(Integer.parseInt(tf8.getText())<0){
+			cond=false;
+			JOptionPane.showMessageDialog(this, "El campo  stock no puede ser menor que 0");
 		}
 		return cond;
 	}
