@@ -7,6 +7,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -76,6 +77,7 @@ public class ModificacionEmpleado extends JInternalFrame {
 		drawTextFields();
 		// Dibujo el boton y el checkbox
 		ckModificar = new JCheckBox("Modificar");
+		ckModificar.setBackground(Color.white);
 		btSend = new BotonInterior("Enviar");
 		btSend.setEnabled(false);
 
@@ -143,7 +145,7 @@ public class ModificacionEmpleado extends JInternalFrame {
 			cons.gridy = i + 1;
 			cons.gridwidth = 2;
 			cons.weightx = 1;
-			cons.ipady = 10;
+			cons.insets=  new Insets(10, 10, 10, 10);
 			cons.fill = GridBagConstraints.HORIZONTAL;
 			centro.add(datosEmp[i], cons);
 
