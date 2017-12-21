@@ -33,9 +33,9 @@ public class ModificacionEmpleado extends JInternalFrame {
 
 	private JPanel principal, centro;
 	private JLabel[] label;
-	private JTextField[] datosEmp;
+	private HintTextField[] datosEmp;
 	private JCheckBox ckModificar;
-	private JButton btSend;
+	private BotonInterior btSend;
 	private JComboBox<String> cbEmpleado;
 	private DefaultComboBoxModel<String> modelEmp;
 	private GridBagConstraints cons;
@@ -76,7 +76,9 @@ public class ModificacionEmpleado extends JInternalFrame {
 		drawTextFields();
 		// Dibujo el boton y el checkbox
 		ckModificar = new JCheckBox("Modificar");
-		btSend = new JButton("Enviar");
+		btSend = new BotonInterior("Enviar");
+		btSend.setEnabled(false);
+
 		// Añado el boton para actualizar, y un checkbox para permitir modificar
 		cons.gridy = 8;
 		cons.gridx = 1;
@@ -131,9 +133,11 @@ public class ModificacionEmpleado extends JInternalFrame {
 	}
 
 	private void drawTextFields() {
-		datosEmp = new JTextField[6];
+		datosEmp = new HintTextField[6];
+		String[] textoLbl = { "User", "Pass", "Nombre", "Apellidos", "Teléfono", "Rol" };
+
 		for (int i = 0; i < datosEmp.length; i++) {
-			datosEmp[i] = new JTextField(10);
+			datosEmp[i] = new HintTextField(textoLbl[i]);
 			datosEmp[i].setEnabled(false);
 			cons.gridx = 3;
 			cons.gridy = i + 1;
@@ -185,10 +189,6 @@ public class ModificacionEmpleado extends JInternalFrame {
 				this.datosEmp[3].setText(e.getApellidos());
 				this.datosEmp[4].setText(String.valueOf(e.getTelefono()));
 				this.datosEmp[5].setText(String.valueOf(e.getRol()));
-			} else {
-				for (int i = 0; i < datosEmp.length; i++) {
-					datosEmp[i].setText("Seleccionar Empleado");
-				}
 			}
 
 		} catch (ClassNotFoundException | SQLException e1) {
@@ -225,6 +225,35 @@ public class ModificacionEmpleado extends JInternalFrame {
 		}
 
 		return valido;
+
+	}
+
+	private void saveData() {
+
+		String[] campos = { "user", "pass", "nombre", "apellidos", "telefono", "rol" };
+		String[] opciones = { "Si", "No" };
+		int eleccion = JOptionPane.showOptionDialog(null, "Actualizar " + e.getUser(), "Mensaje de Confirmacion",
+				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, "Si");
+
+		if (eleccion == JOptionPane.YES_OPTION) {
+			try {
+				Conexion c = new Conexion();
+				// Primero el nombre de usuario
+				e.modificar(e.getUser(), campos[0], datosEmp[0].getText());
+				for (int i = 1; i < campos.length; i++) {
+					System.out.println("campo" + i);
+					// Y ahora el resto de campos
+					e.modificar(datosEmp[0].getText(), campos[i], datosEmp[i].getText());
+				}
+				setEmpleadoModel();
+
+			} catch (ClassNotFoundException | SQLException e1) {
+				System.out.println(e1.getMessage());
+				e1.printStackTrace();
+			}
+			JOptionPane.showMessageDialog(null, "Datos Registrados correctamente");
+
+		}
 
 	}
 
@@ -270,6 +299,8 @@ public class ModificacionEmpleado extends JInternalFrame {
 			}
 		});
 
+		//Listener para el boton enviar, primero valida los datos
+		// y si son validos, los guarda
 		this.btSend.addActionListener(new ActionListener() {
 
 			@Override
@@ -281,40 +312,23 @@ public class ModificacionEmpleado extends JInternalFrame {
 
 					saveData();
 				}
+			
 
 			}
-
-			/**
-			 * Método que guarda los datos
-			 */
-			private void saveData() {
-
-				String[] campos = { "user", "pass", "nombre", "apellidos", "telefono", "rol" };
-				String[] opciones = { "Si", "No" };
-				int eleccion = JOptionPane.showOptionDialog(null, "Actualizar " + e.getUser(),
-						"Mensaje de Confirmacion", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-						opciones, "Si");
-
-				if (eleccion == JOptionPane.YES_OPTION) {
-					try {
-						Conexion c = new Conexion();
-						// Primero el nombre de usuario
-						e.modificar(e.getUser(), campos[0], datosEmp[0].getText());
-						for (int i = 1; i < campos.length; i++) {
-							System.out.println("campo" + i);
-							// Y ahora el resto de campos
-							e.modificar(datosEmp[0].getText(), campos[i], datosEmp[i].getText());
-						}
-						setEmpleadoModel();
-
-					} catch (ClassNotFoundException | SQLException e1) {
-						System.out.println(e1.getMessage());
-						e1.printStackTrace();
-					}
-					JOptionPane.showMessageDialog(null, "Datos Registrados correctamente");
-
+		});
+		
+		this.cbEmpleado.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(cbEmpleado.getSelectedIndex()==0)
+				{
+					btSend.setEnabled(false);
+				}else
+				{
+					btSend.setEnabled(true);
 				}
-
+				
 			}
 		});
 	}
