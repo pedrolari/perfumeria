@@ -61,16 +61,18 @@ public class CompraArticulo extends JInternalFrame {
 		this.setBorder(
 				BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY), "Compra Articulo",
 						TitledBorder.LEFT, TitledBorder.TOP, new Font(null, Font.BOLD, 25), Color.GRAY));
-
+		this.setBackground(Color.white);
 		// PANEL PRINCIPAL QUE CONTENDRA LOS PANELES NORTE, SUR, ESTE Y OESTE
 		principal = new JPanel(new BorderLayout(150, 30));
+		principal.setBackground(Color.white);
 		// ===================================================================
 
 		// PANEL DE BUSQUEDA
 		jpBuscar = new JPanel(new GridLayout(7, 1, 20, 20));
+		jpBuscar.setBackground(Color.white);
 		lb1 = new JLabel("Introduce el ID del articulo");
 		tf1 = new JTextField(20);
-		btnBusqueda = new JButton("Añadir a la lista");
+		btnBusqueda = new BotonInterior("Añadir a la lista");
 		btnBusqueda.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -152,7 +154,8 @@ public class CompraArticulo extends JInternalFrame {
 
 		// PANEL DE COMPRA
 		jpPagos = new JPanel(new FlowLayout());
-		btnPagar = new JButton("COBRAR");
+		jpPagos.setBackground(Color.white);
+		btnPagar = new BotonInterior("COBRAR");
 		btnPagar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -257,7 +260,7 @@ public class CompraArticulo extends JInternalFrame {
 				}
 			}
 		});
-		btnLimpiar = new JButton("LIMPIAR");
+		btnLimpiar = new BotonInterior("LIMPIAR");
 		btnLimpiar.addActionListener(new ActionListener() {
 
 			@Override
@@ -265,6 +268,7 @@ public class CompraArticulo extends JInternalFrame {
 				vaciarTodo();
 			}
 		});
+		
 		jpPagos.add(btnPagar);
 		jpPagos.add(btnLimpiar);
 		// ===================================================================

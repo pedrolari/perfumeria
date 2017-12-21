@@ -24,7 +24,7 @@ public class AltaProveedor extends JInternalFrame implements ActionListener{
 	private JPanel ptotal, pcen, psur;
 	private JLabel[] lbl;
 	private JTextField textcif, textnom, texttel, textdirec;
-	private JButton btn;
+	private BotonInterior btn;
 	private Conexion c;
 	
 	
@@ -37,13 +37,13 @@ public class AltaProveedor extends JInternalFrame implements ActionListener{
 		this.setMaximizable(false);
 		this.setBorder(null);
 		((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
-		this.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER,40,20));
+		this.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER,40,30));
 		ptotal=new JPanel(new BorderLayout(150,30));
 		ptotal.setBackground(Color.white);
-		ptotal.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.gray, 1), "ALTA PROVEEDOR",TitledBorder.LEFT,TitledBorder.TOP,new Font(null, Font.BOLD,25), Color.gray));
+		ptotal.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(41, 53, 65), 1), "ALTA PROVEEDOR",TitledBorder.LEFT,TitledBorder.TOP,new Font(null, Font.BOLD,25), new Color(41, 53, 65)));
 		this.getContentPane().add(ptotal);
-		pcen=new JPanel(new GridLayout(4, 2,10,10));
-		pcen.setBorder(new EmptyBorder(0, 20, 0, 20));
+		pcen=new JPanel(new GridLayout(4, 2,50,50));
+		pcen.setBorder(new EmptyBorder(100, 360, 120, 360));
 		ptotal.add(pcen,BorderLayout.CENTER);
 		pcen.setBackground(Color.white);
 		
@@ -69,7 +69,7 @@ public class AltaProveedor extends JInternalFrame implements ActionListener{
 		
 		psur=new JPanel(new FlowLayout(FlowLayout.CENTER));
 		ptotal.add(psur, BorderLayout.SOUTH);
-		btn=new JButton("Enviar");
+		btn=new BotonInterior("Enviar");
 		psur.add(btn);
 		psur.setBackground(Color.white);
 		
@@ -220,7 +220,7 @@ public class AltaProveedor extends JInternalFrame implements ActionListener{
 		return btn;
 	}
 
-	public void setBtn(JButton btn) {
+	public void setBtn(BotonInterior btn) {
 		this.btn = btn;
 	}
 	
