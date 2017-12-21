@@ -1,6 +1,3 @@
-
-
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -11,6 +8,7 @@ import javax.swing.JOptionPane;
 
 public class Conexion {
 	private Connection con;
+
 	Conexion() throws SQLException, ClassNotFoundException{
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -20,6 +18,7 @@ public class Conexion {
 			JOptionPane.showMessageDialog(null, "Error al conectar con la Base de Datos");
 		}
 	}
+	
 	public Connection getCon() {
 		return con;
 	}

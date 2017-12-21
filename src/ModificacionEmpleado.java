@@ -60,8 +60,8 @@ public class ModificacionEmpleado extends JInternalFrame {
 
 		principal = new JPanel(new BorderLayout(20, 20));
 		principal.setBorder(
-				BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY), "Modificación Empleado",
-						TitledBorder.LEFT, TitledBorder.TOP, new Font(null, Font.BOLD, 25), Color.GRAY));
+				BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(41, 53, 65)), "MODIFICACION EMPLEADOS",
+						TitledBorder.LEFT, TitledBorder.TOP, new Font(null, Font.BOLD, 25), new Color(41, 53, 65)));
 		principal.setPreferredSize(new Dimension(1000, 600));
 		principal.setLayout(new BorderLayout());
 		principal.setBackground(Color.WHITE);

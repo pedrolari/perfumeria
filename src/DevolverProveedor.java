@@ -42,7 +42,7 @@ public class DevolverProveedor extends JInternalFrame {
 		((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
 		this.getContentPane().setLayout(new FlowLayout(FlowLayout.LEFT));
 		this.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY),
-				"Devolución Articulo", TitledBorder.LEFT, TitledBorder.TOP, new Font(null, Font.BOLD, 25), Color.GRAY));
+				"Devolución Pedido", TitledBorder.LEFT, TitledBorder.TOP, new Font(null, Font.BOLD, 25), Color.GRAY));
 
 		// PANEL PRINCIPAL QUE CONTENDRA LOS PANELES NORTE, SUR, ESTE Y OESTE
 		principal = new JPanel(new BorderLayout(150, 30));
@@ -114,7 +114,7 @@ public class DevolverProveedor extends JInternalFrame {
 
 		lineaCompra = new DefaultTableModel();
 		listaCompra = new JTable(lineaCompra);
-		listaCompra.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+//		listaCompra.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		listaCompra.getTableHeader().setReorderingAllowed(false);
 
 		for (int i = 0; i < columnas.length; i++) {
@@ -188,25 +188,27 @@ public class DevolverProveedor extends JInternalFrame {
 		for (int j = 0; j < idsLinea.length - 1; j++) {
 			id = idsLinea[j];
 			cant = Integer.parseInt(lineaCompra.getValueAt(j, 2).toString());
-			ResultSet rs = con.consultar("SELECT * FROM lineas_de_compras WHERE id_linea_de_compras = " + id
+			ResultSet rs = con.consultar("SELECT * FROM lineas_de_compras WHERE id_lineas_de_compra = " + id
 					+ " && cantidad = " + cant + " ");
 			if (rs.next())
 				;
 			else {
-				ResultSet rs1 = con.consultar("SELECT * FROM lineas_de_compras WHERE id_linea_de_compras = " + id
+				ResultSet rs1 = con.consultar("SELECT * FROM lineas_de_compras WHERE id_lineas_de_compra = " + id
 						+ " ");
 				if(rs1.next()){cantVieja=rs1.getInt("cantidad");idpro=rs1.getInt("id_articulo");}
 				if(cantVieja>=cant&&cant>=0){
 				cantFin=cantVieja-cant;
+				System.out.println(cantFin);
 				total += cant * Double.parseDouble(lineaCompra.getValueAt(listaCompra.getSelectedRow(), 3).toString());
-				con.modificar("UPDATE lineas_de_compras SET cantidad = " + cant + " WHERE id_linea_de_compras = " + id + " ");
-				con.modificar("UPDATE articulos SET stock = stock -" + cantFin + " WHERE id_articulo = " + id + " ");
+				con.modificar("UPDATE lineas_de_compras SET cantidad = " + cant + " WHERE id_lineas_de_compra = " + id + " ");
+				con.modificar("UPDATE articulos SET stock = " + cantFin + " WHERE id_articulo = " + idpro + " ");
 				banderita2 = true;}
 			}
 		}
 		if (banderita2 == true) {
 			int idcompra = Integer.parseInt(tf1.getText());
-			con.modificar("UPDATE compras SET total_pedido = " + total + " WHERE id_compra = " + idcompra + " ");
+			con.modificar("UPDATE compras SET total_pedido = total_pedido - " + total + " WHERE id_compra = " + idcompra + " ");
+			banderita2=false;
 		} else {
 			JOptionPane.showMessageDialog(null, "Modifica alguna cantidad de esa compra");
 		}
@@ -227,7 +229,7 @@ public class DevolverProveedor extends JInternalFrame {
 				int i = 0;
 				if (rs.next()) {
 					do {
-						idsLinea[i] = rs.getInt("id_linea_de_compras");
+						idsLinea[i] = rs.getInt("id_lineas_de_compra");
 						lineaCompra.addRow(
 								new Object[] { rs.getInt("id_compra"), rs.getString("nombre"), rs.getInt("cantidad"),
 										rs.getDouble("precio"), rs.getInt("cantidad") * rs.getDouble("precio") });
@@ -267,7 +269,7 @@ public class DevolverProveedor extends JInternalFrame {
 	public boolean enTienda() throws ClassNotFoundException, SQLException{
 		
 		con=new Conexion();
-		ResultSet rs=con.consultar("SELECT * FROM compras WHERE id="+tf1.getText()+" && estado = 1");
+		ResultSet rs=con.consultar("SELECT * FROM compras WHERE id_compra ="+tf1.getText()+" && estado = 1");
 		if(rs.next())return true;
 		
 		return false;

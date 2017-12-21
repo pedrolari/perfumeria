@@ -284,7 +284,7 @@ public class PedidoProveedor extends JInternalFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 
-				int opc1 = JOptionPane.showConfirmDialog(null, "Quiere enviar la el pedido");
+				int opc1 = JOptionPane.showConfirmDialog(null, "Quiere enviar el pedido");
 
 				if (opc1 == JOptionPane.YES_OPTION) {
 
@@ -292,10 +292,20 @@ public class PedidoProveedor extends JInternalFrame {
 					Date d = new Date();
 					SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd");
 
+					double suma=0;
+					for (int i = 0; i < miTable.getRowCount(); i++) {
+						
+								suma = suma + Double.parseDouble(modelo.getValueAt(i, 3).toString()) ;
+								
+									
+					}
+					
+					
+					
 					
 					try {
 						c.modificar("INSERT INTO compras (`user`, `cif`, `fecha_compra`, `total_pedido`, `estado`) VALUES ('" + usuario + "','"
-								+ "A3333333" + "','" + form.format(d) + "','"+0+"','"+0+"')");
+								+ "A3333333" + "','" + form.format(d) + "','"+suma+"','"+0+"')");
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();

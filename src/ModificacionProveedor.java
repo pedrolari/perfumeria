@@ -27,10 +27,11 @@ public class ModificacionProveedor extends JInternalFrame implements ActionListe
 	
 	private JComboBox<String> jc;
 	private Conexion c;
-	private JPanel central,norte,sur,centralL;
+	private JPanel aux,central,norte,sur,centralL;
 	private JTextField cif,nom,tel,dir;
 	private BotonInterior jb,jb3;
 	private JPanel[] jp = new JPanel[8];
+	
 	private Proveedor p;
 	private Validaciones v;
 	
@@ -65,9 +66,10 @@ public class ModificacionProveedor extends JInternalFrame implements ActionListe
 		
 		central.setBorder(BorderFactory.createTitledBorder
 				(BorderFactory.createLineBorder(new Color(41, 53, 65)),
-						"Modificar de Proveedor",TitledBorder.LEFT, 
+						"Modificar Proveedor",TitledBorder.LEFT, 
 						TitledBorder.TOP, new Font(null, Font.BOLD, 25),new Color(41, 53, 65)));
 		central.setPreferredSize(new Dimension(300,300));
+		
 		
 		jb = new BotonInterior("Modificar");
 		jb.setEnabled(false);
