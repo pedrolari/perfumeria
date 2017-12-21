@@ -183,9 +183,9 @@ public class DevolverArticulo extends JInternalFrame {
 						+ " ");
 				if(rs1.next()){cantVieja=rs1.getInt("cantidad");idpro=rs1.getInt("id_articulo");}
 				if(cantVieja>=cant&&cant>=0){
+					System.out.println("tamoenello");
 				cantFin=cantVieja-cant;
-            	
-            	total+=cant*Double.parseDouble(lineaVenta.getValueAt(listaVenta.getSelectedRow(),3).toString());
+            	total+=cantFin*Double.parseDouble(lineaVenta.getValueAt(listaVenta.getSelectedRow(),3).toString());
             	con.modificar("UPDATE lineas_de_ventas SET cantidad = "+cant+" WHERE id_linea_de_ventas = "+id+" ");
 				con.modificar("UPDATE articulos SET stock = stock +" + cantFin + " WHERE id_articulo = " + idpro + " ");
 
@@ -193,8 +193,10 @@ public class DevolverArticulo extends JInternalFrame {
             }}
 		}
 		if(banderita2==true){
+        	System.out.println(total);
+
 			int idventa=Integer.parseInt(tf1.getText());
-			con.modificar("UPDATE ventas SET total_pedido = "+total+" WHERE id_venta = "+idventa+" ");
+			con.modificar("UPDATE ventas SET total_pedido = total_pedido - "+total+" WHERE id_venta = "+idventa+" ");
 		}
 		else{
 			JOptionPane.showMessageDialog(null,"Modifica alguna cantidad de esa venta");

@@ -337,6 +337,10 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 				public void actionPerformed(ActionEvent e) {
 					// TODO PEDDIO ARTICULOS
 					JpanelCargarJIframe.removeAll();
+					DevolverArticulo ca = new DevolverArticulo();
+					JpanelCargarJIframe.add(ca);
+					JpanelCargarJIframe.updateUI();
+					ca.setVisible(true);
 					
 				}
 			});
