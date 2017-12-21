@@ -154,9 +154,6 @@ public class CompraCliente extends JInternalFrame{
 							if(partes[0].equalsIgnoreCase(lista.getSelectedItem().toString())&&partes[1].equalsIgnoreCase(rs.getString("nombre")))
 							{
 								enc=true;
-								System.out.println("ENTRA");
-								System.out.println(lista.getSelectedItem().toString()+"-"+rs.getString("nombre"));
-								System.out.println(partes[0]+"-"+partes[1]);
 							}
 							
 						}
@@ -312,7 +309,6 @@ public class CompraCliente extends JInternalFrame{
 				
 				if(cont1>0)
 				{  
-					System.out.println("ENTRO A DESHabilitar");
 				paraCompraCliente c=new paraCompraCliente();
 				c=listacom.get(cont1-1);
 				c.getC1().setEnabled(false);
@@ -379,7 +375,6 @@ public class CompraCliente extends JInternalFrame{
 								|| modelo.getValueAt(i, j).toString().equalsIgnoreCase("0.0")) {
 							check = false;
 						}
-						System.out.println(modelo.getValueAt(i, j));
 					}
 				}
 
