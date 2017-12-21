@@ -37,7 +37,7 @@ public class PedidoProveedor extends JInternalFrame {
 
 	private JTable miTable;
 	private DefaultTableModel fila;
-	private JButton jbAñadir, jbQuitar, jbenviar;
+	private BotonInterior jbAñadir, jbQuitar, jbenviar;
 	private JPanel jpPrimerPanel, jpSegundoPanel;
 	private DefaultComboBoxModel lista, lista2;
 	private JComboBox jc1, jc2;
@@ -56,10 +56,13 @@ public class PedidoProveedor extends JInternalFrame {
 		this.setPreferredSize(new Dimension(1050, 600));
 		this.setResizable(false);
 		this.setLayout(new BorderLayout(20, 20));
-		//this.getContentPane().setBackground(Color.white);
+		this.setBackground(Color.white);
 		this.setBorder(null);
 		
-		this.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(41, 53, 65)), "PEDIDOS PROVEEDOR",TitledBorder.LEFT,TitledBorder.TOP,new Font(null, Font.BOLD,25), new Color(41, 53, 65)));
+		this.setBorder(BorderFactory.createTitledBorder
+				(BorderFactory.createLineBorder(new Color(41, 53, 65)),
+						"Pedidos de Proveedor",TitledBorder.LEFT, 
+						TitledBorder.TOP, new Font(null, Font.BOLD, 25),new Color(41, 53, 65)));
 		
 		((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
 		componentes(usuario);
@@ -178,7 +181,7 @@ public class PedidoProveedor extends JInternalFrame {
 		jt1 = new JTextField();
 
 		jpPrimerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
-	//	jpPrimerPanel.setBackground(Color.white);
+		jpPrimerPanel.setBackground(Color.white);
 
 		DefaultTableModel modelo = new DefaultTableModel();
 
@@ -196,8 +199,8 @@ public class PedidoProveedor extends JInternalFrame {
 		this.getContentPane().add(BorderLayout.CENTER, jpPrimerPanel);
 
 		jpSegundoPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
-	//	jpSegundoPanel.setBackground(Color.white);
-		jbAñadir = new JButton("Añadir");
+		jpSegundoPanel.setBackground(Color.white);
+		jbAñadir = new BotonInterior("Añadir");
 	
 		jpSegundoPanel.add(jbAñadir);
 
@@ -250,7 +253,7 @@ public class PedidoProveedor extends JInternalFrame {
 			}
 		});
 
-		jbQuitar = new JButton("Quitar");
+		jbQuitar = new BotonInterior("Quitar");
 		jpSegundoPanel.add(jbQuitar);
 		jbQuitar.addActionListener(new ActionListener() {
 			@Override
@@ -273,7 +276,7 @@ public class PedidoProveedor extends JInternalFrame {
 			}
 		});
 
-		jbenviar = new JButton("Enviar");
+		jbenviar = new BotonInterior("Enviar");
 		jpSegundoPanel.add(jbenviar);
 
 		jbenviar.addActionListener(new ActionListener() {
