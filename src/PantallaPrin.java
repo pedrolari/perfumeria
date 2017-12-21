@@ -251,6 +251,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 			JpanelCargarJIframe.updateUI();
 			this.getJlMenu().setText("ARTICULOS");
 			this.getJlMenu().setVisible(true);
+			this.getJlMenu().setFont(new Font("Arial Black",Font.BOLD,18));
 			this.getJbOpcMenu1().setText("ALTA");
 			this.getJbOpcMenu1().setVisible(true);
 			this.getJbOpcMenu1().addActionListener(new ActionListener() {
@@ -329,7 +330,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 
 				}
 			});
-			this.getJbOpcMenu5().setText("PEDIDO");
+			this.getJbOpcMenu5().setText("DEVOLUCIONES");
 			this.getJbOpcMenu5().setVisible(true);
 			this.getJbOpcMenu5().addActionListener(new ActionListener() {
 				
@@ -360,6 +361,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 			JpanelCargarJIframe.removeAll();
 			JpanelCargarJIframe.updateUI();
 			this.getJlMenu().setText("CLIENTES");
+			this.getJlMenu().setFont(new Font("Arial Black",Font.BOLD,18));
 			this.getJlMenu().setVisible(true);
 			
 			this.getJbOpcMenu1().setText("ALTA");
@@ -450,6 +452,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 			JpanelCargarJIframe.updateUI();
 			this.getJlMenu().setText("EMPLEADOS");
 			this.getJlMenu().setVisible(true);
+			this.getJlMenu().setFont(new Font("Arial Black",Font.BOLD,18));
 			this.getJbOpcMenu1().setText("ALTA");
 			this.getJbOpcMenu1().setVisible(true);
 			this.getJbOpcMenu1().addActionListener(new ActionListener() {
@@ -608,6 +611,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 			JpanelCargarJIframe.updateUI();
 			this.getJlMenu().setText("PEDIDOS");
 			this.getJlMenu().setVisible(true);
+			this.getJlMenu().setFont(new Font("Arial Black",Font.BOLD,18));
 			this.getJbOpcMenu1().setText("PENDIENTES");
 			this.getJbOpcMenu1().setVisible(true);
 			this.getJbOpcMenu1().addActionListener(new ActionListener() {
