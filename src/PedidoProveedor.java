@@ -274,8 +274,8 @@ public class PedidoProveedor extends JInternalFrame {
 					SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd");
 
 					try {
-						c.modificar("INSERT INTO compras (user, cif, fecha_compra) VALUES ('" + usuario + "','"
-								+ "A3333333" + "','" + form.format(d) + "')");
+						c.modificar("INSERT INTO compras (`user`, `cif`, `fecha_compra`, `total_pedido`, `estado`) VALUES ('" + usuario + "','"
+								+ "A3333333" + "','" + form.format(d) + "','"+0+"','"+0+"')");
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -329,8 +329,9 @@ public class PedidoProveedor extends JInternalFrame {
 										"SELECT * FROM `articulos` WHERE `nombre`= '" + modelo.getValueAt(i, 1) + "'");
 								rs.next();
 								int num2 = rs.getInt("id_articulo");
+								
 								c.modificar(
-										"INSERT INTO `lineas de compras`( `id_compra`, `id_articulo`, `cantidad`, `precio`) VALUES ('"
+										"INSERT INTO `lineas_de_compras`( `id_compra`, `id_articulo`, `cantidad`, `precio`) VALUES ('"
 												+ num + "','" + num2 + "','" + modelo.getValueAt(i, 2) + "','"
 												+ modelo.getValueAt(i, 3) + "')");
 							} catch (SQLException e1) {

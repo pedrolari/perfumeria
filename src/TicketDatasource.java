@@ -15,17 +15,8 @@ public class TicketDatasource implements JRDataSource{
 		// TODO Auto-generated method stub
 		Object valor = null;
 		
-		/*
-		 * this.id = id;
-		this.idTic = idTic;
-		this.empNom = empNom;
-		this.idArt = idArt;
-		this.nomArt = nomArt;
-		this.artPre =artPre;
-		this.cantArt = cantArt;
-		this.total = total;
-		 * */
-
+	// Aqui se compreuva que existan los Field del los jasper 
+		
         if ("idTic".equals(jrf.getName()))
         {
             valor = listaTicket.get(indiceTicketActual).getIdTic();
@@ -55,7 +46,7 @@ public class TicketDatasource implements JRDataSource{
 		// TODO Auto-generated method stub
 		return ++indiceTicketActual < listaTicket.size();
 	}
-
+ // Aqui se añade de el objeto al array
 	public void addParticipante(Ticket ticket)
     {
         this.listaTicket.add(ticket);
