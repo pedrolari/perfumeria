@@ -105,7 +105,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 		Toolkit t = Toolkit.getDefaultToolkit();
 		Dimension screenSize = t.getScreenSize();
 		if (nombre.length() >= 20) {
-			jlRol.setBorder(new EmptyBorder(0, 10, 0, screenSize.height-150));
+			jlRol.setBorder(new EmptyBorder(0, 10, 0, screenSize.height-275));
 		} else {
 			jlRol.setBorder(new EmptyBorder(0, 10, 0, screenSize.height-25));
 		}
