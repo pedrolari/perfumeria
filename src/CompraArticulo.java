@@ -31,6 +31,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
+import net.sf.jasperreports.engine.JRException;
+
 public class CompraArticulo extends JInternalFrame {
 
 	private JLabel lb1, totalPedido, total_pedido;
@@ -57,7 +59,7 @@ public class CompraArticulo extends JInternalFrame {
 		((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
 		this.getContentPane().setLayout(new FlowLayout(FlowLayout.LEFT));
 		this.setBorder(
-				BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY), "Modificacion Articulo",
+				BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY), "Compra Articulo",
 						TitledBorder.LEFT, TitledBorder.TOP, new Font(null, Font.BOLD, 25), Color.GRAY));
 
 		// PANEL PRINCIPAL QUE CONTENDRA LOS PANELES NORTE, SUR, ESTE Y OESTE
@@ -214,6 +216,10 @@ public class CompraArticulo extends JInternalFrame {
 									// TODO Auto-generated catch block
 									e1.printStackTrace();
 								}
+								
+								
+								
+								
 							} else {
 								JOptionPane.showMessageDialog(null, "Indica la cantidad de producto");
 							}
@@ -227,6 +233,18 @@ public class CompraArticulo extends JInternalFrame {
 							vaciarTodo();
 							generarTicketCompra(listaCompra, maxID);
 						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						try {
+							Ticketpdf t = new Ticketpdf(nomusu,maxID);
+						} catch (ClassNotFoundException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (JRException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}

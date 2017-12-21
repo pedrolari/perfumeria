@@ -57,7 +57,7 @@ public class Ticketpdf {
 
 		JRExporter exporter = new JRPdfExporter();
 		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRExporterParameter.OUTPUT_FILE, new java.io.File("reportePDF.pdf"));
+		exporter.setParameter(JRExporterParameter.OUTPUT_FILE, new java.io.File("ticket.pdf"));
 		exporter.exportReport();
 	}
 

@@ -29,6 +29,8 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
+import net.sf.jasperreports.engine.JRException;
+
 
 public class CompraCliente extends JInternalFrame{
 	
@@ -350,6 +352,7 @@ public class CompraCliente extends JInternalFrame{
 		jpSegundoPanel.add(jbenviar);
 
 		cb=new JCheckBox();
+		
 		jpSegundoPanel.add(cb);
 		
 		lbl=new JLabel("Generar factura");
@@ -447,7 +450,22 @@ public class CompraCliente extends JInternalFrame{
 								generarTicketCompra(miTable, num);
 								if(cb.isSelected())
 								{
-									//AQUI HAY QUE PONER LA FACTURA
+									
+									
+									try {
+										Facturapdf p = new Facturapdf(dni,nomuser,num);
+									} catch (JRException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
+									try {
+										Ticketpdf t = new Ticketpdf(nomuser,num);
+									} catch (JRException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
+									
+									JOptionPane.showMessageDialog(null, "Factura generada correctamente.");
 								}
 								JOptionPane.showMessageDialog(null, "Datos insertados correctamente.");
 							

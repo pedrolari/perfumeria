@@ -51,7 +51,7 @@ public class Facturapdf {
 
         JRExporter exporter = new JRPdfExporter();
         exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-        exporter.setParameter(JRExporterParameter.OUTPUT_FILE, new java.io.File("reporte2PDF.pdf"));
+        exporter.setParameter(JRExporterParameter.OUTPUT_FILE, new java.io.File("Factura.pdf"));
         exporter.exportReport();
 	}
 
