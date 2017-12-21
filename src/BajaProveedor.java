@@ -23,17 +23,19 @@ public class BajaProveedor extends JInternalFrame implements ActionListener{
 	private BotonInterior btn;
 	
 	BajaProveedor(){
-		this.setPreferredSize(new Dimension(1050, 600));
+		this.setPreferredSize(new Dimension(1050, 640));
+		this.getContentPane().setBackground(Color.white);
 		this.setBorder(null);
 		((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
-		this.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER));
+		this.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER,  40, 30));
 		
 		principal=new JPanel(new BorderLayout(40, 40));
-		principal.setSize(1800,1500);
-		principal.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY), "Baja Proveedor", TitledBorder.LEFT, TitledBorder.TOP, new Font(null, Font.BOLD, 25), Color.GRAY));
-	
+		principal.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(41, 53, 65), 1), "BAJA PROVEEDOR", TitledBorder.LEFT, TitledBorder.TOP, new Font(null, Font.BOLD, 25), new Color(41, 53, 65)));
+		principal.setBackground(Color.white);
+		
 		centro=new JPanel(new BorderLayout(40, 40));
-		centro.setBorder(new EmptyBorder(20, 20, 20, 20));
+		centro.setBorder(new EmptyBorder(20, 100, 20, 100));
+		centro.setBackground(Color.white);
 		
 		modelo=new DefaultTableModel(){
 			@Override
@@ -65,6 +67,7 @@ public class BajaProveedor extends JInternalFrame implements ActionListener{
 		scroll.setPreferredSize(new Dimension(800, 400));
 				
 		sur=new JPanel(new FlowLayout(FlowLayout.CENTER));
+		sur.setBackground(Color.white);
 		
 		btn=new BotonInterior("Borrar Proveedor");
 		

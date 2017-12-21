@@ -19,24 +19,27 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
 
 public class BajaArticulo extends JInternalFrame implements ActionListener{
-	private JPanel principal, centro, sur;
-	private JScrollPane scroll;
-	private DefaultTableModel modelo;
-	private JTable tabla;
+	private JPanel principal, centro, sur; 
+	private JScrollPane scroll; 
+	private DefaultTableModel modelo; 
+	private JTable tabla; 
 	private String[] columnas = { "Id", "Articulo", "Precio", "Volumen", "Embalaje", "Stock"};
 	private BotonInterior btn;
 	
 	BajaArticulo(){
-		this.setPreferredSize(new Dimension(1050, 600));
+		this.setPreferredSize(new Dimension(1050, 640));
+		this.getContentPane().setBackground(Color.white);
 		this.setBorder(null);
 		((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
-		this.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER));
+		this.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 40, 30));
 		
-		principal=new JPanel(new BorderLayout(40, 40));
-		principal.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY), "Baja Articulo", TitledBorder.LEFT, TitledBorder.TOP, new Font(null, Font.BOLD, 25), Color.GRAY));
-	
+		principal=new JPanel(new BorderLayout());
+		principal.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(41, 53, 65), 1), "BAJA ARTÍCULO", TitledBorder.LEFT, TitledBorder.TOP, new Font(null, Font.BOLD, 25), new Color(41, 53, 65)));
+		principal.setBackground(Color.white);
+		
 		centro=new JPanel(new BorderLayout(40, 40));
-		centro.setBorder(new EmptyBorder(20, 20, 20, 20));
+		centro.setBorder(new EmptyBorder(20, 100, 20, 100));
+		centro.setBackground(Color.white);
 		
 		modelo=new DefaultTableModel(){
 			@Override
@@ -57,17 +60,18 @@ public class BajaArticulo extends JInternalFrame implements ActionListener{
 		tabla.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
 		tabla.getTableHeader().setReorderingAllowed(false);
 		
-		tabla.getColumnModel().getColumn(0).setPreferredWidth(133);
-		tabla.getColumnModel().getColumn(1).setPreferredWidth(133);
-		tabla.getColumnModel().getColumn(2).setPreferredWidth(133);
-		tabla.getColumnModel().getColumn(3).setPreferredWidth(133);
-		tabla.getColumnModel().getColumn(4).setPreferredWidth(133);
+		tabla.getColumnModel().getColumn(0).setPreferredWidth(132);
+		tabla.getColumnModel().getColumn(1).setPreferredWidth(132);
+		tabla.getColumnModel().getColumn(2).setPreferredWidth(132);
+		tabla.getColumnModel().getColumn(3).setPreferredWidth(132);
+		tabla.getColumnModel().getColumn(4).setPreferredWidth(132);
 		tabla.getColumnModel().getColumn(5).setPreferredWidth(132);
 		
 		scroll = new JScrollPane(tabla);
 		scroll.setPreferredSize(new Dimension(800, 400));
 				
 		sur=new JPanel(new FlowLayout(FlowLayout.CENTER));
+		sur.setBackground(Color.white);
 		
 		btn=new BotonInterior("Borrar Articulo");
 		
