@@ -24,14 +24,15 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 public class PedidiosPendientes extends JInternalFrame implements ActionListener{
-	private JLabel txt;
-	private JPanel ptotal,pcen,psur;
-	private JScrollPane scroll;
-	private JList<String> list;
-	private DefaultListModel<String> dlm;
-	private JButton btn;
+	private JLabel txt; //etiqueta
+	private JPanel ptotal,pcen,psur; //paneles
+	private JScrollPane scroll; //scroll del jlist
+	private JList<String> list; //jlist que mostrara los pedidos pendientes
+	private DefaultListModel<String> dlm; //defualtlistmodel del jlist
+	private JButton btn; //boton
 	PedidiosPendientes() throws ClassNotFoundException, SQLException{
-		//tamaño 1050,500
+		
+		//propiedades de la ventana
 		this.setPreferredSize(new Dimension(1050, 640));
 		this.getContentPane().setBackground(Color.white);
 		this.setClosable(false);
@@ -39,6 +40,8 @@ public class PedidiosPendientes extends JInternalFrame implements ActionListener
 		this.setBorder(null);
 		((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
 		this.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER,40,50));
+		
+		//panel total y propiedades
 		ptotal=new JPanel(new BorderLayout(150,30));
 		ptotal.setBackground(Color.white);
 		ptotal.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(41, 53, 65), 1), "PEDIDOS PENDIENTES",TitledBorder.LEFT,TitledBorder.TOP,new Font(null, Font.BOLD,25), new Color(41, 53, 65)));
@@ -49,12 +52,12 @@ public class PedidiosPendientes extends JInternalFrame implements ActionListener
 		pcen.setBorder(new EmptyBorder(70, 350, 30, 350));
 		ptotal.add(pcen,BorderLayout.CENTER);
 		pcen.setBackground(Color.white);
-		dlm=new DefaultListModel<>();
-		dlm=cogerPedidos();
+		dlm=new DefaultListModel<>(); 
+		dlm=cogerPedidos(); //coge los pedidos pendientes 
 		list=new JList<String>(dlm);
-		list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		scroll=new JScrollPane(list);
-		scroll.setPreferredSize(new Dimension(300, 300));
+		list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);//seleccion multiple
+		scroll=new JScrollPane(list);//scroll para la lista
+		scroll.setPreferredSize(new Dimension(300, 300));//tamaño del scroll
 		pcen.add(scroll);
 		
 		//zona sur con botones
@@ -66,6 +69,12 @@ public class PedidiosPendientes extends JInternalFrame implements ActionListener
 		psur.add(btn);
 		
 	}
+	/**
+	 * Funcion que coge los pedidos que estan pendientes, mostrando id_pedido, nombre de proveedor y fecha de compra
+	 * @return DefaultListModel con todos los pedidos pendientes
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	protected DefaultListModel<String> cogerPedidos() throws ClassNotFoundException, SQLException{
 		DefaultListModel<String> aux=new DefaultListModel<>();
 		Conexion c=new Conexion();
@@ -83,6 +92,7 @@ public class PedidiosPendientes extends JInternalFrame implements ActionListener
 		c.close();
 		return aux;
 	}
+	//escucha de boton
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==btn) {
@@ -95,6 +105,11 @@ public class PedidiosPendientes extends JInternalFrame implements ActionListener
 		}
 		
 	}
+	/**
+	 * Función que actualiza el estado de pedido a 1, que es que ha llegado, y actualiza el stock
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public void actualizarPedido() throws ClassNotFoundException, SQLException {
 		Conexion c=new Conexion();
 		if(list.getSelectedIndices().length==0) {
@@ -111,6 +126,12 @@ public class PedidiosPendientes extends JInternalFrame implements ActionListener
 		}
 		
 	}
+	/**
+	 * Funcion que actualiza el stock en articulos en funcion de las lineas de pedido
+	 * @param idPed
+	 * @param c
+	 * @throws SQLException
+	 */
 	public void actualizarLineaPedido(int idPed, Conexion c) throws SQLException {
 		ResultSet rs= c.consultar("select * from lineas_de_compras where id_compra = "+idPed);
 		while(rs.next()) {

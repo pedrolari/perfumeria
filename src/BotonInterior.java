@@ -23,13 +23,15 @@ public class BotonInterior extends JButton{
     private Color color1 = new Color(41, 53, 65);
     private Color color2 = Color.WHITE;
     private Color color3 = Color.white;
-
+    /**
+     * Clase que extiende de JButton. Dibuja los botones interiores. Constructor que se le pasa el texto del boton 
+     * @param s
+     */
     
     public BotonInterior(String s) {
     	super(s);
         setOpaque(false);
         setContentAreaFilled(false);
-       // setBackground(new Color(41, 53, 65));
         setMargin(new Insets(15,20,15,20));
         setForeground(Color.WHITE);
         setFont(new Font("Arial",Font.BOLD,16));
@@ -38,7 +40,7 @@ public class BotonInterior extends JButton{
         
        
     }
-
+    //Metodo que sobreescribe al metodo paintComponent de JButton, permite poner los colores para el boton cuando esta habilitado y deshabilitado
     protected void paintComponent(Graphics g) {
         Color c1,c2,c3;
         Graphics2D g2 = (Graphics2D) g;
@@ -61,11 +63,6 @@ public class BotonInterior extends JButton{
         	c1=new Color(138,136,136);
         	c2=new Color(40,39,39);
         	c3=color3;
-         /*  c2=color1.brighter();
-           c1=color2.brighter();
-           c3=color3.darker();*/
-           
-           
         }
           RoundRectangle2D.Float r2d = new RoundRectangle2D.Float(0,0,getWidth(),getHeight()-1,20,20);
             g2.clip(r2d);
@@ -79,12 +76,7 @@ public class BotonInterior extends JButton{
         g2.setPaint(oldPaint);
         super.paintComponent(g);
     }
-    public void setEnabled(boolean b){
-    	super.setEnabled(b);
-    	if(this.isEnabled()){
-    		this.setForeground(Color.WHITE);
-    	}
-    }
+    //metodos get y set para los colores
     public Color getColor1() {
         return color1;
     }

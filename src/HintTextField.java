@@ -10,9 +10,15 @@ import java.awt.RenderingHints;
 import javax.swing.JTextField;
 
 public class HintTextField extends JTextField{
+	private final String _hint;
+	/**
+	 * Clase que extiende de JTextField para ponerle un hint. Constructor de la clase, se le para String con el texto del hint. Para poner texto, utilizar metodo setText
+	 * @param hint
+	 */
 	public HintTextField(String hint) {
         _hint = hint;
     }
+	//Metodo que sobreescribe el metodo paint de JTextField para poner realizar un hint
     @Override
     public void paint(Graphics g) {
         super.paint(g);
@@ -29,6 +35,6 @@ public class HintTextField extends JTextField{
             g.drawString(_hint, ins.left, h / 2 + fm.getAscent() / 2 - 2);
         }
     }
-    private final String _hint;
+    
 
 }

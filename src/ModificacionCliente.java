@@ -38,7 +38,7 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 	private JDateChooser date1,date2;
 	private Clientes c;
 	ModificacionCliente(){
-		//tamaño 1050,500
+		//propiedades de la ventana
 		this.setPreferredSize(new Dimension(1050, 640));
 		this.getContentPane().setBackground(Color.white);
 		this.setClosable(false);
@@ -46,16 +46,21 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 		this.setBorder(null);
 		((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
 		this.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER,40,30));
+		
+		//panel total y propiedades
 		ptotal=new JPanel(new BorderLayout(150,30));
 		ptotal.setBackground(Color.white);
 		ptotal.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(41, 53, 65), 1), "MODIFICACIÓN CLIENTE",TitledBorder.LEFT,TitledBorder.TOP,new Font(null, Font.BOLD,25), new Color(41, 53, 65)));
 		this.getContentPane().add(ptotal);
+		
+		//panel central y propiedades
 		pcen=new JPanel(new GridLayout(9, 2,50,12));
 		pcen.setBorder(new EmptyBorder(70, 350, 40, 350));
 		ptotal.add(pcen,BorderLayout.CENTER);
 		pcen.setBackground(Color.white);
 		
 		//parte izquierda
+		//Definicion de las etiquetas
 		String[] texto={"DNI","Nombre","Apellidos","Fecha Nacimiento","Direccion","Telefono","Email","Sexo","Fecha Ingreso"};
 		lbl=new JLabel[texto.length];
 		for (int i = 0; i < texto.length; i++) {
@@ -64,6 +69,7 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 		}
 		
 		//parte derecha
+		//Defincion de los textfields, hinttextfield , jdatechooser y radiobuttons todos deshabilitados menos dni
 		txtdni=new HintTextField("numeros y la letra");
 		txtnom=new JTextField(11);
 		txtnom.setEnabled(false);
@@ -81,14 +87,12 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 		date2.setCalendar(hoy);
 		date1.setEnabled(false);
 		date2.setEnabled(false);
-	
 		//panel radiobuttons sexo
 		pradiobtn = new JPanel(new GridLayout(1, 2));
 		pradiobtn.setBackground(Color.white);
 		ButtonGroup bg=new ButtonGroup();
 		String[] texsex={"V","H"};
 		sex=new JRadioButton[texsex.length];
-	
 		for (int i = 0; i < texsex.length; i++) {
 			sex[i]=new JRadioButton(texsex[i]);
 			sex[i].setEnabled(false);
@@ -97,9 +101,7 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 			sex[i].setBackground(Color.white);
 		}
 
-		
-		
-		//se añaden los elementos a los paneles
+		//se añaden los elementos al panel central
 		pcen.add(lbl[0]);
 		pcen.add(txtdni);
 		pcen.add(lbl[1]);
@@ -119,12 +121,12 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 		pcen.add(lbl[8]);
 		pcen.add(date2);
 		
-		
+		//panel sur con los botones
 		psur=new JPanel(new FlowLayout(FlowLayout.CENTER));
 		ptotal.add(psur, BorderLayout.SOUTH);
 		btnbuscar=new BotonInterior("Buscar");
 		btnmod=new BotonInterior("Modificar");
-		btnmod.setEnabled(false);
+		btnmod.setEnabled(false); //boton modificar deshabilitado
 		btnbuscar.addActionListener(this);
 		btnmod.addActionListener(this);
 		psur.add(btnbuscar);
@@ -132,19 +134,20 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 		psur.setBackground(Color.white);
 		
 	}
+	//escuchas
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		if(arg0.getSource()==btnbuscar){
-			c = new Clientes();
+		if(arg0.getSource()==btnbuscar){//escucha del botono buscar, busca dni, muestra los datos en el campo y habilita el resto de campos y el boton modificar
+			c = new Clientes();//se crea cliente vacio
 			ResultSet rs;
 			try {
-				rs = c.mostrarDatosClientePorDni(txtdni.getText());
+				rs = c.mostrarDatosClientePorDni(txtdni.getText()); //se consulta los datos del cliente por dni
 				if(rs.next()){
 					try {
-						c=buscarCliente(txtdni.getText());
-						cargarCliente(c);
-						activarTextfield(true);
-						btnmod.setEnabled(true);
+						c=buscarCliente(txtdni.getText());//se cargan los datos en el cliente
+						cargarCliente(c); //se cargan los datos del cliente en los campos
+						activarTextfield(true);//se activan el resto de textfields
+						btnmod.setEnabled(true);//se activa boton modificar
 					
 					} catch (ClassNotFoundException | SQLException e) {
 					JOptionPane.showMessageDialog(this, "Error al cargar el cliente, vuelva a intentarlo");
@@ -162,10 +165,10 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 				e1.printStackTrace();
 			}
 			
-		}else if(arg0.getSource()==btnmod){
+		}else if(arg0.getSource()==btnmod){//escucha para modificar
 			
 			try {
-				modificar();
+				modificar();//se modifican datos en la base de datos
 				
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -178,6 +181,13 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 		}
 		
 	}
+	/**
+	 * Funcion que busca en la base de datos el dni que se le pasa como parametro y devuelve el objeto cliente con esos datos
+	 * @param id
+	 * @return Devuelve objeto cliente
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public Clientes buscarCliente(String id) throws ClassNotFoundException, SQLException{
 		Clientes c2=new Clientes();
 		ResultSet rs = c2.mostrarDatosClientePorDni(id);
@@ -194,6 +204,10 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 		}
 		return c2;
 	}
+	/**
+	 * Funcion que cargar los datos en los campos del objeto cliente que se le pasa como parametro
+	 * @param c
+	 */
 	public void cargarCliente(Clientes c){
 		txtnom.setText(c.getNombre());
 		txtapels.setText(c.getApellidos());
@@ -209,9 +223,10 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 		}
 		
 	}
-	public void activarTextfieldDni(boolean cond){
-		txtdni.setEnabled(cond);
-	}
+	/**
+	 * Funcion que activa/desactiva todos los campos de la ventana menos el dni, en funcion del booleano que se le pasa como parametro. True activa, False deshabilita
+	 * @param cond
+	 */
 	public void activarTextfield(Boolean cond){
 		txtnom.setEnabled(cond);
 		txtapels.setEnabled(cond);
@@ -221,8 +236,13 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 		date1.setEnabled(cond);
 		sex[0].setEnabled(cond);
 		sex[1].setEnabled(cond);
-		//date2.setEnabled(cond);
 	}
+	/**
+	 * Funcion que comprueba si hubo un cambio en el campo, se le pasa el jtextfield y el valor inicial
+	 * @param tf
+	 * @param valor
+	 * @return Devuelve true si el campo contiene el mismo valor, y falso si cambio
+	 */
 	public boolean comprobarCambioTxt(JTextField tf, String valor){
 		boolean cond=true;
 		if(!tf.getText().equals(valor)){
@@ -230,6 +250,11 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 		}
 		return cond;
 	}
+	/**
+	 * Funcion que modifica los datos del cliente, comprobando que se realizo alguna modificación y confirmando mediante mensaje
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public void modificar() throws ClassNotFoundException, SQLException{
 		if(comprobar()){
 			if(!comprobarCambioTxt(txtnom, c.getNombre())&&comprobarNumerosDentro(txtnom.getText())){
@@ -297,6 +322,11 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 			}
 		}
 	}
+	/**
+	 * Funcion a la que se le pasa el datachooser y devuelve la fecha en un string en formato sql 'yyyy-MM-dd'
+	 * @param jd JdataChooser
+	 * @return Devuelve la fecha en un string
+	 */
 	public String getFechaSQL(JDateChooser jd) {
 		SimpleDateFormat formato=new SimpleDateFormat("yyyy-MM-dd");
 		if(jd.getDate()!=null) {
@@ -307,36 +337,32 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 	}
 	
 	//validaciones
+	/**
+	 * Funcion que comprueba que los campos estan cumplimentados correctamente
+	 * @return Devuelve true si estan bien validados, false si no lo estan
+	 */
 	public boolean comprobar(){
 		boolean cond=true;
 		Validaciones v=new Validaciones();
-	//	JOptionPane.showMessageDialog(this, String.valueOf(cond));
 		if(v.campovacio(txtnom.getText())){
 			cond=false;
-		//	JOptionPane.showMessageDialog(this, "1"+String.valueOf(cond));
 			JOptionPane.showMessageDialog(this, "El campo nombre no puede estar vacío");
 		}else if(v.campovacio(txtapels.getText())){
 			cond=false;
-		//	JOptionPane.showMessageDialog(this, "2"+String.valueOf(cond));
 			JOptionPane.showMessageDialog(this, "El campo apellido no puede estar vacío");
 		}else if(v.campovacio(txtdir.getText())){
 			cond=false;
-		//	JOptionPane.showMessageDialog(this, "3"+String.valueOf(cond));
 			JOptionPane.showMessageDialog(this, "El campo direccion no puede estar vacío");
 		}else if(v.campovacio(txttel.getText())){
 			cond=false;
-		//	JOptionPane.showMessageDialog(this, "4"+String.valueOf(cond));
 			JOptionPane.showMessageDialog(this, "El campo telefono no puede estar vacío");
 		}else if(v.campovacio(txtmail.getText())){
 			cond=false;
-			//JOptionPane.showMessageDialog(this, "5"+String.valueOf(cond));
 			JOptionPane.showMessageDialog(this, "El campo email no puede estar vacío");
 		}else if(!comprobarFecha(date1)){
 			cond=false;
-			//JOptionPane.showMessageDialog(this, "6"+String.valueOf(cond));
 		}else if(!comprobarFechaExiste(date1)){
 			cond=false;
-			//JOptionPane.showMessageDialog(this, "7"+String.valueOf(cond));
 			JOptionPane.showMessageDialog(this, "La fecha es erronea");
 		}else if(v.validartelefono(txttel.getText())){
 			JOptionPane.showMessageDialog(this, "Telefono no válido");
@@ -346,9 +372,13 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 			cond=false;
 			
 		}
-	//	JOptionPane.showMessageDialog(this, "8"+String.valueOf(cond));
 		return cond;
 	}
+	/**
+	 * Funcion que comprueba si no esta vacía la fecha, devuelve true si no está vacia, false si esta vacia
+	 * @param jd JDatachooser
+	 * @return devuelve true si no está vacia, false si esta vacia
+	 */
 	public boolean comprobarFecha(JDateChooser jd) {
 		boolean cond=false;
 		if(jd.getDate()!=null) {
@@ -358,6 +388,11 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 		}
 		return cond;
 	}
+	/**
+	 * Funcion que comprueba que la fecha existe y que no es posterior a hoy. Se le pasa el JDatechooser
+	 * @param jd
+	 * @return Devuelve true si la fecha cumple los parametros, false si no los cumple
+	 */
 	public boolean comprobarFechaExiste(JDateChooser jd){
 		int dia=Integer.parseInt(getFecha(jd).split("-")[0]);
 		int mes=Integer.parseInt(getFecha(jd).split("-")[1]);
@@ -407,6 +442,11 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 
 		return cond;
 	}
+	/**
+	 * Funcion que comprueba si un String que se le pasa como parametro contiene numeros dentro
+	 * @param s 
+	 * @return boolean Devuelve true si no contiene numeros, false si contiene numeros
+	 */
 	public boolean comprobarNumerosDentro(String s) {
 		boolean cond=true;
 		for (int j = 0; j < s.length() && cond; j++) {
@@ -419,6 +459,11 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 		}
 		return cond;
 	}
+	/**
+	 * Funcion a la que se le pasa el datachooser y devuelve la fecha en un string en formato 'dd-MM-yyyy'
+	 * @param jd JdataChooser
+	 * @return Devuelve la fecha en un string
+	 */
 	public String getFecha(JDateChooser jd) {
 		SimpleDateFormat formato=new SimpleDateFormat("dd-MM-yyyy");
 		if(jd.getDate()!=null) {

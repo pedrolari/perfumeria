@@ -19,28 +19,33 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 public class AltaArticulo extends JInternalFrame implements ActionListener{
-	private JPanel principal, centro, sur;
-	private JLabel lb1, lb2, lb3, lb4, lb5, lb6, lb7, lb8,lb9;
-	private JTextField tf1, tf2, tf3, tf5, tf8;
-	private HintTextField tf4;
-	private JButton btn;
-	private JComboBox<String> cb, cb2, cb3;
-	private DefaultComboBoxModel<String> dcb, dcb2,dcb3;
+	private JPanel principal, centro, sur; //paneles
+	private JLabel lb1, lb2, lb3, lb4, lb5, lb6, lb7, lb8,lb9; //etiquetas
+	private JTextField tf1, tf2, tf3, tf5, tf8;//textfield
+	private HintTextField tf4;//textfield con hint
+	private JButton btn;//bton
+	private JComboBox<String> cb, cb2, cb3; //combobox para proveedor, categoria y subcategoria
+	private DefaultComboBoxModel<String> dcb, dcb2,dcb3; //default comboboxmodel de los combobox
 	
 	public AltaArticulo() throws ClassNotFoundException, SQLException {
+		//se define tamaño y propiedades 
 		this.setPreferredSize(new Dimension(1050, 640));
 		this.setBorder(null);
 		((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
 		this.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER));
 		this.getContentPane().setBackground(Color.white);
+		
+		//panel principal
 		principal=new JPanel(new BorderLayout(20, 20));
 		principal.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY), "Alta Articulo", TitledBorder.LEFT, TitledBorder.TOP, new Font(null, Font.BOLD, 25), Color.GRAY));
 		principal.setBackground(Color.white);
 		
+		//panel central
 		centro=new JPanel(new GridLayout(9, 2, 20, 20));
 		centro.setBorder(new EmptyBorder(50, 350, 40, 350));
 		centro.setBackground(Color.WHITE);
 		
+		//definicion de label y propiedades
 		lb1=new JLabel("Nombre");
 		lb2=new JLabel("Precio");
 		lb3=new JLabel("Descripcion");
@@ -60,24 +65,24 @@ public class AltaArticulo extends JInternalFrame implements ActionListener{
 		lb8.setFont(new Font("Arial",Font.PLAIN,16));
 		lb9.setFont(new Font("Arial",Font.PLAIN,16));
 		
+		//definicion de textfield, hinttextfield, combobox y defaultlistmodel
 		tf1=new JTextField(11);
 		tf2=new JTextField(11);
 		tf3=new JTextField(11);
 		tf4=new HintTextField(" en ml");
 		tf5=new JTextField();
-		//tf6=new JTextField();
-		dcb3=new DefaultComboBoxModel<>();
-		dcb3=buscarProveedor();
+		dcb3=new DefaultComboBoxModel<>(); //default listmodel de proveedores
+		dcb3=buscarProveedor(); //se le pasan los proveedores
 		cb3=new JComboBox<>(dcb3);
-		//tf7=new JTextField();
-		dcb=new DefaultComboBoxModel<>();
-		dcb=buscarCategoria();
+		dcb=new DefaultComboBoxModel<>(); //defaultlistmodel de categorias
+		dcb=buscarCategoria(); //se le pasan las categorias
 		cb=new JComboBox<>(dcb);
 		tf8=new JTextField();
-		
-		dcb2=new DefaultComboBoxModel<>();
-		dcb2=buscarCategoria2(cb.getSelectedIndex());
+		dcb2=new DefaultComboBoxModel<>(); //default listmodel de subcategorias
+		dcb2=buscarCategoria2(cb.getSelectedIndex()); //se le pasan las subcategorias en funcion de la categoria que esta seleccionada
 		cb2=new JComboBox<>(dcb2);
+		
+		//se añaden los componentes al panel central
 		centro.add(lb1);
 		centro.add(tf1);
 		
@@ -105,28 +110,30 @@ public class AltaArticulo extends JInternalFrame implements ActionListener{
 		centro.add(lb9);
 		centro.add(tf8);
 		
+		//se añade panel central al principal
 		principal.add(centro, BorderLayout.CENTER);
 		
+		//defincion panel sur que contiene boton insertar
 		sur=new JPanel(new FlowLayout(FlowLayout.CENTER));
 		sur.setBackground(Color.WHITE);
 		btn=new BotonInterior("Insertar");
-		
 		sur.add(btn);
-		
 		principal.add(sur, BorderLayout.SOUTH);
-				
+		
+		//se añade panel principal
 		this.getContentPane().add(principal, BorderLayout.CENTER);
 		
+		//escucha del combobox de categorias, para que cambien las subcategorias en funcion de la categoria elegida
 		cb.addItemListener(new ItemListener() {
 			
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				if(e.getSource()==cb){
-					cb2.removeAll();
-					dcb2.removeAllElements();
+					cb2.removeAll(); //borra todo los items del combobox
+					dcb2.removeAllElements(); //borra todos los items del defaultlistmodel
 					try {
-						dcb2=buscarCategoria2(cb.getSelectedIndex());
-						cb2.setModel(dcb2);
+						dcb2=buscarCategoria2(cb.getSelectedIndex()); //le pasamos las subcategorias que corresponden
+						cb2.setModel(dcb2); //se asigna el default listmodel al combobox
 						
 					} catch (ClassNotFoundException e1) {
 						// TODO Auto-generated catch block
@@ -139,41 +146,37 @@ public class AltaArticulo extends JInternalFrame implements ActionListener{
 				
 			}
 		});
-		btn.addActionListener(this);
+		
+		btn.addActionListener(this);//se implementa escucha del boton
 	}
 
+	//escucha del boton
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==btn) {
-			if(comprobar()) {
+			if(comprobar()) { //comprueba que todo los campos estan correctamente cumplimentados
 				try {
-					JOptionPane.showMessageDialog(this, recogerCif());
-					JOptionPane.showMessageDialog(this, recogerIdCat());
-				} catch (HeadlessException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (ClassNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				
-				try {
+					//crea un articulo, se le pasa 1 porque el id no se va a insertar y no es necesario porque es autoincremental
 					Articulo a=new Articulo(1,tf1.getText(),Double.parseDouble(tf2.getText()),tf3.getText(),tf4.getText()+"ml",tf5.getText(),recogerCif(),recogerIdCat(),Integer.parseInt(tf8.getText()));
-					a.insertNoId();
+					a.insertNoId();//se inserta  articulo sin id (autoincremental)
 					JOptionPane.showMessageDialog(this, "Se inserto artículo correctamente");
+					vaciar();//se vacian los campos
 				} catch (NumberFormatException | ClassNotFoundException | SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
+					JOptionPane.showMessageDialog(this, "Error al insertar articulo, intentelo de nuevo");
 				}
 				
-				vaciar();
 			}
 		}
 		
 	}
+	/**
+	 * Funcion que devuelve DefaultComboBoxModel<String> con las categorias que son = 0 (padre)
+	 * @return Devuelve DefaultComboBoxModel<String> con las categorias que son = 0 (padre)
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public DefaultComboBoxModel<String> buscarCategoria() throws ClassNotFoundException, SQLException{
 		DefaultComboBoxModel<String> aux = new DefaultComboBoxModel<String>();
 		Conexion c=new Conexion();
@@ -184,6 +187,13 @@ public class AltaArticulo extends JInternalFrame implements ActionListener{
 		c.close();
 		return aux;
 	}
+	/**
+	 * Función que devuelve defaultcomboboxmodel con las subcategorias en función de la categoria seleccionada
+	 * @param i Se le pasa el indice del elemento seleccionado del combobox categorias
+	 * @return Devuelve DefaultComboBoxModel con las subcategorias correspondientes a la categoria seleccionada 
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public DefaultComboBoxModel<String> buscarCategoria2(int i) throws ClassNotFoundException, SQLException{
 		DefaultComboBoxModel<String> aux = new DefaultComboBoxModel<String>();
 		Conexion c=new Conexion();
@@ -194,6 +204,12 @@ public class AltaArticulo extends JInternalFrame implements ActionListener{
 		c.close();
 		return aux;
 	}
+	/**
+	 * Funcion que devuelve defaultcomboboxmodel con todos los proveedores menos el de la propia empresa
+	 * @return Devuelve defaultcomboboxmodel<String> con los proveedores menos el de la propia empresa
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public DefaultComboBoxModel<String> buscarProveedor() throws ClassNotFoundException, SQLException{
 		DefaultComboBoxModel<String> aux = new DefaultComboBoxModel<String>();
 		Conexion c=new Conexion();
@@ -204,7 +220,10 @@ public class AltaArticulo extends JInternalFrame implements ActionListener{
 		c.close();
 		return aux;
 	}
-	//JTextField tf1, tf2, tf3, tf4, tf5, tf6, tf7, tf8;
+	/**
+	 * Funcion que valida todos los campos y muestra mensaje de error si no estan bien cumplimentados. True si esta todo validado, False si hay algun campo mal cumplimentado
+	 * @return Booleano, true si esta todo validado, false si hay algun campo mal cumplimentado
+	 */
 	public boolean comprobar(){
 		boolean cond=true;
 		Validaciones v=new Validaciones();
@@ -242,6 +261,11 @@ public class AltaArticulo extends JInternalFrame implements ActionListener{
 		}
 		return cond;
 	}
+	/**
+	 * Funcion que comprueba si un String que se le pasa como parametro contiene numeros dentro
+	 * @param s 
+	 * @return boolean Devuelve true si no contiene numeros, false si contiene numeros
+	 */
 	public boolean comprobarNumerosDentro(String s) {
 		boolean cond=true;
 		for (int j = 0; j < s.length() && cond; j++) {
@@ -253,6 +277,12 @@ public class AltaArticulo extends JInternalFrame implements ActionListener{
 		}
 		return cond;
 	}
+	/**
+	 * Funcion que devuelve string con el cif seleccionado del combobox
+	 * @return String. Devuelve Cif del combobox seleccionado
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public String recogerCif() throws ClassNotFoundException, SQLException {
 		String cif="";
 		Conexion con=new Conexion();
@@ -263,6 +293,12 @@ public class AltaArticulo extends JInternalFrame implements ActionListener{
 		con.close();
 		return cif;
 	}
+	/**
+	 * Función que devuelve el id de la categoria en funcion de la categoria y subcategorias seleccionadas en sus respectivos combobox
+	 * @return Id_categoria
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public int recogerIdCat() throws ClassNotFoundException, SQLException {
 		int idCat=0;
 		Conexion con=new Conexion();
@@ -274,6 +310,9 @@ public class AltaArticulo extends JInternalFrame implements ActionListener{
 		con.close();
 		return idCat;
 	}
+	/**
+	 * Funcion que vacia todos los campos de la ventan y los combobox los inicia al 0
+	 */
 	public void vaciar() {
 		tf1.setText("");
 		tf2.setText("");
