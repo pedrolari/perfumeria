@@ -37,7 +37,7 @@ public class AltaArticulo extends JInternalFrame implements ActionListener{
 		
 		//panel principal
 		principal=new JPanel(new BorderLayout(20, 20));
-		principal.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY), "Alta Articulo", TitledBorder.LEFT, TitledBorder.TOP, new Font(null, Font.BOLD, 25), Color.GRAY));
+		principal.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(41, 53, 65)), "ALTA ARTICULO", TitledBorder.LEFT, TitledBorder.TOP, new Font(null, Font.BOLD, 25), new Color(41, 53, 65)));
 		principal.setBackground(Color.white);
 		
 		//panel central
