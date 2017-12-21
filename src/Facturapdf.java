@@ -39,7 +39,8 @@ public class Facturapdf {
 			total = rs.getInt("lineas_de_ventas.precio")*rs.getInt("lineas_de_ventas.cantidad");
 			Factura p = new Factura(i, rs.getString("empleados.nombre"),cliente,total,
 					rs.getInt("empleados.telefono"),rs.getInt("lineas_de_ventas.cantidad"),rs.getString("articulos.nombre"),
-					rs.getString("empleados.apellidos"),rs.getInt("articulos.precio"),rs.getInt("articulos.id_articulo"),rs.getString("empleados.user"));
+					rs.getString("empleados.apellidos"),rs.getInt("articulos.precio"),rs.getInt("articulos.id_articulo"),rs.getString("empleados.user"),
+					rs.getInt("ventas.total_pedido"));
             listaPariticipantes.addParticipante(p);
 		}
            

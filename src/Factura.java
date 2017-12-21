@@ -12,13 +12,14 @@ public class Factura
     private int precio;
     private int idArt;
     private String usuEmpl;
+    private int preTotal;
 
     public Factura()
     {
     }
     
     public Factura(int id, String nombreEmpl, String nombCli, int total, int telefono, int cantidad, String nomArti, String apellEmp, int precio, int idArt,
-    		String usuEmpl)
+    		String usuEmpl,int preTotal)
     {
         this.id = id;
         this.nombreEmpl = nombreEmpl;
@@ -31,10 +32,19 @@ public class Factura
         this.precio = precio;
         this.idArt = idArt;
         this.usuEmpl = usuEmpl;
+        this.preTotal = preTotal;
     }
 
     
     
+	public int getPreTotal() {
+		return preTotal;
+	}
+
+	public void setPreTotal(int preTotal) {
+		this.preTotal = preTotal;
+	}
+
 	public String getUsuEmpl() {
 		return usuEmpl;
 	}

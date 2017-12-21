@@ -15,6 +15,7 @@
 	<field name="precio" class="java.lang.Integer"/>
 	<field name="idArt" class="java.lang.Integer"/>
 	<field name="usuEmpl" class="java.lang.String"/>
+	<field name="preTotal" class="java.lang.Integer"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -227,22 +228,40 @@
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="46" splitType="Stretch"/>
+		<band height="46" splitType="Stretch">
+			<staticText>
+				<reportElement x="387" y="26" width="63" height="20" uuid="a210dd31-a000-425b-991a-3c26d230ffb6"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="462" y="24" width="100" height="19" uuid="1fbc993a-8fe6-4fbc-a603-6713b63edbaf"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{preTotal}+"€"]]></textFieldExpression>
+			</textField>
+		</band>
 	</columnFooter>
 	<pageFooter>
-		<band height="99" splitType="Stretch">
+		<band height="143" splitType="Stretch"/>
+	</pageFooter>
+	<lastPageFooter>
+		<band height="50">
 			<rectangle>
-				<reportElement x="-20" y="80" width="612" height="19" backcolor="#D6211E" uuid="0531999d-a4ad-41de-a7ab-403aa415831e"/>
+				<reportElement x="-20" y="31" width="612" height="19" backcolor="#D6211E" uuid="0531999d-a4ad-41de-a7ab-403aa415831e"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="110" y="80" width="340" height="19" uuid="9b475a97-b5e5-4002-b6ed-8b18a8b6f99d"/>
+				<reportElement x="110" y="31" width="340" height="19" uuid="9b475a97-b5e5-4002-b6ed-8b18a8b6f99d"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
 				<text><![CDATA[GRACIAS POR CONFIAR EN NOSOTROS]]></text>
 			</staticText>
 		</band>
-	</pageFooter>
+	</lastPageFooter>
 	<summary>
 		<band height="42" splitType="Stretch"/>
 	</summary>

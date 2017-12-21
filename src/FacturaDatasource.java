@@ -35,6 +35,8 @@ public class FacturaDatasource implements JRDataSource
         	valor = listaParticipantes.get(indiceParticipanteActual).getIdArt();
 		}else if ("usuEmpl".equals(jrf.getName())) {
         	valor = listaParticipantes.get(indiceParticipanteActual).getUsuEmpl();
+		}else if ("preTotal".equals(jrf.getName())) {
+        	valor = listaParticipantes.get(indiceParticipanteActual).getPreTotal();
 		}
         
        
