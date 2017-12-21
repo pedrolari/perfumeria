@@ -26,6 +26,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -72,6 +74,7 @@ public class PedidoProveedor extends JInternalFrame {
 		lista2 = new DefaultComboBoxModel();
 		jc2 = new JComboBox<>(lista2);
 
+		// Le damos a una celda un formato  en este caso JComboBox
 		TableColumn tc1 = miTable.getColumnModel().getColumn(0);
 		tc1.setCellEditor(new DefaultCellEditor(jc1));
 
@@ -80,17 +83,21 @@ public class PedidoProveedor extends JInternalFrame {
 
 		TableColumn tc3 = miTable.getColumnModel().getColumn(2);
 		tc3.setCellEditor(new DefaultCellEditor(jt1));
+		
 
 	}
 
 	private void AnadirProveedor() {
+		// borramos el contendio de las listas
 		lista.removeAllElements();
 		lista.setSelectedItem(-1);
 		lista2.removeAllElements();
 		lista2.setSelectedItem(-1);
 
 		numero = 0;
+		
 		try {
+			// sacamos los provedores a los que podemos comprar
 			ResultSet rs = c.consultar("SELECT * FROM proveedores WHERE cif NOT like 'A3333333'");
 			while (rs.next()) {
 				lista.addElement(rs.getString("cif"));
@@ -102,14 +109,14 @@ public class PedidoProveedor extends JInternalFrame {
 		}
 
 		jc1.addActionListener(new ActionListener() {
-
+			// escucha del primera celda "ya hemos selecionado proveedor"
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				lista2.removeAllElements();
-		
+				
 				try {
-
+					// Añadimos a la segunda lista los articulos de ese proveedor
 					ResultSet rs = c.consultar("SELECT * FROM `articulos` WHERE cif ='" + jc1.getSelectedItem() + "'");
 					while (rs.next()) {
 						lista2.addElement(rs.getString("nombre"));
@@ -121,16 +128,15 @@ public class PedidoProveedor extends JInternalFrame {
 				}
 
 				jc2.addActionListener(new ActionListener() {
-
+					// segunda escucha ya " Ya tenemos artculo"
+				
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						// TODO Auto-generated method stub
-						
-						
-						
+			
 						numero = 0;
 						try {
-
+							// sacamos los datos del articulo
 							ResultSet rs = c
 									.consultar("SELECT * FROM articulos WHERE nombre='" + jc2.getSelectedItem() + "'");
 							rs.next();
@@ -140,7 +146,7 @@ public class PedidoProveedor extends JInternalFrame {
 							// TODO Auto-generated catch block
 
 						}
-
+						// ponemos los valores en sus respectivos lugares
 						miTable.setValueAt(String.valueOf(0), miTable.getSelectedRow(), 2);
 						miTable.setValueAt(numero, miTable.getSelectedRow(), 3);
 
@@ -149,11 +155,15 @@ public class PedidoProveedor extends JInternalFrame {
 				});
 
 				jt1.addActionListener(new ActionListener() {
-
+               // escucha para la cantidad de productos que quieres
 					@Override
+				
 					public void actionPerformed(ActionEvent e) {
+				
 						// TODO Auto-generated method stub
+						// sacamos el precio final
 						miTable.setValueAt(Integer.parseInt(jt1.getText()) * numero, miTable.getSelectedRow(), 4);
+						
 					}
 				});
 
@@ -191,13 +201,17 @@ public class PedidoProveedor extends JInternalFrame {
 	
 		jpSegundoPanel.add(jbAñadir);
 
+		
+		
+		
 		jbAñadir.addActionListener(new ActionListener() {
 			@Override
+		
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 
 				bComprobar = false;
-
+// comprobamos que no hay datos erroneos
 				for (int i = 0; i < miTable.getRowCount(); i++) {
 					for (int j = 0; j < miTable.getColumnCount(); j++) {
 
@@ -207,7 +221,7 @@ public class PedidoProveedor extends JInternalFrame {
 						}
 					}
 				}
-
+// miramos que no hay productos repetidos
 				if (bComprobar != true) {
 					for (int i = 0; i < miTable.getRowCount(); i++) {
 						for (int j = 0; j < miTable.getRowCount(); j++) {
@@ -223,6 +237,7 @@ public class PedidoProveedor extends JInternalFrame {
 					}
 				}
 
+				
 				if (bComprobar == false) {
 					FormatoTabla();
 					AnadirProveedor();
@@ -270,9 +285,11 @@ public class PedidoProveedor extends JInternalFrame {
 
 				if (opc1 == JOptionPane.YES_OPTION) {
 
+					// sacamos la fecha actual
 					Date d = new Date();
 					SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd");
 
+					
 					try {
 						c.modificar("INSERT INTO compras (`user`, `cif`, `fecha_compra`, `total_pedido`, `estado`) VALUES ('" + usuario + "','"
 								+ "A3333333" + "','" + form.format(d) + "','"+0+"','"+0+"')");
@@ -282,7 +299,6 @@ public class PedidoProveedor extends JInternalFrame {
 					}
 
 					try {
-
 						ResultSet rs = c.consultar("SELECT max(id_compra) as num from compras");
 						rs.next();
 						num = rs.getInt("num");
@@ -321,7 +337,8 @@ public class PedidoProveedor extends JInternalFrame {
 						}
 					}
 
-					if (check == true && bComprobar == false) {
+					
+					if (check == true && bComprobar == false &&  miTable.getRowCount()!=0) {
 
 						for (int i = 0; i < miTable.getRowCount(); i++) {
 							try {
@@ -339,23 +356,29 @@ public class PedidoProveedor extends JInternalFrame {
 								e1.printStackTrace();
 							}
 						}
+						JOptionPane.showMessageDialog(null, "Informacion Enviada ");
+						
+						// una vez enviado borramos el contenido de la tabla
+
+						int a = miTable.getRowCount() - 1;
+						for (int i = a; i >= 0; i--) {
+							modelo.removeRow(miTable.getRowCount() - 1);
+
+						}
+						
 					} else {
-						JOptionPane.showMessageDialog(null, "Campos Incompletos");
+						JOptionPane.showMessageDialog(null, "Campos Incompletos o Valores repetidos");
 					}
 				}
 
-				JOptionPane.showMessageDialog(null, "Informacion Enviada ");
-
-				int a = miTable.getRowCount() - 1;
-				for (int i = a; i >= 0; i--) {
-					modelo.removeRow(miTable.getRowCount() - 1);
-
-				}
+				
+			
 			}
 		});
 
 		this.getContentPane().add(BorderLayout.SOUTH, jpSegundoPanel);
 
+		
 	}
 
 }

@@ -569,7 +569,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 					JpanelCargarJIframe.updateUI();
 				
 					try {
-						System.out.println(usuario +"dffgghhg");
+						
 						PedidoProveedor	pp = new PedidoProveedor(usuario);
 						JpanelCargarJIframe.add(pp);
 						pp.setVisible(true);
