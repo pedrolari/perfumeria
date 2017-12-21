@@ -51,6 +51,7 @@ public class AltaProveedor extends JInternalFrame implements ActionListener{
 		lbl=new JLabel[texto.length];
 		for (int i = 0; i < texto.length; i++) {
 			lbl[i]=new JLabel(texto[i]);
+			lbl[i].setFont(new Font("Arial",Font.PLAIN,16));
 		}
 		
 		textcif=new JTextField(10);
