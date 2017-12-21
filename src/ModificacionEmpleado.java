@@ -241,7 +241,6 @@ public class ModificacionEmpleado extends JInternalFrame {
 				// Primero el nombre de usuario
 				e.modificar(e.getUser(), campos[0], datosEmp[0].getText());
 				for (int i = 1; i < campos.length; i++) {
-					System.out.println("campo" + i);
 					// Y ahora el resto de campos
 					e.modificar(datosEmp[0].getText(), campos[i], datosEmp[i].getText());
 				}

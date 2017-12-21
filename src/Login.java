@@ -66,8 +66,7 @@ public class Login extends JInternalFrame {
 		jbAcceso = new JButton("Acceso");
 		jpLogin.add(jbAcceso);
 		
-		jtUser.setText("root");
-		jtPass.setText("toor");
+		
 		
 		jbAcceso.setBorderPainted(false);
 		jbAcceso.setForeground(Color.WHITE);
