@@ -62,7 +62,7 @@ public class ModificacionEmpleado extends JInternalFrame {
 		principal.setBorder(
 				BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY), "Modificación Empleado",
 						TitledBorder.LEFT, TitledBorder.TOP, new Font(null, Font.BOLD, 25), Color.GRAY));
-		principal.setPreferredSize(new Dimension(400, 600));
+		principal.setPreferredSize(new Dimension(1000, 600));
 		principal.setLayout(new BorderLayout());
 		principal.setBackground(Color.WHITE);
 		// Panel central, gridbaglayout
