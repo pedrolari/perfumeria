@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.5.2
+-- version 4.7.4
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-12-2017 a las 19:31:38
--- Versión del servidor: 10.1.21-MariaDB
--- Versión de PHP: 7.1.1
+-- Tiempo de generación: 21-12-2017 a las 13:05:59
+-- Versión del servidor: 10.1.28-MariaDB
+-- Versión de PHP: 7.1.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -219,6 +221,17 @@ CREATE TABLE `lineas_de_ventas` (
   `cantidad` int(11) NOT NULL,
   `precio` decimal(10,0) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+--
+-- Volcado de datos para la tabla `lineas_de_ventas`
+--
+
+INSERT INTO `lineas_de_ventas` (`id_linea_de_ventas`, `id_venta`, `id_articulo`, `cantidad`, `precio`) VALUES
+(1, 1, 1, 3, '8'),
+(2, 1, 2, 2, '90'),
+(3, 1, 12, 1, '25'),
+(4, 1, 8, 4, '5'),
+(5, 1, 5, 8, '106');
 
 -- --------------------------------------------------------
 
@@ -16649,6 +16662,13 @@ CREATE TABLE `ventas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- Volcado de datos para la tabla `ventas`
+--
+
+INSERT INTO `ventas` (`id_venta`, `user`, `dni`, `fecha_venta`, `total_pedido`) VALUES
+(1, ' ', ' ', '2017-12-21', 1098.6599999999999);
+
+--
 -- Índices para tablas volcadas
 --
 
@@ -16727,41 +16747,50 @@ ALTER TABLE `ventas`
 --
 ALTER TABLE `articulos`
   MODIFY `id_articulo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+
 --
 -- AUTO_INCREMENT de la tabla `categorias`
 --
 ALTER TABLE `categorias`
   MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+
 --
 -- AUTO_INCREMENT de la tabla `compras`
 --
 ALTER TABLE `compras`
   MODIFY `id_compra` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de la tabla `lineas_de_compras`
 --
 ALTER TABLE `lineas_de_compras`
   MODIFY `id_lineas_de_compra` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de la tabla `lineas_de_ventas`
 --
 ALTER TABLE `lineas_de_ventas`
-  MODIFY `id_linea_de_ventas` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_linea_de_ventas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
 --
 -- AUTO_INCREMENT de la tabla `localidades`
 --
 ALTER TABLE `localidades`
   MODIFY `id_localidad` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8123;
+
 --
 -- AUTO_INCREMENT de la tabla `provincias`
 --
 ALTER TABLE `provincias`
   MODIFY `id_provincia` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+
 --
 -- AUTO_INCREMENT de la tabla `ventas`
 --
 ALTER TABLE `ventas`
-  MODIFY `id_venta` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_venta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
