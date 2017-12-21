@@ -35,19 +35,22 @@ public class ModificacionArticulo extends JInternalFrame {
 		((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
 		this.getContentPane().setLayout(new FlowLayout(FlowLayout.LEFT));
 		this.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY), "Modificacion Articulo", TitledBorder.LEFT, TitledBorder.TOP, new Font(null, Font.BOLD, 25), Color.GRAY));
-		
+		this.setBackground(Color.white);
 		//PANEL PRINCIPAL QUE CONTENDRA LOS PANELES NORTE, SUR, ESTE Y OESTE
 		principal = new JPanel(new BorderLayout(150, 30));
+		principal.setBackground(Color.white);
 
 		//PANEL DE BUSQUEDA
 		jpBuscar=new JPanel(new GridLayout(3, 1, 20, 20));
 		lb1=new JLabel("Buscar articulo");
 		jpBuscar.add(lb1);
+		jpBuscar.setBackground(Color.white);
 		busquedaProducto = new JComboBox();
 		rellenarCombo();
 		
 		jpBuscar.add(busquedaProducto);
-		btnBusqueda = new JButton("Modificar Producto");
+		jpBuscar.setBackground(Color.WHITE);
+		btnBusqueda = new BotonInterior("Modificar Producto");
 		btnBusqueda.addActionListener(new ActionListener() {
 			
 			@Override
@@ -101,6 +104,7 @@ public class ModificacionArticulo extends JInternalFrame {
 		//PANEL DE MODIFICACION
 		contenedorModificar=new JPanel(new GridLayout(2, 1));
 		jpModificar=new JPanel(new GridLayout(5, 2, 2, 2));
+		jpModificar.setBackground(Color.WHITE);
 		lb2=new JLabel("Nombre");
 		lb3=new JLabel("Precio");
 		lb4=new JLabel("Descripcion");
@@ -124,7 +128,7 @@ public class ModificacionArticulo extends JInternalFrame {
 		jpModificar.add(lb6);
 		jpModificar.add(tf6);
 		
-		btnModificar = new JButton("Modificar");
+		btnModificar = new BotonInterior("Modificar");
 		btnModificar.addActionListener(new ActionListener() {
 			
 			@Override
@@ -146,7 +150,7 @@ public class ModificacionArticulo extends JInternalFrame {
 		
 		contenedorModificar1=new JPanel();
 		contenedorModificar1.add(btnModificar);
-		
+		contenedorModificar1.setBackground(Color.white);
 		contenedorModificar.add(jpModificar);
 		contenedorModificar.add(contenedorModificar1);
 	
