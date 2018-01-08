@@ -14,8 +14,11 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Enumeration;
 
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -25,6 +28,7 @@ import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -37,6 +41,8 @@ public class ModificacionEmpleado extends JInternalFrame {
 	private HintTextField[] datosEmp;
 	private JCheckBox ckModificar;
 	private BotonInterior btSend;
+	private ButtonGroup bgRol;
+	private JRadioButton rbEmp, rbAdm;
 	private JComboBox<String> cbEmpleado;
 	private DefaultComboBoxModel<String> modelEmp;
 	private GridBagConstraints cons;
@@ -74,7 +80,7 @@ public class ModificacionEmpleado extends JInternalFrame {
 		// LLamo a los métodos para dibujar los elementos
 		drawComboBox();
 		drawLabels();
-		drawTextFields();
+		drawInputData();
 		// Dibujo el boton y el checkbox
 		ckModificar = new JCheckBox("Modificar");
 		ckModificar.setBackground(Color.white);
@@ -134,9 +140,9 @@ public class ModificacionEmpleado extends JInternalFrame {
 
 	}
 
-	private void drawTextFields() {
-		datosEmp = new HintTextField[6];
-		String[] textoLbl = { "User", "Pass", "Nombre", "Apellidos", "Teléfono", "Rol" };
+	private void drawInputData() {
+		datosEmp = new HintTextField[5];
+		String[] textoLbl = { "User", "Pass", "Nombre", "Apellidos", "Teléfono"};
 
 		for (int i = 0; i < datosEmp.length; i++) {
 			datosEmp[i] = new HintTextField(textoLbl[i]);
@@ -150,6 +156,27 @@ public class ModificacionEmpleado extends JInternalFrame {
 			centro.add(datosEmp[i], cons);
 
 		}
+		//Dibujo dos radiobutton para seleccionar el rol
+		rbAdm = new JRadioButton("Administrador");
+		rbEmp = new JRadioButton("Empleado");
+		bgRol = new ButtonGroup();
+		bgRol.add(rbAdm);
+		bgRol.add(rbEmp);
+		//Añado el ButtonGroup al panel
+		cons.gridx=3;
+		cons.gridy = 6;
+		cons.gridwidth = 1;
+		cons.weightx = 1;
+		cons.insets=  new Insets(10, 10, 10, 10);
+		centro.add(rbAdm, cons);
+		cons.gridx=4;
+
+		centro.add(rbEmp, cons);
+		
+		
+		
+		
+		
 	}
 
 	/**
@@ -229,6 +256,22 @@ public class ModificacionEmpleado extends JInternalFrame {
 		return valido;
 
 	}
+	
+	private String getSelectedRbText(ButtonGroup bg)
+	{
+		String text=null;
+		
+		for(Enumeration<AbstractButton> button = bg.getElements(); button.hasMoreElements();)
+		{
+			AbstractButton bt = button.nextElement();
+			if(bt.isSelected())
+			{
+				text = bt.getText();
+			}
+		}
+		return text;
+		
+	}
 
 	private void saveData() {
 
@@ -239,13 +282,14 @@ public class ModificacionEmpleado extends JInternalFrame {
 
 		if (eleccion == JOptionPane.YES_OPTION) {
 			try {
-				Conexion c = new Conexion();
 				// Primero el nombre de usuario
 				e.modificar(e.getUser(), campos[0], datosEmp[0].getText());
 				for (int i = 1; i < campos.length; i++) {
 					// Y ahora el resto de campos
 					e.modificar(datosEmp[0].getText(), campos[i], datosEmp[i].getText());
 				}
+				//Por ultimo el rol
+				e.modificar(datosEmp[0].getText(), "rol", getSelectedRbText(bgRol));
 				setEmpleadoModel();
 
 			} catch (ClassNotFoundException | SQLException e1) {
