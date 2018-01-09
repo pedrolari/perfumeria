@@ -218,7 +218,7 @@ public class PedidoProveedor extends JInternalFrame {
 				for (int i = 0; i < miTable.getRowCount(); i++) {
 					for (int j = 0; j < miTable.getColumnCount(); j++) {
 
-						if (modelo.getValueAt(i, j) == null || modelo.getValueAt(i, j).toString().equalsIgnoreCase("0")
+						if (modelo.getValueAt(i, j) == null || Integer.parseInt(modelo.getValueAt(i,2).toString())<0
 								|| modelo.getValueAt(i, j).toString().equalsIgnoreCase("0.0")) {
 							bComprobar = true;
 						}
@@ -327,7 +327,7 @@ public class PedidoProveedor extends JInternalFrame {
 						for (int j = 0; j < miTable.getColumnCount(); j++) {
 
 							if (modelo.getValueAt(i, j) == null
-									|| modelo.getValueAt(i, j).toString().equalsIgnoreCase("0")
+									|| Integer.parseInt(modelo.getValueAt(i, 2).toString())<0
 									|| modelo.getValueAt(i, j).toString().equalsIgnoreCase("0.0")) {
 								check = false;
 							}
