@@ -24,7 +24,7 @@ public class ModificacionArticulo extends JInternalFrame {
 	private JPanel principal, norte, sur, este, oeste, centro, jpBuscar, jpModificar, contenedorModificar, contenedorModificar1;
 	private JLabel lb1, lb2, lb3, lb4, lb5, lb6;
 	private JTextField tf2, tf3, tf4, tf5, tf6;
-	private JButton btnBusqueda, btnModificar;
+	private JButton btnModificar;
 	private JComboBox busquedaProducto;
 	private Conexion con;
 	private String id;
@@ -99,58 +99,7 @@ public class ModificacionArticulo extends JInternalFrame {
 			}
 		});
 		
-		/*
-		btnBusqueda = new BotonInterior("Modificar Producto");
-		btnBusqueda.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				//CUANDO HAGA CLICK EN BUSQUEDA MOSTRARA LOS CAMPOS QUE SE PERMITE MODIFICAR YA RELLENADOS
-				
-				String nombreproducto = busquedaProducto.getSelectedItem().toString();
-				//JOptionPane.showMessageDialog(null, nombreproducto);
-				try {
-					con = new Conexion();
-				} catch (ClassNotFoundException e3) {
-					// TODO Auto-generated catch block
-					e3.printStackTrace();
-				} catch (SQLException e3) {
-					// TODO Auto-generated catch block
-					e3.printStackTrace();
-				}
-
-				ResultSet rs = null;
-				try {
-					rs = con.consultar("Select * from articulos where nombre ='"+nombreproducto+"'");
-				} catch (SQLException e2) {
-					// TODO Auto-generated catch block
-					e2.printStackTrace();
-				}
-				try {
-					while(rs.next())
-					{
-						try {
-							tf2.setText(rs.getString("nombre"));
-						} catch (SQLException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-						id = rs.getString("id_articulo");
-						tf3.setText(""+rs.getInt("precio"));
-						tf4.setText(rs.getString("descripcion"));
-						tf5.setText(rs.getString("volumen"));
-						tf6.setText(rs.getString("embalaje"));
-						
-					}
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
 		
-		jpBuscar.add(btnBusqueda);
-		*/
 		//PANEL DE MODIFICACION
 		contenedorModificar=new JPanel(new GridLayout(2, 1));
 		jpModificar=new JPanel(new GridLayout(5, 2, 2, 2));
@@ -193,11 +142,11 @@ public class ModificacionArticulo extends JInternalFrame {
 					nuevo.setDescripcion(tf4.getText().toString());
 					nuevo.setVolumen(tf5.getText().toString());
 					nuevo.setEmbalaje(tf6.getText().toString());
-					
-					
+
 					JOptionPane.showMessageDialog(null, "Producto modificado correctamente");
 					
 					nuevo.updateAll(nuevo.getId_articulo(), nuevo.getNombre(), nuevo.getPrecio(), nuevo.getDescripcion(), nuevo.getVolumen(), nuevo.getEmbalaje());;
+					vaciarTodo();
 				}else if(Double.parseDouble(tf3.getText().toString())<0){
 					JOptionPane.showMessageDialog(null, "El precio no puede ser negativo");
 				}
@@ -229,6 +178,15 @@ public class ModificacionArticulo extends JInternalFrame {
 		{
 			busquedaProducto.addItem(rs.getString("nombre"));
 		}
+	}
+	
+	public void vaciarTodo() {
+		tf2.setText("");
+		tf3.setText("");
+		tf4.setText("");
+		tf5.setText("");
+		tf6.setText("");
+		busquedaProducto.setSelectedIndex(0);
 	}
 	
 }
