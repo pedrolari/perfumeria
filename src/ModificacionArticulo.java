@@ -50,6 +50,56 @@ public class ModificacionArticulo extends JInternalFrame {
 		
 		jpBuscar.add(busquedaProducto);
 		jpBuscar.setBackground(Color.WHITE);
+		
+		busquedaProducto.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//CUANDO HAGA CLICK EN BUSQUEDA MOSTRARA LOS CAMPOS QUE SE PERMITE MODIFICAR YA RELLENADOS
+				
+				String nombreproducto = busquedaProducto.getSelectedItem().toString();
+				//JOptionPane.showMessageDialog(null, nombreproducto);
+				try {
+					con = new Conexion();
+				} catch (ClassNotFoundException e3) {
+					// TODO Auto-generated catch block
+					e3.printStackTrace();
+				} catch (SQLException e3) {
+					// TODO Auto-generated catch block
+					e3.printStackTrace();
+				}
+
+				ResultSet rs = null;
+				try {
+					rs = con.consultar("Select * from articulos where nombre ='"+nombreproducto+"'");
+				} catch (SQLException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+				try {
+					while(rs.next())
+					{
+						try {
+							tf2.setText(rs.getString("nombre"));
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						id = rs.getString("id_articulo");
+						tf3.setText(""+rs.getInt("precio"));
+						tf4.setText(rs.getString("descripcion"));
+						tf5.setText(rs.getString("volumen"));
+						tf6.setText(rs.getString("embalaje"));
+						
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		
+		/*
 		btnBusqueda = new BotonInterior("Modificar Producto");
 		btnBusqueda.addActionListener(new ActionListener() {
 			
@@ -100,7 +150,7 @@ public class ModificacionArticulo extends JInternalFrame {
 		});
 		
 		jpBuscar.add(btnBusqueda);
-		
+		*/
 		//PANEL DE MODIFICACION
 		contenedorModificar=new JPanel(new GridLayout(2, 1));
 		jpModificar=new JPanel(new GridLayout(5, 2, 2, 2));
@@ -133,16 +183,23 @@ public class ModificacionArticulo extends JInternalFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(!tf2.getText().equals("")&&!tf3.getText().equals("")&&!tf4.getText().equals("")&&!tf5.getText().equals("")&&!tf6.getText().equals("")){
-					//JOptionPane.showMessageDialog(null, "Para grabar");
+				if(!tf2.getText().equals("")&&!tf3.getText().equals("")&& Double.parseDouble(tf3.getText().toString())>0 &&!tf4.getText().equals("")&&!tf5.getText().equals("")&&!tf6.getText().equals("")){
+					
 					Articulo nuevo = new Articulo();
 					nuevo.setId_articulo(Integer.parseInt(id));
 					nuevo.setNombre(tf2.getText().toString());
+					
 					nuevo.setPrecio(Double.parseDouble(tf3.getText().toString()));
 					nuevo.setDescripcion(tf4.getText().toString());
 					nuevo.setVolumen(tf5.getText().toString());
 					nuevo.setEmbalaje(tf6.getText().toString());
+					
+					
+					JOptionPane.showMessageDialog(null, "Producto modificado correctamente");
+					
 					nuevo.updateAll(nuevo.getId_articulo(), nuevo.getNombre(), nuevo.getPrecio(), nuevo.getDescripcion(), nuevo.getVolumen(), nuevo.getEmbalaje());;
+				}else if(Double.parseDouble(tf3.getText().toString())<0){
+					JOptionPane.showMessageDialog(null, "El precio no puede ser negativo");
 				}
 				
 			}
@@ -162,8 +219,9 @@ public class ModificacionArticulo extends JInternalFrame {
 	}
 	
 	public void rellenarCombo() throws SQLException, ClassNotFoundException{
-			
-
+		//Añadimos el primer elemento al combobox
+		busquedaProducto.addItem("Seleccione Articulo");
+		
 		con = new Conexion();
 
 		ResultSet rs = con.consultar("Select nombre from articulos");
