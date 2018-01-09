@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
 public class Login extends JInternalFrame {
 
@@ -37,20 +38,21 @@ public class Login extends JInternalFrame {
 
 	private void componentes() {
 		// TODO Auto-generated method stub
-		jpCentro = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-		jpCentro.setBackground(new Color(51, 51, 51));
+		//jpCentro = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+		//jpCentro.setBackground(new Color(51, 51, 51));
 
-		jpLogin = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 15));
-		jpLogin.setPreferredSize(new Dimension(300, 200));
+		jpLogin = new JPanel(new FlowLayout(FlowLayout.CENTER, 5,15));
+		//jpLogin.setPreferredSize(new Dimension(300, 200));
 		jpLogin.setBackground(new Color(51, 51, 51));
 
 		imagen = new ImageIcon(getClass().getResource("Imagenes/logo.png"));
 		jlImagen = new JLabel(imagen);
-
+jlImagen.setBorder(new EmptyBorder(0, 50, 0, 50));
 		jpLogin.add(jlImagen);
 
 		jlUser = new JLabel("Username");
 		jlUser.setForeground(Color.WHITE);
+		jlUser.setBorder(new EmptyBorder(0, 40, 0, 40));
 		jpLogin.add(jlUser);
 
 		jtUser = new JTextField(15);
@@ -58,6 +60,7 @@ public class Login extends JInternalFrame {
 
 		jlPass = new JLabel("Password");
 		jlPass.setForeground(Color.WHITE);
+		jlPass.setBorder(new EmptyBorder(0, 40, 0, 40));
 		jpLogin.add(jlPass);
 
 		jtPass = new JPasswordField(15);
@@ -73,9 +76,9 @@ public class Login extends JInternalFrame {
 		jbAcceso.setBackground(new Color(235, 4, 74));
 		jbAcceso.setPreferredSize(new Dimension(150, 30));
 		jbAcceso.addActionListener(new Escucha(this, Vent));
-		jpCentro.add(jpLogin);
+		//jpCentro.add(jpLogin);
 
-		this.getContentPane().add(BorderLayout.CENTER, jpCentro);
+		this.getContentPane().add(BorderLayout.CENTER, jpLogin);
 	}
 
 	public JButton getJbAcceso() {
