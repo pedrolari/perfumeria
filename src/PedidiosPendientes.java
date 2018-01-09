@@ -115,14 +115,18 @@ public class PedidiosPendientes extends JInternalFrame implements ActionListener
 		if(list.getSelectedIndices().length==0) {
 			JOptionPane.showMessageDialog(this, "No seleccionó ningu pedido, seleccione el/los pedidos que haya recibido");
 		}else {
+			JOptionPane.showMessageDialog(this, list.getSelectedIndices().length);
 			for (int i = 0; i < list.getSelectedIndices().length; i++) {
-				int numPed=Integer.parseInt(dlm.get(i).split("-")[0]);
+				
+				int numPed=Integer.parseInt(dlm.get(list.getSelectedIndices()[i]).split("-")[0]);
+				JOptionPane.showMessageDialog(this, dlm.get(list.getSelectedIndices()[i]));
 				c.modificar("update compras set estado = 1 where id_compra = "+numPed);
 				actualizarLineaPedido(numPed, c);
-				dlm.removeAllElements();
-				dlm=cogerPedidos();
-				list.setModel(dlm);
+				
 			}
+			dlm.removeAllElements();
+			dlm=cogerPedidos();
+			list.setModel(dlm);
 		}
 		
 	}

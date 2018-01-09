@@ -155,6 +155,7 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 					}
 				}else{
 					JOptionPane.showMessageDialog(this, "No se encontro cliente con DNI "+txtdni.getText());
+					vaciar();
 				}
 				
 			} catch (ClassNotFoundException e1) {
@@ -282,6 +283,7 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 			if(!comprobarCambioTxt(txttel, String.valueOf(c.getTelefono()))){
 				if(JOptionPane.showConfirmDialog(this, "¿Desea cambiar el teléfono del cliente?","Modificacion cliente", JOptionPane.YES_NO_OPTION)==0) {
 					c.setDireccion(txttel.getText());
+					//cambiar funcion no cambia telefono por ser un int
 					c.actualizarClienteBBDD(c.getDni(), "telefono", String.valueOf(c.getTelefono()));
 					JOptionPane.showMessageDialog(this, "Se modificó el telefono del cliente "+c.getDni());
 				}
@@ -471,5 +473,16 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 		}else {
 			return null;
 		}
+	}
+	public void vaciar(){
+		txtdni.setText("");
+		txtnom.setText("");
+		txtapels.setText("");
+		txtdir.setText("");
+		txtmail.setText("");
+		txttel.setText("");
+		date1.setCalendar(null);
+		sex[0].setSelected(false);
+		sex[1].setSelected(false);
 	}
 }
