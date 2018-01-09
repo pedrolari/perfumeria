@@ -7,12 +7,15 @@ import net.sf.jasperreports.engine.JRField;
 
 public class FacturaDatasource implements JRDataSource
 {
-    private List<Factura> listaParticipantes = new ArrayList<Factura>();
+	
+    private ArrayList<Factura> listaParticipantes = new ArrayList<Factura>();
     private int indiceParticipanteActual = -1;
 
+    @Override
     public Object getFieldValue(JRField jrf) throws JRException
     {
         Object valor = null;
+       
 
         if ("nombreEmpl".equals(jrf.getName()))
         {
@@ -40,7 +43,6 @@ public class FacturaDatasource implements JRDataSource
 		}
         
        
-
         return valor;
     }
 

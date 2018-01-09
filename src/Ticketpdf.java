@@ -25,6 +25,7 @@ public class Ticketpdf {
 	private void crearTicket(String user, int idVent) throws SQLException, JRException, ClassNotFoundException {
 		// TODO Auto-generated method stub
 		TicketDatasource listaTicket = new TicketDatasource();
+
 		int i = 1;
 		String empleado;
 		int total;

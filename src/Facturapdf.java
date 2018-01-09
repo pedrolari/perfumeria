@@ -25,6 +25,7 @@ public class Facturapdf {
 	public void CrearPdf(String dni2,String user,int idvent) throws SQLException, ClassNotFoundException, JRException {
 		
 		FacturaDatasource listaPariticipantes = new FacturaDatasource();
+
         int i = 1;
         String cliente;
         int total;

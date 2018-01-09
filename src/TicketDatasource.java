@@ -7,13 +7,14 @@ import net.sf.jasperreports.engine.JRField;
 
 public class TicketDatasource implements JRDataSource{
 
-	private List<Ticket> listaTicket = new ArrayList<Ticket>();
+	private ArrayList<Ticket> listaTicket = new ArrayList<Ticket>();
     private int indiceTicketActual = -1;
 	
 	@Override
 	public Object getFieldValue(JRField jrf) throws JRException {
 		// TODO Auto-generated method stub
 		Object valor = null;
+		
 		
 	// Aqui se compreuva que existan los Field del los jasper 
 		
@@ -36,7 +37,7 @@ public class TicketDatasource implements JRDataSource{
         	valor = listaTicket.get(indiceTicketActual).getTotal();
 		}
         
-       
+        System.out.println(valor);
 
         return valor;
 	}
