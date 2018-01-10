@@ -38,7 +38,7 @@ public class CompraArticulo extends JInternalFrame {
 	private JLabel lb1, totalPedido, total_pedido;
 	private JTextField tf1, tfCantidad;
 	private JPanel principal, jpBuscar, jpListaCompra, jpPagos;
-	private JButton btnBusqueda, btnPagar, btnLimpiar;
+	private JButton btnBusqueda, btnPagar, btnLimpiar, eliminarLinea;
 	private DefaultTableModel lineaPedido;
 	private JTable listaCompra;
 	private String[] columnas = { "Id", "Articulo", "Cantidad", "Precio", "Total" };
@@ -253,7 +253,7 @@ public class CompraArticulo extends JInternalFrame {
 						}
 					} else {
 						JOptionPane.showMessageDialog(null, "Compra cancelada");
-						vaciarTodo();
+						//vaciarTodo();
 					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Corrige la linea de pedido con cantidad 0");
@@ -269,8 +269,37 @@ public class CompraArticulo extends JInternalFrame {
 			}
 		});
 		
+		//ELIMINA UNA LINEA DE LA LISTA DE LA COMPRA
+		eliminarLinea = new BotonInterior("Eliminar Linea");
+		eliminarLinea.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(listaCompra.getSelectedRow()!=-1){
+					int opcion=JOptionPane.showConfirmDialog(null, "¿Desea eliminar el articulo "+listaCompra.getValueAt(listaCompra.getSelectedRow(), 1)+"?", "Seleccione una opción", JOptionPane.YES_NO_OPTION);
+					
+					Double actuPrecio = Double.parseDouble(""+listaCompra.getValueAt(listaCompra.getSelectedRow(), 4));
+					JOptionPane.showMessageDialog(null, actuPrecio);
+					
+					
+					if(opcion==JOptionPane.YES_OPTION){
+						DefaultTableModel modelo = (DefaultTableModel) listaCompra.getModel();
+						modelo.removeRow(listaCompra.getSelectedRow());
+						
+						JOptionPane.showMessageDialog(null, "Articulo eliminado");
+					}
+				}else{
+					JOptionPane.showMessageDialog(null, "No has seleccionado ninguna linea");
+				}
+			}
+		});
+		
+		
+		
+		
 		jpPagos.add(btnPagar);
 		jpPagos.add(btnLimpiar);
+		jpPagos.add(eliminarLinea);
 		// ===================================================================
 
 		principal.add(jpBuscar, BorderLayout.WEST);
