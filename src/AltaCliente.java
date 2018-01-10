@@ -46,6 +46,7 @@ public class AltaCliente extends JInternalFrame implements ActionListener{
 	private JTextField txtnom,txtapels,txtdir,txttel,txtmail; //textfield
 	private JButton btn,btnborrar; //botones
 	private JRadioButton[] sex; //radiobuton de sexo
+	private ButtonGroup bg;//buttongruop que agrupa los radiobuttons
 	private Dni d; //objeto dni
 	private JDateChooser date1,date2; //cajas para fechas
 	AltaCliente(){
@@ -96,7 +97,7 @@ public class AltaCliente extends JInternalFrame implements ActionListener{
 		//panel radiobuttons sexo
 		pradiobtn = new JPanel(new GridLayout(1, 2));
 		pradiobtn.setBackground(Color.white);
-		ButtonGroup bg=new ButtonGroup();
+		bg=new ButtonGroup();
 		String[] texsex={"V","H"};
 		sex=new JRadioButton[texsex.length];
 		for (int i = 0; i < texsex.length; i++) {
@@ -154,15 +155,15 @@ public class AltaCliente extends JInternalFrame implements ActionListener{
 							Clientes c=new Clientes(d.recogerdniconletra(txtdni.getText()), Integer.parseInt(txttel.getText()), txtnom.getText(), txtapels.getText(), txtdir.getText(), txtmail.getText(), recogerSexo(), sqlDate1,sqlDate2);
 							try {
 								c.insertarClienteBBDD();//se inserta cliente, se muestra mensaje de isertado y se vacian los campos
-								JOptionPane.showMessageDialog(this, "Se creó cliente nuevo con DNI "+txtdni.getText());
+								JOptionPane.showMessageDialog(this, "Se creó correctamente cliente nuevo con DNI "+txtdni.getText(),"Alta Cliente",JOptionPane.INFORMATION_MESSAGE);
 								vaciar();
 							} catch (ClassNotFoundException | SQLException e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
-								JOptionPane.showMessageDialog(this, "Error al insertar cliente, intentelo de nuevo");
+								JOptionPane.showMessageDialog(this, "Error al insertar cliente, intentelo de nuevo","Alta Cliente",JOptionPane.INFORMATION_MESSAGE);
 							}							
 						}else {
-							JOptionPane.showMessageDialog(this, "La fecha de nacimiento introducida no es valida");
+							JOptionPane.showMessageDialog(this, "La fecha de nacimiento introducida no es valida","Alta Cliente",JOptionPane.INFORMATION_MESSAGE);
 						}
 					}
 				}
@@ -195,7 +196,7 @@ public class AltaCliente extends JInternalFrame implements ActionListener{
 		if(jd.getDate()!=null) {
 			cond=true;
 		}else {
-			JOptionPane.showMessageDialog(this, "No inserto la fecha de nacimiento correctamente");
+			JOptionPane.showMessageDialog(this, "No inserto la fecha de nacimiento correctamente","Alta Cliente",JOptionPane.INFORMATION_MESSAGE);
 		}
 		return cond;
 	}
@@ -234,17 +235,17 @@ public class AltaCliente extends JInternalFrame implements ActionListener{
 		Validaciones v=new Validaciones();
 		d=new Dni();
 		if(v.campovacio(txtdni.getText())||v.campovacio(txtnom.getText())||v.campovacio(txtapels.getText())||v.campovacio(txtdir.getText())||v.campovacio(txttel.getText())||v.campovacio(txtmail.getText())){
-			JOptionPane.showMessageDialog(this, "Dejó algún campo vacio, todos son obligatorios");
+			JOptionPane.showMessageDialog(this, "Dejó algún campo vacio, todos son obligatorios","Alta cliente",JOptionPane.INFORMATION_MESSAGE);
 			cond=false;
 		}else if(!d.validardnisinletra(txtdni.getText())){
-			JOptionPane.showMessageDialog(this, "DNI incorrecto");
+			JOptionPane.showMessageDialog(this, "DNI incorrecto","Alta Cliente",JOptionPane.INFORMATION_MESSAGE);
 			txtdni.setText("");
 			cond=false;
-		}else if(v.validartelefono(txttel.getText())){
-			JOptionPane.showMessageDialog(this, "Telefono no válido");
+		}else if(v.validartelefono(txttel.getText())||!v.isNumeric(txttel.getText())){
+			JOptionPane.showMessageDialog(this, "Telefono no válido","Alta Cliente",JOptionPane.INFORMATION_MESSAGE);
 			cond=false;
 		}else if(!v.validaremail(txtmail.getText())){
-			JOptionPane.showMessageDialog(this, "Email no válido");
+			JOptionPane.showMessageDialog(this, "Email no válido","Alta Cliente",JOptionPane.INFORMATION_MESSAGE);
 			cond=false;
 			
 		}
@@ -257,7 +258,7 @@ public class AltaCliente extends JInternalFrame implements ActionListener{
 	public boolean comprobarRB(){
 		boolean cond=true;
 		if(!sex[0].isSelected()&&!sex[1].isSelected()){
-			JOptionPane.showMessageDialog(this, "Sexo no seleccionado");
+			JOptionPane.showMessageDialog(this, "Sexo no seleccionado","Alta Cliente",JOptionPane.INFORMATION_MESSAGE);
 			cond=false;
 		}
 		return cond;
@@ -325,7 +326,7 @@ public class AltaCliente extends JInternalFrame implements ActionListener{
 		ResultSet rs=c.consultar("select * from clientes where dni like '"+dni+"'");
 		if(rs.next()) {
 			cond=false;
-			JOptionPane.showMessageDialog(this, "DNI en uso");
+			JOptionPane.showMessageDialog(this, "DNI en uso","Alta Cliente",JOptionPane.INFORMATION_MESSAGE);
 		}
 		c.close();
 		return cond;
@@ -341,7 +342,7 @@ public class AltaCliente extends JInternalFrame implements ActionListener{
 			try{
 				Integer.parseInt(String.valueOf(s.charAt(j)));
 				cond=false;
-				JOptionPane.showMessageDialog(this, "No se permiten numeros en los campos nombre y apellidos");
+				JOptionPane.showMessageDialog(this, "No se permiten numeros en los campos nombre y apellidos","Alta Cliente",JOptionPane.INFORMATION_MESSAGE);
 			}catch(NumberFormatException e) {}
 		
 		}
@@ -371,8 +372,8 @@ public class AltaCliente extends JInternalFrame implements ActionListener{
 		txtmail.setText("");
 		txttel.setText("");
 		date1.setCalendar(null);
-		sex[0].setSelected(false);
-		sex[1].setSelected(false);
+		bg.clearSelection();
+		
 	}
 	
 }

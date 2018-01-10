@@ -32,8 +32,9 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 	private JLabel[] lbl;
 	private HintTextField txtdni;
 	private JTextField txtnom,txtapels,txtdir,txttel,txtmail;
-	private JButton btnbuscar,btnmod;
+	private JButton btnbuscar,btnmod,btnvaciar;
 	private JRadioButton[] sex;
+	private ButtonGroup bg;
 	private Dni d;
 	private JDateChooser date1,date2;
 	private Clientes c;
@@ -90,7 +91,8 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 		//panel radiobuttons sexo
 		pradiobtn = new JPanel(new GridLayout(1, 2));
 		pradiobtn.setBackground(Color.white);
-		ButtonGroup bg=new ButtonGroup();
+		bg=new ButtonGroup();
+		
 		String[] texsex={"V","H"};
 		sex=new JRadioButton[texsex.length];
 		for (int i = 0; i < texsex.length; i++) {
@@ -129,8 +131,11 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 		btnmod.setEnabled(false); //boton modificar deshabilitado
 		btnbuscar.addActionListener(this);
 		btnmod.addActionListener(this);
+		btnvaciar=new BotonInterior("Limpiar");
+		btnvaciar.addActionListener(this);
 		psur.add(btnbuscar);
 		psur.add(btnmod);
+		psur.add(btnvaciar);
 		psur.setBackground(Color.white);
 		
 	}
@@ -156,6 +161,7 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 				}else{
 					JOptionPane.showMessageDialog(this, "No se encontro cliente con DNI "+txtdni.getText());
 					vaciar();
+					activarTextfield(false);
 				}
 				
 			} catch (ClassNotFoundException e1) {
@@ -179,6 +185,8 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 				e.printStackTrace();
 			}
 			
+		}else if(arg0.getSource()==btnvaciar) {
+			vaciar();
 		}
 		
 	}
@@ -258,70 +266,75 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 	 */
 	public void modificar() throws ClassNotFoundException, SQLException{
 		if(comprobar()){
-			if(!comprobarCambioTxt(txtnom, c.getNombre())&&comprobarNumerosDentro(txtnom.getText())){
-				if(JOptionPane.showConfirmDialog(this, "¿Desea cambiar el nombre del cliente?","Modificacion cliente", JOptionPane.YES_NO_OPTION)==0) {
-					c.setNombre(txtnom.getText());
-					c.actualizarClienteBBDD(c.getDni(), "nombre", c.getNombre());
-					JOptionPane.showMessageDialog(this, "Se modificó el nombre del cliente "+c.getDni());
+			if(comprobarCambioTxt(txtdni, c.getDni())) {
+				if(!comprobarCambioTxt(txtnom, c.getNombre())&&comprobarNumerosDentro(txtnom.getText())){
+					if(JOptionPane.showConfirmDialog(this, "¿Desea cambiar el nombre del cliente?\nAntiguo: "+c.getNombre()+"\nNuevo: "+txtnom.getText(),"Modificacion cliente", JOptionPane.YES_NO_OPTION)==0) {
+						c.setNombre(txtnom.getText());
+						c.actualizarClienteBBDD(c.getDni(), "nombre", c.getNombre());
+						JOptionPane.showMessageDialog(this, "Se modificó el nombre del cliente "+c.getDni(),"Modificación cliente",JOptionPane.INFORMATION_MESSAGE);
+					}
+					
 				}
-				
+				if(!comprobarCambioTxt(txtapels, c.getApellidos())&& comprobarNumerosDentro(txtapels.getText())){
+					if(JOptionPane.showConfirmDialog(this, "¿Desea cambiar el apellido del cliente?","Modificacion cliente", JOptionPane.YES_NO_OPTION)==0) {
+						c.setApellidos(txtapels.getText());
+						c.actualizarClienteBBDD(c.getDni(), "apellidos", c.getApellidos());
+						JOptionPane.showMessageDialog(this, "Se modificó los apellidos del cliente "+c.getDni(),"Modificación cliente",JOptionPane.INFORMATION_MESSAGE);
+					}
+				}
+				if(!comprobarCambioTxt(txtdir, c.getDireccion())){
+					if(JOptionPane.showConfirmDialog(this, "¿Desea cambiar la dirección del cliente?\nAntiguo: "+c.getDireccion()+"\nNuevo: "+txtdir.getText(),"Modificacion cliente", JOptionPane.YES_NO_OPTION)==0) {
+						c.setDireccion(txtdir.getText());
+						c.actualizarClienteBBDD(c.getDni(), "direccion", c.getDireccion());
+						JOptionPane.showMessageDialog(this, "Se modificó la direcció del cliente "+c.getDni(),"Modificación cliente",JOptionPane.INFORMATION_MESSAGE);
+					}
+				}
+				if(!comprobarCambioTxt(txttel, String.valueOf(c.getTelefono()))){
+					if(JOptionPane.showConfirmDialog(this, "¿Desea cambiar el teléfono del cliente?\nAntiguo: "+c.getTelefono()+"\nNuevo: "+txttel.getText(),"Modificacion cliente", JOptionPane.YES_NO_OPTION)==0) {
+						c.setTelefono(Integer.parseInt(txttel.getText()));
+						c.actualizarClienteBBDD(c.getDni(), "telefono", String.valueOf(c.getTelefono()));
+						JOptionPane.showMessageDialog(this, "Se modificó el telefono del cliente "+c.getDni(),"Modificación cliente",JOptionPane.INFORMATION_MESSAGE);
+					}
+					
+				}
+				if(!comprobarCambioTxt(txtmail, c.getEmail())){
+					if(JOptionPane.showConfirmDialog(this, "¿Desea cambiar el email del cliente?\nAntiguo: "+c.getEmail()+"\nNuevo: "+txtmail.getText(),"Modificacion cliente", JOptionPane.YES_NO_OPTION)==0) {
+						c.setEmail(txtmail.getText());
+						c.actualizarClienteBBDD(c.getDni(), "email", c.getEmail());
+						JOptionPane.showMessageDialog(this, "Se modificó el email del cliente "+c.getDni(),"Modificación cliente",1);
+					}
+					
+				}
+				if(sex[0].isSelected() && c.getSexo()!='V'){
+					if(JOptionPane.showConfirmDialog(this, "¿Desea cambiar el sexo del cliente?\nAntiguo: "+c.getSexo()+"\nNuevo: V","Modificacion cliente", JOptionPane.YES_NO_OPTION)==0) {
+						c.setSexo('V');
+						c.actualizarClienteBBDD(c.getDni(), "sexo", String.valueOf(c.getSexo()));
+						JOptionPane.showMessageDialog(this, "Se modificó el sexo del cliente "+c.getDni(),"Modificación cliente",JOptionPane.INFORMATION_MESSAGE);
+					
+					}
+				}else if(sex[1].isSelected() && c.getSexo()!='H'){
+					if(JOptionPane.showConfirmDialog(this, "¿Desea cambiar el sexo del cliente?\nAntiguo: "+c.getSexo()+"\nNuevo: H","Modificacion cliente", JOptionPane.YES_NO_OPTION)==0) {
+						c.setSexo('H');
+						c.actualizarClienteBBDD(c.getDni(), "sexo", String.valueOf(c.getSexo()));
+						JOptionPane.showMessageDialog(this, "Se modificó el sexo del cliente "+c.getDni(),"Modificación cliente",JOptionPane.INFORMATION_MESSAGE);
+					}
+				}
+				c.actualizarClienteBBDD(c.getDni(), "sexo", String.valueOf(c.getSexo()));
+				java.sql.Date sqlDate1 = new java.sql.Date(date1.getDate().getTime());
+				if(!sqlDate1.equals(c.getFecha_nacimiento())){
+					if(JOptionPane.showConfirmDialog(this, "¿Desea cambiar la fecha de nacimiento del cliente?\nAntiguo: "+cogerFecha(c.getFecha_nacimiento())+"\nNuevo: "+cogerFecha(sqlDate1),"Modificación cliente", JOptionPane.YES_NO_OPTION)==0) {
+						Conexion con=new Conexion();
+						c.setFecha_nacimiento(sqlDate1);
+						JOptionPane.showMessageDialog(this, getFechaSQL(date1));
+						con.modificar("update clientes set fecha_nacimiento = '"+getFechaSQL(date1)+"' where dni like '"+c.getDni()+"'");
+						JOptionPane.showMessageDialog(this, "Se modificó la fecha de nacimiento del cliente "+c.getDni(),"Modificación cliente",JOptionPane.INFORMATION_MESSAGE);
+					}
+					
+				}
+			}else {
+				JOptionPane.showMessageDialog(this, "El dni no coincide con el del cliente buscado\nDNI: "+c.getDni(),"Modificación cliente",JOptionPane.INFORMATION_MESSAGE);
 			}
-			if(!comprobarCambioTxt(txtapels, c.getApellidos())&& comprobarNumerosDentro(txtapels.getText())){
-				if(JOptionPane.showConfirmDialog(this, "¿Desea cambiar el apellido del cliente?","Modificacion cliente", JOptionPane.YES_NO_OPTION)==0) {
-					c.setApellidos(txtapels.getText());
-					c.actualizarClienteBBDD(c.getDni(), "apellidos", c.getApellidos());
-					JOptionPane.showMessageDialog(this, "Se modificó los apellidos del cliente "+c.getDni());
-				}
-			}
-			if(!comprobarCambioTxt(txtdir, c.getDireccion())){
-				if(JOptionPane.showConfirmDialog(this, "¿Desea cambiar la dirección del cliente?","Modificacion cliente", JOptionPane.YES_NO_OPTION)==0) {
-					c.setDireccion(txtdir.getText());
-					c.actualizarClienteBBDD(c.getDni(), "direccion", c.getDireccion());
-					JOptionPane.showMessageDialog(this, "Se modificó la direcció del cliente "+c.getDni());
-				}
-			}
-			if(!comprobarCambioTxt(txttel, String.valueOf(c.getTelefono()))){
-				if(JOptionPane.showConfirmDialog(this, "¿Desea cambiar el teléfono del cliente?","Modificacion cliente", JOptionPane.YES_NO_OPTION)==0) {
-					c.setDireccion(txttel.getText());
-					//cambiar funcion no cambia telefono por ser un int
-					c.actualizarClienteBBDD(c.getDni(), "telefono", String.valueOf(c.getTelefono()));
-					JOptionPane.showMessageDialog(this, "Se modificó el telefono del cliente "+c.getDni());
-				}
-				
-			}
-			if(!comprobarCambioTxt(txtmail, c.getEmail())){
-				if(JOptionPane.showConfirmDialog(this, "¿Desea cambiar el email del cliente?","Modificacion cliente", JOptionPane.YES_NO_OPTION)==0) {
-					c.setEmail(txtmail.getText());
-					c.actualizarClienteBBDD(c.getDni(), "email", c.getEmail());
-					JOptionPane.showMessageDialog(this, "Se modificó el email del cliente "+c.getDni());
-				}
-				
-			}
-			if(sex[0].isSelected() && c.getSexo()!='V'){
-				if(JOptionPane.showConfirmDialog(this, "¿Desea cambiar el sexo del cliente?","Modificacion cliente", JOptionPane.YES_NO_OPTION)==0) {
-					c.setSexo('V');
-					c.actualizarClienteBBDD(c.getDni(), "sexo", String.valueOf(c.getSexo()));
-					JOptionPane.showMessageDialog(this, "Se modificó el sexo del cliente "+c.getDni());
-				}
-			}else if(sex[1].isSelected() && c.getSexo()!='H'){
-				if(JOptionPane.showConfirmDialog(this, "¿Desea cambiar el sexo del cliente?","Modificacion cliente", JOptionPane.YES_NO_OPTION)==0) {
-					c.setSexo('V');
-					c.actualizarClienteBBDD(c.getDni(), "sexo", String.valueOf(c.getSexo()));
-					JOptionPane.showMessageDialog(this, "Se modificó el sexo del cliente "+c.getDni());
-				}
-			}
-			c.actualizarClienteBBDD(c.getDni(), "sexo", String.valueOf(c.getSexo()));
-			java.sql.Date sqlDate1 = new java.sql.Date(date1.getDate().getTime());
-			if(!sqlDate1.equals(c.getFecha_nacimiento())){
-				if(JOptionPane.showConfirmDialog(this, "¿Desea cambiar la fecha de nacimiento del cliente?","Modificacion cliente", JOptionPane.YES_NO_OPTION)==0) {
-					Conexion con=new Conexion();
-					c.setFecha_nacimiento(sqlDate1);
-					JOptionPane.showMessageDialog(this, getFechaSQL(date1));
-					con.modificar("update clientes set fecha_nacimiento = '"+getFechaSQL(date1)+"' where dni like '"+c.getDni()+"'");
-					JOptionPane.showMessageDialog(this, "Se modificó la fecha de nacimiento del cliente "+c.getDni());
-				}
-				
-			}
+			
 		}
 	}
 	/**
@@ -482,7 +495,15 @@ public class ModificacionCliente extends JInternalFrame implements ActionListene
 		txtmail.setText("");
 		txttel.setText("");
 		date1.setCalendar(null);
-		sex[0].setSelected(false);
-		sex[1].setSelected(false);
+		bg.clearSelection();
+	
+	}
+	public String cogerFecha(Date d) {
+		String fecha;
+		
+		Calendar f=new GregorianCalendar();
+		f.setTime(d);
+		fecha=f.get(Calendar.DAY_OF_MONTH)+"-"+(f.get(Calendar.MONTH)+1)+"-"+f.get(Calendar.YEAR);
+		return fecha;
 	}
 }
