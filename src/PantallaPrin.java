@@ -29,8 +29,8 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 	private ImageIcon imagen, imagencarnet;
 	private JLabel jlImagen, jlRol, jlNombre, jlPersona, jlMenu;
 	private JScrollPane barraScrollPanelCargarJIframe;
-	private BotonMenu  jbOpcMenu []=new BotonMenu[6];
-	private JButton jbAjuste, jbcerrar, jbOpcMenu1 ,jbOpcMenu2,jbOpcMenu3,jbOpcMenu4,jbOpcMenu5;
+	private BotonMenu  jbOpcMenu []=new BotonMenu[7];
+	private JButton jbAjuste, jbcerrar, jbOpcMenu1 ,jbOpcMenu2,jbOpcMenu3,jbOpcMenu4,jbOpcMenu5, jbOpcMenu6;
 
 	private String usuario;
 	//jbOpc1, jbOpc2, jbOpc3, jbOpc4, jbOpc5
@@ -182,6 +182,12 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 		jbOpcMenu5.setBorderPainted(false);
 		JpanelOpcionesMenu.add(jbOpcMenu5);
 		
+		jbOpcMenu6 = new JButton("");
+		jbOpcMenu6.setOpaque(false);
+		jbOpcMenu6.setContentAreaFilled(false);
+		jbOpcMenu6.setBorderPainted(false);
+		JpanelOpcionesMenu.add(jbOpcMenu6);
+		
 		
 	}
 
@@ -196,11 +202,11 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 		jpOeste.add(BorderLayout.NORTH, jpOesteNorte);
 
 		//jpOesteCentro = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 30));
-		jpOesteCentro = new JPanel(new GridLayout(6, 1));
+		jpOesteCentro = new JPanel(new GridLayout(7, 1));
 		jpOesteCentro.setPreferredSize(new Dimension(200, this.getHeight()));
 		jpOesteCentro.setBackground(new Color(41, 53, 65));
 
-		String[] noms={"ARTÍCULOS", "CLIENTES", "EMPLEADOS", "PROVEEDORES","PEDIDOS", "SALIR"};
+		String[] noms={"ARTÍCULOS", "CLIENTES", "EMPLEADOS", "PROVEEDORES","PEDIDOS", "INFORMES", "SALIR"};
 		
 		/*Inicializacion de los botones de menu y caracteristicas*/
 		for (int i = 0; i < jbOpcMenu.length; i++) {
@@ -222,12 +228,13 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 
 		this.getContentPane().add(BorderLayout.WEST, jpOeste);
 		
-		jbOpcMenu[3].addActionListener(this);
-		jbOpcMenu[2].addActionListener(this);
 		jbOpcMenu[0].addActionListener(this);
 		jbOpcMenu[1].addActionListener(this);
+		jbOpcMenu[2].addActionListener(this);
+		jbOpcMenu[3].addActionListener(this);
 		jbOpcMenu[4].addActionListener(this);
 		jbOpcMenu[5].addActionListener(this);
+		jbOpcMenu[6].addActionListener(this);
 	}
 	
 	
@@ -247,6 +254,8 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 			this.getJbOpcMenu4().removeActionListener(this.getJbOpcMenu4().getActionListeners()[0]);// quita el action listener actual
 		if(this.getJbOpcMenu5().getActionListeners().length!=0)
 			this.getJbOpcMenu5().removeActionListener(this.getJbOpcMenu5().getActionListeners()[0]);// quita el action listener actual
+		if(this.getJbOpcMenu6().getActionListeners().length!=0)
+			this.getJbOpcMenu6().removeActionListener(this.getJbOpcMenu6().getActionListeners()[0]);// quita el action listener actual
 			JpanelCargarJIframe.removeAll();
 			JpanelCargarJIframe.updateUI();
 			this.getJlMenu().setText("ARTICULOS");
@@ -358,6 +367,8 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 				this.getJbOpcMenu4().removeActionListener(this.getJbOpcMenu4().getActionListeners()[0]);// quita el action listener actual
 			if(this.getJbOpcMenu5().getActionListeners().length!=0)
 				this.getJbOpcMenu5().removeActionListener(this.getJbOpcMenu5().getActionListeners()[0]);// quita el action listener actual
+			if(this.getJbOpcMenu6().getActionListeners().length!=0)
+				this.getJbOpcMenu6().removeActionListener(this.getJbOpcMenu6().getActionListeners()[0]);
 			JpanelCargarJIframe.removeAll();
 			JpanelCargarJIframe.updateUI();
 			this.getJlMenu().setText("CLIENTES");
@@ -448,6 +459,8 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 				this.getJbOpcMenu4().removeActionListener(this.getJbOpcMenu4().getActionListeners()[0]);// quita el action listener actual
 			if(this.getJbOpcMenu5().getActionListeners().length!=0)
 				this.getJbOpcMenu5().removeActionListener(this.getJbOpcMenu5().getActionListeners()[0]);// quita el action listener actual
+			if(this.getJbOpcMenu6().getActionListeners().length!=0)
+				this.getJbOpcMenu6().removeActionListener(this.getJbOpcMenu6().getActionListeners()[0]);
 			JpanelCargarJIframe.removeAll();
 			JpanelCargarJIframe.updateUI();
 			this.getJlMenu().setText("EMPLEADOS");
@@ -507,6 +520,8 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 				this.getJbOpcMenu4().removeActionListener(this.getJbOpcMenu4().getActionListeners()[0]);// quita el action listener actual
 			if(this.getJbOpcMenu5().getActionListeners().length!=0)
 				this.getJbOpcMenu5().removeActionListener(this.getJbOpcMenu5().getActionListeners()[0]);// quita el action listener actual
+			if(this.getJbOpcMenu6().getActionListeners().length!=0)
+				this.getJbOpcMenu6().removeActionListener(this.getJbOpcMenu6().getActionListeners()[0]);
 			JpanelCargarJIframe.removeAll();
 			JpanelCargarJIframe.updateUI();
 			this.getJlMenu().setText("PROVEEDORES");
@@ -607,6 +622,8 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 				this.getJbOpcMenu4().removeActionListener(this.getJbOpcMenu4().getActionListeners()[0]);// quita el action listener actual
 			if(this.getJbOpcMenu5().getActionListeners().length!=0)
 				this.getJbOpcMenu5().removeActionListener(this.getJbOpcMenu5().getActionListeners()[0]);// quita el action listener actual
+			if(this.getJbOpcMenu6().getActionListeners().length!=0)
+				this.getJbOpcMenu6().removeActionListener(this.getJbOpcMenu6().getActionListeners()[0]);
 			JpanelCargarJIframe.removeAll();
 			JpanelCargarJIframe.updateUI();
 			this.getJlMenu().setText("PEDIDOS");
@@ -665,6 +682,97 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 		}
 		else if(e.getSource().equals(this.getJbOpcMenu()[5]))
 		{
+			if(this.getJbOpcMenu1().getActionListeners().length!=0)
+				this.getJbOpcMenu1().removeActionListener(this.getJbOpcMenu1().getActionListeners()[0]);// quita el action listener actual
+			if(this.getJbOpcMenu2().getActionListeners().length!=0)
+				this.getJbOpcMenu2().removeActionListener(this.getJbOpcMenu2().getActionListeners()[0]);// quita el action listener actual
+			if(this.getJbOpcMenu3().getActionListeners().length!=0)
+				this.getJbOpcMenu3().removeActionListener(this.getJbOpcMenu3().getActionListeners()[0]);// quita el action listener actual
+			if(this.getJbOpcMenu4().getActionListeners().length!=0)
+				this.getJbOpcMenu4().removeActionListener(this.getJbOpcMenu4().getActionListeners()[0]);// quita el action listener actual
+			if(this.getJbOpcMenu5().getActionListeners().length!=0)
+				this.getJbOpcMenu5().removeActionListener(this.getJbOpcMenu5().getActionListeners()[0]);// quita el action listener actual
+			if(this.getJbOpcMenu6().getActionListeners().length!=0)
+				this.getJbOpcMenu6().removeActionListener(this.getJbOpcMenu6().getActionListeners()[0]);
+			JpanelCargarJIframe.removeAll();
+			JpanelCargarJIframe.updateUI();
+			this.getJlMenu().setText("INFORMES");
+			this.getJlMenu().setVisible(true);
+			this.getJlMenu().setFont(new Font("Arial Black",Font.BOLD,18));
+			this.getJbOpcMenu1().setText("VENTA POR CLIENTE");
+			this.getJbOpcMenu1().setVisible(true);
+			this.getJbOpcMenu1().addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					JpanelCargarJIframe.removeAll();
+					JpanelCargarJIframe.updateUI();
+					
+					
+				}
+			});
+			this.getJbOpcMenu2().setText("VENTA POR FECHA");
+			this.getJbOpcMenu2().setVisible(true);
+			this.getJbOpcMenu2().addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					JpanelCargarJIframe.removeAll();
+					JpanelCargarJIframe.updateUI();
+					
+					
+				}
+			});
+			this.getJbOpcMenu3().setText("PEDIDO PROVEEDOR");
+			this.getJbOpcMenu3().setVisible(true);
+			this.getJbOpcMenu3().addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					JpanelCargarJIframe.removeAll();
+					JpanelCargarJIframe.updateUI();
+					
+					
+				}
+			});
+			this.getJbOpcMenu4().setText("INVENTARIO");
+			this.getJbOpcMenu4().setVisible(true);
+			this.getJbOpcMenu4().addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					JpanelCargarJIframe.removeAll();
+					JpanelCargarJIframe.updateUI();
+					
+					
+				}
+			});
+			this.getJbOpcMenu5().setText("LISTADO DE CLIENTES");
+			this.getJbOpcMenu5().setVisible(true);
+			this.getJbOpcMenu5().addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					JpanelCargarJIframe.removeAll();
+					JpanelCargarJIframe.updateUI();
+					
+					
+				}
+			});
+			this.getJbOpcMenu6().setText("LISTADO DE EMPLEADOS");
+			this.getJbOpcMenu6().setVisible(true);
+			this.getJbOpcMenu6().addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					JpanelCargarJIframe.removeAll();
+					JpanelCargarJIframe.updateUI();
+					
+					
+				}
+			});
+		}else if(e.getSource().equals(this.getJbOpcMenu()[6]))
+		{
 			System.exit(0);
 		}
 		
@@ -704,6 +812,14 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 
 	public void setJbOpcMenu5(JButton jbOpcMenu5) {
 		this.jbOpcMenu5 = jbOpcMenu5;
+	}
+	
+	public JButton getJbOpcMenu6() {
+		return jbOpcMenu6;
+	}
+
+	public void setJbOpcMenu6(JButton jbOpcMenu6) {
+		this.jbOpcMenu6 = jbOpcMenu6;
 	}
 
 	public JPanel getJpOeste() {
