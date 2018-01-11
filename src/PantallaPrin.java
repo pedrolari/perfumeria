@@ -757,11 +757,12 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 			this.getJbOpcMenu5().addActionListener(new ActionListener() {
 				
 				@Override
-				public void actionPerformed(ActionEvent e) {
+				public void actionPerformed(ActionEvent e) {					
 					JpanelCargarJIframe.removeAll();
+					ListadoClientes lc=new ListadoClientes();
+					JpanelCargarJIframe.add(lc);
+					lc.setVisible(true);
 					JpanelCargarJIframe.updateUI();
-					
-					
 				}
 			});
 			this.getJbOpcMenu6().setText("LISTADO DE EMPLEADOS");
@@ -771,6 +772,9 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					JpanelCargarJIframe.removeAll();
+					ListadoEmpleados le=new ListadoEmpleados();
+					JpanelCargarJIframe.add(le);
+					le.setVisible(true);
 					JpanelCargarJIframe.updateUI();
 					
 					
