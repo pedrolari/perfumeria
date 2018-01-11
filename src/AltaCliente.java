@@ -323,10 +323,12 @@ public class AltaCliente extends JInternalFrame implements ActionListener{
 	public boolean comprobarDniBBDD(String dni) throws ClassNotFoundException, SQLException {
 		boolean cond=true;
 		Conexion c=new Conexion();
-		ResultSet rs=c.consultar("select * from clientes where dni like '"+dni+"'");
+		Dni d=new Dni();
+		ResultSet rs=c.consultar("select * from clientes where dni like '"+d.recogerdniconletra(dni)+"'");
 		if(rs.next()) {
 			cond=false;
-			JOptionPane.showMessageDialog(this, "DNI en uso","Alta Cliente",JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(this, "DNI ya pertenecinte a un cliente, verifique el DNI o inserte uno nuevo","Alta Cliente",JOptionPane.INFORMATION_MESSAGE);
+			txtdni.setText("");
 		}
 		c.close();
 		return cond;

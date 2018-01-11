@@ -23,7 +23,7 @@ public class AltaArticulo extends JInternalFrame implements ActionListener{
 	private JLabel lb1, lb2, lb3, lb4, lb5, lb6, lb7, lb8,lb9; //etiquetas
 	private JTextField tf1, tf2, tf3, tf5, tf8;//textfield
 	private HintTextField tf4;//textfield con hint
-	private JButton btn;//bton
+	private JButton btn, btnborrar;//bton
 	private JComboBox<String> cb, cb2, cb3; //combobox para proveedor, categoria y subcategoria
 	private DefaultComboBoxModel<String> dcb, dcb2,dcb3; //default comboboxmodel de los combobox
 	
@@ -42,7 +42,7 @@ public class AltaArticulo extends JInternalFrame implements ActionListener{
 		
 		//panel central
 		centro=new JPanel(new GridLayout(9, 2, 20, 20));
-		centro.setBorder(new EmptyBorder(50, 350, 40, 350));
+		centro.setBorder(new EmptyBorder(50, 340, 40, 340));
 		centro.setBackground(Color.WHITE);
 		
 		//definicion de label y propiedades
@@ -79,9 +79,12 @@ public class AltaArticulo extends JInternalFrame implements ActionListener{
 		cb=new JComboBox<>(dcb);
 		tf8=new JTextField();
 		dcb2=new DefaultComboBoxModel<>(); //default listmodel de subcategorias
-		dcb2=buscarCategoria2(cb.getSelectedIndex()); //se le pasan las subcategorias en funcion de la categoria que esta seleccionada
+		dcb2.addElement("Seleccione subcategoría");
+	//	dcb2=buscarCategoria2(cb.getSelectedIndex()); //se le pasan las subcategorias en funcion de la categoria que esta seleccionada
 		cb2=new JComboBox<>(dcb2);
-		
+		cb.setBackground(Color.WHITE);
+		cb2.setBackground(Color.WHITE);
+		cb3.setBackground(Color.WHITE);
 		//se añaden los componentes al panel central
 		centro.add(lb1);
 		centro.add(tf1);
@@ -117,7 +120,9 @@ public class AltaArticulo extends JInternalFrame implements ActionListener{
 		sur=new JPanel(new FlowLayout(FlowLayout.CENTER));
 		sur.setBackground(Color.WHITE);
 		btn=new BotonInterior("Insertar");
+		btnborrar=new BotonInterior("Borrar");
 		sur.add(btn);
+		sur.add(btnborrar);
 		principal.add(sur, BorderLayout.SOUTH);
 		
 		//se añade panel principal
@@ -132,7 +137,7 @@ public class AltaArticulo extends JInternalFrame implements ActionListener{
 					cb2.removeAll(); //borra todo los items del combobox
 					dcb2.removeAllElements(); //borra todos los items del defaultlistmodel
 					try {
-						dcb2=buscarCategoria2(cb.getSelectedIndex()); //le pasamos las subcategorias que corresponden
+						dcb2=buscarCategoria2(cb.getSelectedIndex()-1); //le pasamos las subcategorias que corresponden
 						cb2.setModel(dcb2); //se asigna el default listmodel al combobox
 						
 					} catch (ClassNotFoundException e1) {
@@ -148,6 +153,7 @@ public class AltaArticulo extends JInternalFrame implements ActionListener{
 		});
 		
 		btn.addActionListener(this);//se implementa escucha del boton
+		btnborrar.addActionListener(this);
 	}
 
 	//escucha del boton
@@ -159,15 +165,17 @@ public class AltaArticulo extends JInternalFrame implements ActionListener{
 					//crea un articulo, se le pasa 1 porque el id no se va a insertar y no es necesario porque es autoincremental
 					Articulo a=new Articulo(1,tf1.getText(),Double.parseDouble(tf2.getText()),tf3.getText(),tf4.getText()+"ml",tf5.getText(),recogerCif(),recogerIdCat(),Integer.parseInt(tf8.getText()));
 					a.insertNoId();//se inserta  articulo sin id (autoincremental)
-					JOptionPane.showMessageDialog(this, "Se inserto artículo correctamente");
+					JOptionPane.showMessageDialog(this, "Se inserto artículo correctamente","Alta artículo",JOptionPane.INFORMATION_MESSAGE);
 					vaciar();//se vacian los campos
 				} catch (NumberFormatException | ClassNotFoundException | SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-					JOptionPane.showMessageDialog(this, "Error al insertar articulo, intentelo de nuevo");
+					JOptionPane.showMessageDialog(this, "Error al insertar articulo, intentelo de nuevo","Alta artículo",JOptionPane.INFORMATION_MESSAGE);
 				}
 				
 			}
+		}else if(e.getSource()==btnborrar) {
+			vaciar();
 		}
 		
 	}
@@ -179,6 +187,7 @@ public class AltaArticulo extends JInternalFrame implements ActionListener{
 	 */
 	public DefaultComboBoxModel<String> buscarCategoria() throws ClassNotFoundException, SQLException{
 		DefaultComboBoxModel<String> aux = new DefaultComboBoxModel<String>();
+		aux.addElement("Seleccione categoría");
 		Conexion c=new Conexion();
 		ResultSet rs = c.consultar("select * from categorias where id_categoria_padre = 0");
 		while(rs.next()){
@@ -196,6 +205,7 @@ public class AltaArticulo extends JInternalFrame implements ActionListener{
 	 */
 	public DefaultComboBoxModel<String> buscarCategoria2(int i) throws ClassNotFoundException, SQLException{
 		DefaultComboBoxModel<String> aux = new DefaultComboBoxModel<String>();
+		aux.addElement("Seleccione subcategoría");
 		Conexion c=new Conexion();
 		ResultSet rs = c.consultar("select * from categorias where id_categoria_padre = "+(i+1));
 		while(rs.next()){
@@ -213,6 +223,7 @@ public class AltaArticulo extends JInternalFrame implements ActionListener{
 	public DefaultComboBoxModel<String> buscarProveedor() throws ClassNotFoundException, SQLException{
 		DefaultComboBoxModel<String> aux = new DefaultComboBoxModel<String>();
 		Conexion c=new Conexion();
+		aux.addElement("Seleccione proveedor");
 		ResultSet rs = c.consultar("select * from proveedores where cif not like 'A3333333'");
 		while(rs.next()){
 			aux.addElement(rs.getString(2));
@@ -229,43 +240,52 @@ public class AltaArticulo extends JInternalFrame implements ActionListener{
 		Validaciones v=new Validaciones();
 		if(v.campovacio(tf1.getText())){
 			cond=false;
-			JOptionPane.showMessageDialog(this, "El campo nombre no puede estar vacío");
+			JOptionPane.showMessageDialog(this, "El campo nombre no puede estar vacío","Alta artículo",JOptionPane.INFORMATION_MESSAGE);
 		}else if(!comprobarNumerosDentro(tf1.getText())) {
 			cond=false;
-			JOptionPane.showMessageDialog(this, "El campo nombre no puede contener números");
+			JOptionPane.showMessageDialog(this, "El campo nombre no puede contener números","Alta artículo",JOptionPane.INFORMATION_MESSAGE);
 		}else if(v.campovacio(tf2.getText())){
 			cond=false;
-			JOptionPane.showMessageDialog(this, "El campo precio no puede estar vacío");
+			JOptionPane.showMessageDialog(this, "El campo precio no puede estar vacío","Alta artículo",JOptionPane.INFORMATION_MESSAGE);
 		}else if(!v.isDouble(tf2.getText())) {
 			cond=false;
-			JOptionPane.showMessageDialog(this, "El campo precio debe ser numérico");
+			JOptionPane.showMessageDialog(this, "El campo precio debe ser numérico","Alta artículo",JOptionPane.INFORMATION_MESSAGE);
 		}else if(Integer.parseInt(tf2.getText())<0){
 			cond=false;
-			JOptionPane.showMessageDialog(this, "El campo precio no puede ser menor que 0");
+			JOptionPane.showMessageDialog(this, "El campo precio no puede ser menor que 0","Alta artículo",JOptionPane.INFORMATION_MESSAGE);
 		}else if(v.campovacio(tf3.getText())){
 			cond=false;
-			JOptionPane.showMessageDialog(this, "El campo descripción no puede estar vacío");
+			JOptionPane.showMessageDialog(this, "El campo descripción no puede estar vacío","Alta artículo",JOptionPane.INFORMATION_MESSAGE);
 		}else if(v.campovacio(tf4.getText())){
 			cond=false;
-			JOptionPane.showMessageDialog(this, "El campo volumen no puede estar vacío");
+			JOptionPane.showMessageDialog(this, "El campo volumen no puede estar vacío","Alta artículo",JOptionPane.INFORMATION_MESSAGE);
 		}else if(!v.isNumeric(tf4.getText())) {
 			cond=false;
-			JOptionPane.showMessageDialog(this, "El campo volumen debe ser numérico");
+			JOptionPane.showMessageDialog(this, "El campo volumen debe ser numérico","Alta artículo",JOptionPane.INFORMATION_MESSAGE);
 		}else if(Integer.parseInt(tf4.getText())<0){
 			cond=false;
-			JOptionPane.showMessageDialog(this, "El campo volumen no puede ser menor que 0");
+			JOptionPane.showMessageDialog(this, "El campo volumen no puede ser menor que 0","Alta artículo",JOptionPane.INFORMATION_MESSAGE);
 		}else if(v.campovacio(tf5.getText())){
 			cond=false;
-			JOptionPane.showMessageDialog(this, "El campo embalaje no puede estar vacío");
+			JOptionPane.showMessageDialog(this, "El campo embalaje no puede estar vacío","Alta artículo",JOptionPane.INFORMATION_MESSAGE);
 		}else if(v.campovacio(tf8.getText())){
 			cond=false;
-			JOptionPane.showMessageDialog(this, "El campo stock no puede estar vacío");
+			JOptionPane.showMessageDialog(this, "El campo stock no puede estar vacío","Alta artículo",JOptionPane.INFORMATION_MESSAGE);
 		}else if(!v.isNumeric(tf8.getText())) {
 			cond=false;
-			JOptionPane.showMessageDialog(this, "El campo stock debe ser numérico");
+			JOptionPane.showMessageDialog(this, "El campo stock debe ser numérico","Alta artículo",JOptionPane.INFORMATION_MESSAGE);
 		}else if(Integer.parseInt(tf8.getText())<0){
 			cond=false;
-			JOptionPane.showMessageDialog(this, "El campo  stock no puede ser menor que 0");
+			JOptionPane.showMessageDialog(this, "El campo  stock no puede ser menor que 0","Alta artículo",JOptionPane.INFORMATION_MESSAGE);
+		}else if(cb3.getSelectedIndex()==0) {
+			cond=false;
+			JOptionPane.showMessageDialog(this, "Debe seleccionar un proveedor","Alta artículo",JOptionPane.INFORMATION_MESSAGE);
+		}else if(cb.getSelectedIndex()==0) {
+			cond=false;
+			JOptionPane.showMessageDialog(this, "Debe seleccionar una categoria","Alta artículo",JOptionPane.INFORMATION_MESSAGE);
+		}else if(cb2.getSelectedIndex()==0) {
+			cond=false;
+			JOptionPane.showMessageDialog(this, "Debe seleccionar una subcategoria","Alta artículo",JOptionPane.INFORMATION_MESSAGE);
 		}
 		return cond;
 	}
@@ -310,7 +330,6 @@ public class AltaArticulo extends JInternalFrame implements ActionListener{
 	public int recogerIdCat() throws ClassNotFoundException, SQLException {
 		int idCat=0;
 		Conexion con=new Conexion();
-	//	JOptionPane.showMessageDialog(this,"select * from categorias where nombre like '"+dcb2.getSelectedItem().toString()+"' and id_categoria_padre = "+(cb.getSelectedIndex()+1));
 		ResultSet rs = con.consultar("select * from categorias where nombre like '"+dcb2.getSelectedItem().toString()+"' and id_categoria_padre = "+(cb.getSelectedIndex()+1));
 		if(rs.next()) {
 			idCat=rs.getInt(1);
@@ -329,7 +348,8 @@ public class AltaArticulo extends JInternalFrame implements ActionListener{
 		tf5.setText("");
 		tf8.setText("");
 		cb.setSelectedIndex(0);
-		cb2.setSelectedIndex(0);
+		dcb2.removeAllElements();
+		dcb2.addElement("Seleccione Subcategoria");
 		cb3.setSelectedIndex(0);
 	}
 	
