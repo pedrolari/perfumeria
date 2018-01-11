@@ -354,6 +354,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 					
 				}
 			});
+			this.getJbOpcMenu6().setVisible(false);
 		}
 		else if(e.getSource().equals(this.getJbOpcMenu()[1]))
 		{	
@@ -445,6 +446,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 			});
 			this.getJbOpcMenu4().setVisible(true);
 			this.getJbOpcMenu5().setVisible(false);
+			this.getJbOpcMenu6().setVisible(false);
 		}
 		
 		else if(e.getSource().equals(this.getJbOpcMenu()[2]))
@@ -507,6 +509,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 			});
 			this.getJbOpcMenu4().setVisible(false);
 			this.getJbOpcMenu5().setVisible(false);
+			this.getJbOpcMenu6().setVisible(false);
 		}
 		else if(e.getSource().equals(this.getJbOpcMenu()[3]))
 		{
@@ -608,6 +611,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 			});
 			
 			this.getJbOpcMenu5().setVisible(false);
+			this.getJbOpcMenu6().setVisible(false);
 			
 		}
 		else if(e.getSource().equals(this.getJbOpcMenu()[4]))
@@ -678,6 +682,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 			this.getJbOpcMenu3().setVisible(false);
 			this.getJbOpcMenu4().setVisible(false);
 			this.getJbOpcMenu5().setVisible(false);
+			this.getJbOpcMenu6().setVisible(false);
 			
 		}
 		else if(e.getSource().equals(this.getJbOpcMenu()[5]))
