@@ -38,7 +38,7 @@ public class AltaProveedor extends JInternalFrame implements ActionListener{
 		this.setBorder(null);
 		((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
 		this.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER,40,30));
-		ptotal=new JPanel(new BorderLayout(150,30));
+		ptotal=new JPanel(new BorderLayout(50,30));
 		ptotal.setBackground(Color.white);
 		ptotal.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(41, 53, 65), 1), "ALTA PROVEEDOR",TitledBorder.LEFT,TitledBorder.TOP,new Font(null, Font.BOLD,25), new Color(41, 53, 65)));
 		this.getContentPane().add(ptotal);
@@ -145,6 +145,10 @@ public class AltaProveedor extends JInternalFrame implements ActionListener{
 					e.printStackTrace();
 				}
 				JOptionPane.showMessageDialog(this, "Datos insertados correctamente.");
+				textcif.setText("");
+				textdirec.setText("");
+				textnom.setText("");
+				texttel.setText("");
 				}
 			}
 			

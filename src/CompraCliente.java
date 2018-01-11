@@ -300,9 +300,16 @@ public class CompraCliente extends JInternalFrame{
 				// TODO Auto-generated method stub
 					
 				
-				
-			
-				FormatoTabla();
+				try {
+					ResultSet rs=c.consultar("SELECT * FROM ARTICULOS");
+					
+					if(!rs.next())
+					{
+						JOptionPane.showMessageDialog(null, "No hay ningún articulo disponible para vender.");
+					}
+					else
+					{
+						FormatoTabla();
 				AnadirProveedor();
 				modelo.addRow(new Object[] {});
 				jbAñadir.setEnabled(false);	
@@ -321,6 +328,13 @@ public class CompraCliente extends JInternalFrame{
 				
 				
 				cont1++;
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			
+				
 				
 					
 			}
@@ -461,6 +475,7 @@ public class CompraCliente extends JInternalFrame{
 									}
 									
 									JOptionPane.showMessageDialog(null, "Factura generada correctamente.");
+									cb.setSelected(false);
 								}
 								JOptionPane.showMessageDialog(null, "Datos insertados correctamente.");
 							
