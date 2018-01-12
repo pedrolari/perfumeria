@@ -711,7 +711,32 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					JpanelCargarJIframe.removeAll();
+					Boolean enc=false;
+					String dni=JOptionPane.showInputDialog("Introduzca el dni del cliente por el que desea buscar: ");
+					if(dni.length()==0)
+					{
+						enc=true;
+					}
+					else
+					{
+						if(dni.length()!=9)
+						{
+							JOptionPane.showMessageDialog(null, "DNI incorrecto.");
+						}
+						else
+						{
+							enc=true;
+						}
+					}
+					
+					if(enc==true)
+					{
+					VentaPorCliente vencli = new VentaPorCliente(dni);
+					JpanelCargarJIframe.add(vencli);
+					vencli.setVisible(true);
 					JpanelCargarJIframe.updateUI();
+					}
+					
 					
 					
 				}
@@ -723,6 +748,9 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					JpanelCargarJIframe.removeAll();
+					VentaPorFecha ven = new VentaPorFecha();
+					JpanelCargarJIframe.add(ven);
+					ven.setVisible(true);
 					JpanelCargarJIframe.updateUI();
 					
 					
