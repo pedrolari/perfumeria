@@ -187,7 +187,18 @@
 		<band height="45" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="54" splitType="Stretch"/>
+		<band height="54" splitType="Stretch">
+			<staticText>
+				<reportElement x="68" y="15" width="420" height="20" uuid="ba2cb38d-dd79-46ec-80d0-c5a9ffd14cb8"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Perfumerías Paco - Ctra. Ledesma, 32-52, 37006, Salamanca - Tlf: 923232323 - email: perfumeriaspaco@gmail.com]]></text>
+			</staticText>
+			<line>
+				<reportElement x="13" y="4" width="531" height="1" uuid="05918601-5170-4053-8ad4-bd4a561148b2"/>
+			</line>
+		</band>
 	</pageFooter>
 	<summary>
 		<band height="42" splitType="Stretch"/>
