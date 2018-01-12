@@ -23,13 +23,15 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
+import net.sf.jasperreports.engine.JRException;
+
 public class PedidiosPendientes extends JInternalFrame implements ActionListener{
 	private JLabel txt; //etiqueta
 	private JPanel ptotal,pcen,psur; //paneles
 	private JScrollPane scroll; //scroll del jlist
 	private JList<String> list; //jlist que mostrara los pedidos pendientes
 	private DefaultListModel<String> dlm; //defualtlistmodel del jlist
-	private JButton btn; //boton
+	private JButton btn, btnprueba; //boton
 	PedidiosPendientes() throws ClassNotFoundException, SQLException{
 		
 		//propiedades de la ventana
@@ -66,7 +68,10 @@ public class PedidiosPendientes extends JInternalFrame implements ActionListener
 		ptotal.add(psur, BorderLayout.SOUTH);
 		btn=new BotonInterior("Marcar como recibido");
 		btn.addActionListener(this);
+		btnprueba=new BotonInterior("Prueba pdf");
+		btnprueba.addActionListener(this);
 		psur.add(btn);
+		psur.add(btnprueba);
 		
 	}
 	/**
@@ -102,6 +107,13 @@ public class PedidiosPendientes extends JInternalFrame implements ActionListener
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+		}else if(e.getSource()==btnprueba) {
+			try {
+				PedidoPdf pp=new PedidoPdf();
+			} catch (ClassNotFoundException | SQLException | JRException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		
 	}
@@ -115,7 +127,7 @@ public class PedidiosPendientes extends JInternalFrame implements ActionListener
 		if(list.getSelectedIndices().length==0) {
 			JOptionPane.showMessageDialog(this, "No seleccionó ningu pedido, seleccione el/los pedidos que haya recibido");
 		}else {
-			JOptionPane.showMessageDialog(this, list.getSelectedIndices().length);
+			//JOptionPane.showMessageDialog(this, list.getSelectedIndices().length);
 			for (int i = 0; i < list.getSelectedIndices().length; i++) {
 				
 				int numPed=Integer.parseInt(dlm.get(list.getSelectedIndices()[i]).split("-")[0]);

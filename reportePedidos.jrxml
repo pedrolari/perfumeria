@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reportePedidos" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="de537282-1685-4c04-b4be-12a6cf9f5134">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<subDataset name="dataset1" uuid="4b7dd863-53f1-43fe-9d16-7a3b80667b0f"/>
+	<field name="idPedido" class="java.lang.Integer"/>
+	<field name="cifProveedor" class="java.lang.String"/>
+	<field name="dniEmpleado" class="java.lang.String"/>
+	<field name="fecha" class="java.lang.String"/>
+	<field name="precioTotal" class="java.lang.String"/>
+	<field name="estado" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="240" height="67" uuid="cdcf7389-a56f-4b63-a8fc-7bc9df362b21"/>
+				<imageExpression><![CDATA["C:\\Users\\Emilio\\Documents\\GitHub\\perfumeria\\bin\\Imagenes\\logo.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="300" y="15" width="202" height="26" uuid="c44d6ed9-3f4d-4757-b542-97aa1df55209"/>
+				<textElement textAlignment="Justified">
+					<font size="18" isBold="false"/>
+				</textElement>
+				<text><![CDATA[INFORME DE PEDIDOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="47" width="54" height="20" uuid="e775c92f-714b-4459-91fc-ad84d313a124"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA:]]></text>
+			</staticText>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="354" y="47" width="174" height="20" uuid="1f120864-74c4-4075-988d-9dd8208f7c72"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="71" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="78" height="20" uuid="906363f6-9441-4eb7-87db-6379173728aa"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dirección:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="78" y="0" width="272" height="20" uuid="9f8e2d99-90e7-4ba6-8876-cee093a67982"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Ctra. Ledesma, 32-52, 37006, Salamanca]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="20" width="78" height="20" uuid="2992944c-3dca-4ccb-a717-26c735c009b8"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Telefono: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="40" width="78" height="20" uuid="78501595-b376-429c-9369-3097bad6ceb0"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Email:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="78" y="20" width="100" height="20" uuid="45d6b95e-1982-4700-91ec-40b7cca35390"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[923232323]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="78" y="40" width="216" height="20" uuid="1efbdaa6-f4bf-4aae-a151-cfb4f9a925f2"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[perfumeriaspaco@gmail.com]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="57" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="20" backcolor="#D6211E" uuid="887efd90-e358-4737-b6c0-85cc430d8e3d"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="228" y="0" width="79" height="20" uuid="a12bd2c1-7bcc-476f-97b1-6f88ad1a2ae6"/>
+				<textElement textAlignment="Justified">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PEDIDOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="37" width="25" height="20" uuid="230cbd39-664b-43c8-830e-993195e6b562"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="165" y="37" width="75" height="20" uuid="b96a88b1-b2ed-4ee5-bc74-b3ffc05e0988"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Empleado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="68" y="37" width="70" height="20" uuid="47985424-aa5d-49a3-b4a4-51d3b8c11566"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Empresa]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="275" y="37" width="57" height="20" uuid="8d709f30-1be1-4526-a28b-9a6be72d425c"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="371" y="37" width="62" height="20" uuid="9a8429cc-2255-492e-9af2-893b902d89d3"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Precio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="450" y="37" width="55" height="20" uuid="39507518-1d26-4e1e-9cd6-a3658b26949e"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Estado]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="48" splitType="Stretch">
+			<textField>
+				<reportElement x="13" y="13" width="43" height="20" uuid="70bd3207-abb2-4520-b0c9-5f31fbedcbdb"/>
+				<textFieldExpression><![CDATA[$F{idPedido}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="68" y="13" width="87" height="20" uuid="59683f0b-c276-47d4-bfb4-36a6add2ae0b"/>
+				<textFieldExpression><![CDATA[$F{cifProveedor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="165" y="13" width="91" height="20" uuid="cb583feb-b016-446e-8008-f8e1dffd7bf6"/>
+				<textFieldExpression><![CDATA[$F{dniEmpleado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="276" y="13" width="64" height="20" uuid="e8363f98-ffbb-44a0-a2ea-0f1322dd3512"/>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="371" y="13" width="40" height="20" uuid="aa764b51-8c40-41d2-bbed-3554a2a885b8"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{precioTotal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="455" y="13" width="73" height="20" uuid="5d7c8714-dd18-417d-8132-d113d964deca"/>
+				<textFieldExpression><![CDATA[$F{estado}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="13" y="38" width="531" height="1" uuid="bae577a8-d51f-4ecd-8a41-c71caf60b8b8"/>
+			</line>
+			<staticText>
+				<reportElement x="415" y="11" width="22" height="20" uuid="10642191-62bd-4115-a079-b1d6fa78381b"/>
+				<textElement>
+					<font size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[€]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
