@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -44,7 +45,7 @@ public class CompraArticulo extends JInternalFrame {
 	private String[] columnas = { "Id", "Articulo", "Cantidad", "Precio", "Total" };
 	private Articulo nuevo;
 	private String ticketID, ticketARTICULO, nomusu;
-	private int ticketCANTIDAD, maxID;
+	private int ticketCANTIDAD, maxID, idArticulo, cant;
 	private double ticketPRECIO, ticketTOTAL, totalLINEAPEDIDO, lineaPRECIO, lineaTOTAL;
 	private Conexion con;
 	private ResultSet resultado;
@@ -98,19 +99,33 @@ public class CompraArticulo extends JInternalFrame {
 
 									@Override
 									public void actionPerformed(ActionEvent e) {
-
 										if (comprobar.isNumeric(tfCantidad.getText())) {
-											listaCompra.setValueAt(
-													(Integer.parseInt(tfCantidad.getText()) * ((double) lineaPedido
-															.getValueAt(listaCompra.getSelectedRow(), 3))),
-													listaCompra.getSelectedRow(), 4);
-											lineaPRECIO = Double.parseDouble(
-													lineaPedido.getValueAt(listaCompra.getSelectedRow(), 4).toString());
-											lineaTOTAL += lineaPRECIO;
-
-											// ACTUALIZAMOS EL TOTAL DEL PEDIDO
-											DecimalFormat df = new DecimalFormat("#.##");
-											total_pedido.setText(df.format(lineaTOTAL) + "€");
+											
+											//AQUI COMPRUEBO QUE HAYA STOCK PERO NO FUNCIONA LA CONSULTA
+											idArticulo= Integer.parseInt(tf1.getText().toString());
+											cant = Integer.parseInt(tfCantidad.getText().toString());	
+											
+											try {
+												JOptionPane.showMessageDialog(null, compruebaStock(idArticulo, cant));
+											} catch (HeadlessException e1) {
+												// TODO Auto-generated catch block
+												e1.printStackTrace();
+											}
+												
+													listaCompra.setValueAt(
+															(Integer.parseInt(tfCantidad.getText()) * ((double) lineaPedido
+																	.getValueAt(listaCompra.getSelectedRow(), 3))),
+															listaCompra.getSelectedRow(), 4);
+													lineaPRECIO = Double.parseDouble(
+															lineaPedido.getValueAt(listaCompra.getSelectedRow(), 4).toString());
+													lineaTOTAL += lineaPRECIO;
+													// ACTUALIZAMOS EL TOTAL DEL PEDIDO
+													DecimalFormat df = new DecimalFormat("#.##");
+													total_pedido.setText(df.format(lineaTOTAL) + "€");
+												
+												//	JOptionPane.showMessageDialog(null, "No puedes vender mas unidades de las que hay en stock");
+												
+											
 										} else {
 											JOptionPane.showMessageDialog(null, "Introduce la cantidad correcta");
 										}
@@ -269,6 +284,11 @@ public class CompraArticulo extends JInternalFrame {
 			}
 		});
 		
+		/********************************************************************************************************************************
+		/**
+		 * TODO REVISAR QUE ACTUALICE BIEN EL PRECIO
+		 */
+		/*********************************************************************************************************************************/
 		//ELIMINA UNA LINEA DE LA LISTA DE LA COMPRA
 		eliminarLinea = new BotonInterior("Eliminar Linea");
 		eliminarLinea.addActionListener(new ActionListener() {
@@ -278,13 +298,26 @@ public class CompraArticulo extends JInternalFrame {
 				if(listaCompra.getSelectedRow()!=-1){
 					int opcion=JOptionPane.showConfirmDialog(null, "¿Desea eliminar el articulo "+listaCompra.getValueAt(listaCompra.getSelectedRow(), 1)+"?", "Seleccione una opción", JOptionPane.YES_NO_OPTION);
 					
-					Double actuPrecio = Double.parseDouble(""+listaCompra.getValueAt(listaCompra.getSelectedRow(), 4));
-					JOptionPane.showMessageDialog(null, actuPrecio);
-					
 					
 					if(opcion==JOptionPane.YES_OPTION){
+
+						//BORRAMOS LA LINEA EN CUESTION 
 						DefaultTableModel modelo = (DefaultTableModel) listaCompra.getModel();
 						modelo.removeRow(listaCompra.getSelectedRow());
+						
+						//JOptionPane.showMessageDialog(null, actuPrecio);
+						//SELECCIONAMOS EL PRECIO TOTAL DE LA LINEA A ELIMINAR Y SE LO RESTAMOS AL TOTAL.
+						Double actuPrecio = Double.parseDouble(""+listaCompra.getValueAt(listaCompra.getSelectedRow(), 4));
+						
+						Double x = lineaTOTAL-actuPrecio;
+						JOptionPane.showMessageDialog(null, x);
+						
+						
+						// ACTUALIZAMOS LA VARIABLE TOTAL DEL PEDIDO
+						DecimalFormat df = new DecimalFormat("#.##");
+						total_pedido.setText(df.format(x) + "€");
+
+
 						
 						JOptionPane.showMessageDialog(null, "Articulo eliminado");
 					}
@@ -294,9 +327,7 @@ public class CompraArticulo extends JInternalFrame {
 			}
 		});
 		
-		
-		
-		
+
 		jpPagos.add(btnPagar);
 		jpPagos.add(btnLimpiar);
 		jpPagos.add(eliminarLinea);
@@ -323,6 +354,33 @@ public class CompraArticulo extends JInternalFrame {
 		return enc;
 	}
 
+	/********************************************************************************************************************************
+	/**
+	 * TODO REVISAR COMPROBAR STOCK
+	 * @param id
+	 * @param cant
+	 * @return
+	 *********************************************************************************************************************************/
+	public int compruebaStock(int id, int cant){
+		ResultSet res =null;
+		int stockProducto = 0;
+		try {
+			res = con.consultar("SELECT stock FROM articulos WHERE id_articulo='"+id+"'");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			if(res.next()){
+				stockProducto = res.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return stockProducto;
+	}
+	
 	// TODO revisar por que solo se hace una sola vez la comprobacion de
 	// cantidad vacia
 
@@ -366,8 +424,6 @@ public class CompraArticulo extends JInternalFrame {
 		double precioProducto;
 		double totalLineaProducto;
 		double totalTicket = 0;
-		
-		ResultSet resultado = null;
 		try {
 			resultado = con.consultar("SELECT articulos.nombre, articulos.precio, lineas_de_ventas.cantidad, (articulos.precio * lineas_de_ventas.cantidad) as total FROM lineas_de_ventas, articulos WHERE lineas_de_ventas.id_venta='"+maxID+"' AND articulos.id_articulo = lineas_de_ventas.id_articulo");
 		} catch (SQLException e2) {
