@@ -184,6 +184,12 @@ public class ModificacionProveedor extends JInternalFrame implements ActionListe
 									p.update(dni, "direccion", dir.getText());
 									p.update(dni, "cif", cif.getText());
 									JOptionPane.showMessageDialog(null, "Datos actualizados");
+									nom.setText(null);
+									tel.setText(null);
+									dir.setText(null);
+									cif.setText(null);
+									jc.setSelectedIndex(0);
+									jb.setEnabled(false);
 								}
 							} else {
 								JOptionPane.showMessageDialog(null, "Teléfono incorrecto!");
