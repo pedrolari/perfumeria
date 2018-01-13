@@ -56,10 +56,10 @@
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Telefono cliente:]]></text>
+				<text><![CDATA[Telefono:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="87" y="17" width="92" height="20" uuid="caddbcd2-eb12-4112-9b3d-843612275d8b"/>
+				<reportElement x="41" y="17" width="92" height="20" uuid="caddbcd2-eb12-4112-9b3d-843612275d8b"/>
 				<textElement verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
