@@ -32,11 +32,12 @@ public class VentaPorFecha extends JInternalFrame implements ActionListener{
 	private DefaultTableModel modelo;
 	private JTable tabla;
 	private String[] columnas = { "Vendedor", "DniCliente", "Fecha_Venta", "Total"};
-	private BotonInterior btn;
+	private BotonInterior btn, comprobar;
 	private JDateChooser date1;
-	private JButton comprobar;
+
 	
 	VentaPorFecha(){
+		
 		this.setPreferredSize(new Dimension(1050, 640));
 		this.getContentPane().setBackground(Color.white);
 		this.setBorder(null);
@@ -52,10 +53,12 @@ public class VentaPorFecha extends JInternalFrame implements ActionListener{
 		centro.setBackground(Color.white);
 		
 		date1=new JDateChooser("dd-MM-yyyy", "####-##-##", ' ');
+		date1.setPreferredSize(new Dimension(150, 25));
 		
 		norte=new JPanel(new FlowLayout(FlowLayout.CENTER));
 		norte.setBackground(Color.WHITE);
-		comprobar=new JButton("MOSTRAR");
+		comprobar=new BotonInterior("MOSTRAR");
+
 		norte.add(date1);
 		norte.add(comprobar);
 		
@@ -86,12 +89,13 @@ public class VentaPorFecha extends JInternalFrame implements ActionListener{
 	
 		
 		scroll = new JScrollPane(tabla);
-		scroll.setPreferredSize(new Dimension(460, 350));
+		scroll.setPreferredSize(new Dimension(460, 300));
 				
 		sur=new JPanel(new FlowLayout(FlowLayout.CENTER));
 		sur.setBackground(Color.white);
 		
 		btn=new BotonInterior("Imprimir PDF");
+		btn.setEnabled(false);
 		
 		sur.add(btn);
 		
@@ -115,10 +119,10 @@ public class VentaPorFecha extends JInternalFrame implements ActionListener{
 		{
 			
 			Date d1= date1.getDate(); 
-			java.sql.Date sqlDate1 = new java.sql.Date(d1.getTime());
+			
 			Calendar c=Calendar.getInstance();
 			if(comprobarFecha(date1)==true)
-			{
+			{java.sql.Date sqlDate1 = new java.sql.Date(d1.getTime());
 				if(d1.after(c.getTime()))
 				{
 					JOptionPane.showMessageDialog(this, "La fecha no puede ser posterior a la de hoy.","Cliente por fecha",JOptionPane.INFORMATION_MESSAGE);
@@ -163,7 +167,11 @@ public class VentaPorFecha extends JInternalFrame implements ActionListener{
 		if(enc==false)
 		{
 			JOptionPane.showMessageDialog(this, "No se han encontrado ventas con esa fecha.","Cliente por fecha",JOptionPane.INFORMATION_MESSAGE);
-
+			btn.setEnabled(false);
+		}
+		else
+		{
+			btn.setEnabled(true);
 		}
 	}
 

@@ -20,6 +20,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
+import net.sf.jasperreports.engine.JRException;
+
 public class VentaPorCliente extends JInternalFrame implements ActionListener{
 	private JPanel principal, centro, sur;
 	private JScrollPane scroll;
@@ -81,6 +83,7 @@ public class VentaPorCliente extends JInternalFrame implements ActionListener{
 		
 		btn=new BotonInterior("Imprimir PDF");
 		
+		
 		sur.add(btn);
 		if(enc==false)
 		{	
@@ -103,21 +106,48 @@ public class VentaPorCliente extends JInternalFrame implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
+		if(btn == arg0.getSource()){
+			try {
+				VentaClientepdf v = new VentaClientepdf(nombreCliente);
+				JOptionPane.showMessageDialog(null, "Informe generado correctamente!");
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JRException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
 	}
 	
 	
-	//FALTA QUE LIMPIE LA PANTALLA cuando no encuentra datos
+	
 	public void cargarVentas(){
 		modelo.setRowCount(0);
 				
+		String nombre="";
+		
 		try {
 			Conexion c = new Conexion();
 			 DecimalFormat df = new DecimalFormat("#.00");
+			 ResultSet rs1=c.consultar("SELECT nombre FROM clientes WHERE dni LIKE '"+nombreCliente+"'");
+			 if(rs1.next())
+			 {
+				 nombre=rs1.getString("nombre");
+			 }
+			 else
+			 {
+				 nombre="";
+			 }
+			 
 			ResultSet rs=c.consultar("select * from ventas WHERE dni LIKE '"+nombreCliente+"'");
 			enc=false;
 			while(rs.next()){
-				modelo.addRow(new Object[]{rs.getString(2),rs.getString(3),""+rs.getDate(4),""+df.format(rs.getDouble(5))+"€"});
+				modelo.addRow(new Object[]{rs.getString(2),nombre,""+rs.getDate(4),""+df.format(rs.getDouble(5))+"€"});
 				enc=true;
 
 			}

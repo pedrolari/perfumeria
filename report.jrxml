@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reportePedidos" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="de537282-1685-4c04-b4be-12a6cf9f5134">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<subDataset name="dataset1" uuid="4b7dd863-53f1-43fe-9d16-7a3b80667b0f"/>
+	<field name="vendedores" class="java.lang.String"/>
+	<field name="dniclientes" class="java.lang.String"/>
+	<field name="fechas" class="java.lang.String"/>
+	<field name="totales" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="260" y="15" width="284" height="26" uuid="c44d6ed9-3f4d-4757-b542-97aa1df55209"/>
+				<textElement textAlignment="Justified">
+					<font size="18" isBold="false"/>
+				</textElement>
+				<text><![CDATA[INFORME DE PEDIDOS FECHA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="47" width="54" height="20" uuid="e775c92f-714b-4459-91fc-ad84d313a124"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA:]]></text>
+			</staticText>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="354" y="47" width="174" height="20" uuid="1f120864-74c4-4075-988d-9dd8208f7c72"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="0" y="0" width="256" height="77" uuid="a8d6e81b-6edc-490c-b87a-fa88a456f4ec"/>
+				<imageExpression><![CDATA["bin/Imagenes/logo.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="71" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="78" height="20" uuid="906363f6-9441-4eb7-87db-6379173728aa"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dirección:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="78" y="0" width="272" height="20" uuid="9f8e2d99-90e7-4ba6-8876-cee093a67982"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Ctra. Ledesma, 32-52, 37006, Salamanca]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="20" width="78" height="20" uuid="2992944c-3dca-4ccb-a717-26c735c009b8"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Telefono: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="40" width="78" height="20" uuid="78501595-b376-429c-9369-3097bad6ceb0"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Email:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="78" y="20" width="100" height="20" uuid="45d6b95e-1982-4700-91ec-40b7cca35390"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[923232323]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="78" y="40" width="216" height="20" uuid="1efbdaa6-f4bf-4aae-a151-cfb4f9a925f2"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[perfumeriaspaco@gmail.com]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="60" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="20" backcolor="#D6211E" uuid="887efd90-e358-4737-b6c0-85cc430d8e3d"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="20" y="30" width="100" height="30" uuid="480aaa9b-b2ac-4535-abe0-bc642bef0208"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Vendedor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="150" y="30" width="100" height="30" uuid="fbd42e2e-440a-400e-860e-cf355ce22fef"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dni Cliente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="270" y="30" width="100" height="30" uuid="3e586ab2-b790-46aa-9417-fd09e227348c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans Mono" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="420" y="30" width="100" height="30" uuid="6a077609-45e5-4e22-8b18-411d54139b46"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="57" splitType="Stretch">
+			<line>
+				<reportElement x="13" y="38" width="531" height="1" uuid="bae577a8-d51f-4ecd-8a41-c71caf60b8b8"/>
+			</line>
+			<textField>
+				<reportElement x="20" y="8" width="100" height="30" uuid="949e731f-f60b-4408-b105-8c379d227bc7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vendedores}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="150" y="8" width="100" height="30" uuid="a9ab6f3f-8791-4051-b522-c1d58bce9dcf"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dniclientes}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="270" y="8" width="100" height="30" uuid="84ae7294-951d-4eef-85d2-b1531f1dd0e9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fechas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="420" y="8" width="100" height="30" uuid="e453066b-ce6e-4f43-ba62-5a4e2eb83cfb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totales}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<staticText>
+				<reportElement x="68" y="15" width="420" height="20" uuid="ba2cb38d-dd79-46ec-80d0-c5a9ffd14cb8"/>
+				<textElement textAlignment="Justified">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Perfumerías Paco - Ctra. Ledesma, 32-52, 37006, Salamanca - Tlf: 923232323 - email: perfumeriaspaco@gmail.com]]></text>
+			</staticText>
+			<line>
+				<reportElement x="13" y="4" width="531" height="1" uuid="05918601-5170-4053-8ad4-bd4a561148b2"/>
+			</line>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

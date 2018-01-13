@@ -162,7 +162,6 @@ public class PedidoProveedor extends JInternalFrame {
 					@Override
 				
 					public void actionPerformed(ActionEvent e) {
-				
 						// TODO Auto-generated method stub
 						// sacamos el precio final
 						miTable.setValueAt(Integer.parseInt(jt1.getText()) * numero, miTable.getSelectedRow(), 4);
@@ -219,11 +218,12 @@ public class PedidoProveedor extends JInternalFrame {
 					for (int j = 0; j < miTable.getColumnCount(); j++) {
 
 						if (modelo.getValueAt(i, j) == null || Integer.parseInt(modelo.getValueAt(i,2).toString())<0
-								|| modelo.getValueAt(i, j).toString().equalsIgnoreCase("0.0")) {
+								|| modelo.getValueAt(i, j).toString().equalsIgnoreCase("0.0")|| modelo.getValueAt(i, j).toString().equalsIgnoreCase("0")) {
 							bComprobar = true;
 						}
 					}
 				}
+				
 // miramos que no hay productos repetidos
 				if (bComprobar != true) {
 					for (int i = 0; i < miTable.getRowCount(); i++) {
@@ -246,12 +246,12 @@ public class PedidoProveedor extends JInternalFrame {
 					AnadirProveedor();
 					modelo.addRow(new Object[] {});
 				} else {
-					JOptionPane.showMessageDialog(null,
-							"Producto repetido o campos erroneos compruebe los valores de la tabla para crear una nueva fila ");
+					JOptionPane.showMessageDialog(null,"Producto repetido o campos erroneos compruebe los valores de la tabla para crear una nueva fila ");
 				}
 
 			}
 		});
+
 
 		jbQuitar = new BotonInterior("Quitar");
 		jpSegundoPanel.add(jbQuitar);
@@ -278,7 +278,6 @@ public class PedidoProveedor extends JInternalFrame {
 
 		jbenviar = new BotonInterior("Enviar");
 		jpSegundoPanel.add(jbenviar);
-
 		jbenviar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -292,56 +291,25 @@ public class PedidoProveedor extends JInternalFrame {
 					Date d = new Date();
 					SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd");
 
-					double suma=0;
-					for (int i = 0; i < miTable.getRowCount(); i++) {
-						
-								suma = suma + Double.parseDouble(modelo.getValueAt(i, 3).toString()) ;
-								
+					bComprobar = false;
+					// comprobamos que no hay datos erroneos
+									for (int i = 0; i < miTable.getRowCount(); i++) {
+										for (int j = 0; j < miTable.getColumnCount(); j++) {
+
+											if (modelo.getValueAt(i, j) == null || Integer.parseInt(modelo.getValueAt(i,2).toString())<0
+													|| modelo.getValueAt(i, j).toString().equalsIgnoreCase("0.0")|| modelo.getValueAt(i, j).toString().equalsIgnoreCase("0")) {
+												bComprobar = true;
+											}
+										}
+									}
 									
-					}
-					
-					
-					
-					
-					try {
-						c.modificar("INSERT INTO compras (`user`, `cif`, `fecha_compra`, `total_pedido`, `estado`) VALUES ('" + usuario + "','"
-								+ "A3333333" + "','" + form.format(d) + "','"+suma+"','"+0+"')");
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-
-					try {
-						ResultSet rs = c.consultar("SELECT max(id_compra) as num from compras");
-						rs.next();
-						num = rs.getInt("num");
-
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-
-					boolean check = true;
-
-					for (int i = 0; i < miTable.getRowCount(); i++) {
-						for (int j = 0; j < miTable.getColumnCount(); j++) {
-
-							if (modelo.getValueAt(i, j) == null
-									|| Integer.parseInt(modelo.getValueAt(i, 2).toString())<0
-									|| modelo.getValueAt(i, j).toString().equalsIgnoreCase("0.0")) {
-								check = false;
-							}
-
-						}
-					}
 
 					if (bComprobar != true) {
 						for (int i = 0; i < miTable.getRowCount(); i++) {
 							for (int j = 0; j < miTable.getRowCount(); j++) {
 
 								if (i != j) {
-									if (modelo.getValueAt(i, 1).toString()
-											.equalsIgnoreCase(modelo.getValueAt(j, 1).toString())) {
+									if (modelo.getValueAt(i, 1).toString().equalsIgnoreCase(modelo.getValueAt(j, 1).toString())) {
 										bComprobar = true;
 									}
 								}
@@ -351,8 +319,31 @@ public class PedidoProveedor extends JInternalFrame {
 					}
 
 					
-					if (check == true && bComprobar == false &&  miTable.getRowCount()!=0) {
+					if (bComprobar == false &&  miTable.getRowCount()!=0) {
 
+						double suma=0;
+						for (int i = 0; i < miTable.getRowCount(); i++) {
+							suma = suma + Double.parseDouble(modelo.getValueAt(i, 3).toString()) ;			
+						}
+						
+						try {
+							c.modificar("INSERT INTO compras (`user`, `cif`, `fecha_compra`, `total_pedido`, `estado`) VALUES ('" + usuario + "','"
+									+ "A3333333" + "','" + form.format(d) + "','"+suma+"','"+0+"')");
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+
+						try {
+							ResultSet rs = c.consultar("SELECT max(id_compra) as num from compras");
+							rs.next();
+							num = rs.getInt("num");
+
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+				
 						for (int i = 0; i < miTable.getRowCount(); i++) {
 							try {
 								ResultSet rs = c.consultar(
