@@ -101,7 +101,7 @@ public class PedidoProveedor extends JInternalFrame {
 		
 		try {
 			// sacamos los provedores a los que podemos comprar
-			ResultSet rs = c.consultar("SELECT * FROM proveedores WHERE cif NOT like 'A3333333'");
+			ResultSet rs = c.consultar("SELECT * FROM proveedores");
 			while (rs.next()) {
 				lista.addElement(rs.getString("cif"));
 			}
@@ -327,8 +327,11 @@ public class PedidoProveedor extends JInternalFrame {
 						}
 						
 						try {
+							for (int i = 0; i < miTable.getRowCount(); i++) {
 							c.modificar("INSERT INTO compras (`user`, `cif`, `fecha_compra`, `total_pedido`, `estado`) VALUES ('" + usuario + "','"
-									+ "A3333333" + "','" + form.format(d) + "','"+suma+"','"+0+"')");
+									+ modelo.getValueAt(i, 0).toString()+"','" + form.format(d) + "','"+suma+"','"+0+"')");
+							}
+							
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
