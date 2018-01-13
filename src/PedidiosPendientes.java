@@ -31,7 +31,7 @@ public class PedidiosPendientes extends JInternalFrame implements ActionListener
 	private JScrollPane scroll; //scroll del jlist
 	private JList<String> list; //jlist que mostrara los pedidos pendientes
 	private DefaultListModel<String> dlm; //defualtlistmodel del jlist
-	private JButton btn, btnprueba; //boton
+	private JButton btn; //boton
 	PedidiosPendientes() throws ClassNotFoundException, SQLException{
 		
 		//propiedades de la ventana
@@ -67,11 +67,9 @@ public class PedidiosPendientes extends JInternalFrame implements ActionListener
 		psur.setBackground(Color.white);
 		ptotal.add(psur, BorderLayout.SOUTH);
 		btn=new BotonInterior("Marcar como recibido");
-		btn.addActionListener(this);
-		btnprueba=new BotonInterior("Prueba pdf");
-		btnprueba.addActionListener(this);
+		btn.addActionListener(this);		
 		psur.add(btn);
-		psur.add(btnprueba);
+
 		
 	}
 	/**
@@ -104,13 +102,6 @@ public class PedidiosPendientes extends JInternalFrame implements ActionListener
 			try {
 				actualizarPedido();
 			} catch (ClassNotFoundException | SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		}else if(e.getSource()==btnprueba) {
-			try {
-				PedidoPdf pp=new PedidoPdf();
-			} catch (ClassNotFoundException | SQLException | JRException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}

@@ -52,16 +52,16 @@ public class CompraArticulo extends JInternalFrame {
 	private Validaciones comprobar = new Validaciones();
 
 	CompraArticulo(String nom) {
-		
-		nomusu=nom;
-		
+
+		nomusu = nom;
+
 		this.setPreferredSize(new Dimension(1050, 640));
 		this.setBorder(null);
 		((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
 		this.getContentPane().setLayout(new FlowLayout(FlowLayout.LEFT));
-		this.setBorder(
-				BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(41, 53, 65)), "COMPRA ARTICULO",
-						TitledBorder.LEFT, TitledBorder.TOP, new Font(null, Font.BOLD, 25), new Color(41, 53, 65)));
+		this.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(41, 53, 65)),
+				"COMPRA ARTICULO", TitledBorder.LEFT, TitledBorder.TOP, new Font(null, Font.BOLD, 25),
+				new Color(41, 53, 65)));
 		this.setBackground(Color.white);
 		// PANEL PRINCIPAL QUE CONTENDRA LOS PANELES NORTE, SUR, ESTE Y OESTE
 		principal = new JPanel(new BorderLayout(150, 30));
@@ -99,32 +99,48 @@ public class CompraArticulo extends JInternalFrame {
 
 									@Override
 									public void actionPerformed(ActionEvent e) {
-										if (comprobar.isNumeric(tfCantidad.getText())) {
-//											
-//											//AQUI COMPRUEBO QUE HAYA STOCK PERO NO FUNCIONA LA CONSULTA
-//											idArticulo= Integer.parseInt(tf1.getText().toString());
-//											cant = Integer.parseInt(tfCantidad.getText().toString());	
-//											int stockProducto = 0;
-//											
-//											try {
-//												resultado = con.consultar("SELECT stock FROM articulos WHERE id_articulo='"+idArticulo+"'");
-//											} catch (SQLException e1) {
-//												// TODO Auto-generated catch block
-//												e1.printStackTrace();
-//											}
-//											try {
-//												while(resultado.next()){
-//													stockProducto = resultado.getInt(1);
-//												}
-//											} catch (SQLException e1) {
-//												// TODO Auto-generated catch block
-//												e1.printStackTrace();
-//											}
-//											JOptionPane.showMessageDialog(null, stockProducto);
+									
+
 											
-//											try {
-//												if(compruebaStock(idArticulo)>=cant)
-//												{
+											
+											//COMPROBAR STOCK
+											try {
+												con=new Conexion();
+											} catch (ClassNotFoundException e2) {
+												// TODO Auto-generated catch block
+												e2.printStackTrace();
+											} catch (SQLException e2) {
+												// TODO Auto-generated catch block
+												e2.printStackTrace();
+											}
+											
+											ResultSet rs=null;
+											try {
+												rs=con.consultar("SELECT stock FROM articulos WHERE id_articulo='"+nuevo.getId_articulo()+"'");
+												
+											} catch (SQLException e1) {
+												// TODO Auto-generated catch block
+												e1.printStackTrace();
+											}
+											
+											try {
+												rs.next();
+												Validaciones v=new Validaciones();
+												if(v.isNumeric(""+tfCantidad.getText().toString())==false)
+												{
+													tfCantidad.setText("0");
+													
+													JOptionPane.showMessageDialog(null, "Introduce un número.");
+												}
+												else if(Integer.parseInt(tfCantidad.getText().toString())<1)
+												{
+													tfCantidad.setText("0");
+													
+													JOptionPane.showMessageDialog(null, "No puede ser menor que 1.");
+												}
+												else if(rs.getInt("stock")>=Integer.parseInt(tfCantidad.getText().toString()))
+												{
+												
 													listaCompra.setValueAt(
 															(Integer.parseInt(tfCantidad.getText()) * ((double) lineaPedido
 																	.getValueAt(listaCompra.getSelectedRow(), 3))),
@@ -132,28 +148,31 @@ public class CompraArticulo extends JInternalFrame {
 													lineaPRECIO = Double.parseDouble(
 															lineaPedido.getValueAt(listaCompra.getSelectedRow(), 4).toString());
 													lineaTOTAL += lineaPRECIO;
-													// ACTUALIZAMOS EL TOTAL DEL PEDIDO
-													DecimalFormat df = new DecimalFormat("#.##");
-													total_pedido.setText(df.format(lineaTOTAL) + "€");
-//
-//												}else{
-//														JOptionPane.showMessageDialog(null, "No puedes vender mas unidades de las que hay en stock");
-//												}
-//											} catch (NumberFormatException e1) {
-//												// TODO Auto-generated catch block
-//												e1.printStackTrace();
-//											} catch (HeadlessException e1) {
-//												// TODO Auto-generated catch block
-//												e1.printStackTrace();
-//											} catch (SQLException e1) {
-//												// TODO Auto-generated catch block
-//												e1.printStackTrace();
-//											}
-										} else {
-											JOptionPane.showMessageDialog(null, "No has introducido una cantidad correcta");
+											
+
+												}
+												else
+												{
+													
+													JOptionPane.showMessageDialog(null, "No disponemos de tanto stock.");
+													tfCantidad.setText("0");
+												}
+											} catch (NumberFormatException e1) {
+												// TODO Auto-generated catch block
+												e1.printStackTrace();
+											} catch (SQLException e1) {
+												// TODO Auto-generated catch block
+												e1.printStackTrace();
+											}
+											
+											// ACTUALIZAMOS EL TOTAL DEL PEDIDO
+											DecimalFormat df = new DecimalFormat("#.##");
+											total_pedido.setText(df.format(lineaTOTAL) + "€");
+
 										}
-									}
+									
 								});
+
 							} else {
 								JOptionPane.showMessageDialog(null, "El producto no existe en la BBDD");
 							}
@@ -241,9 +260,7 @@ public class CompraArticulo extends JInternalFrame {
 
 							if (!ticketID.equals("") && !ticketARTICULO.equals("") && ticketCANTIDAD != 0
 									&& ticketTOTAL != 0) {
-								// JOptionPane.showMessageDialog(null,ticketID+""+ticketARTICULO+""+ticketCANTIDAD+""+ticketPRECIO+""+ticketTOTAL);
-								// Obtenemos el total de cada lina de pedido y
-								// lo sumamos a totalLINEAPEDIDO
+
 								totalLINEAPEDIDO += ticketTOTAL;
 
 								// INSERTAMOS CADA LINEA CORRECTA EN LA BASE DE
@@ -258,9 +275,25 @@ public class CompraArticulo extends JInternalFrame {
 									e1.printStackTrace();
 								}
 								
+									try {
+										ResultSet rs1 = con.consultar(
+												"SELECT * FROM `articulos` WHERE `nombre`= '" + lineaPedido.getValueAt(i, 1) + "'");
+										rs1.next();
+										int num2 = rs1.getInt("id_articulo");
+										
+										
+										ResultSet rs2=con.consultar("SELECT stock FROM articulos WHERE id_articulo="+num2);
+										rs2.next();
+										
+										int cant=rs2.getInt("stock")-Integer.parseInt(""+lineaPedido.getValueAt(i, 2));
+										
+										con.modificar("UPDATE articulos SET stock="+cant+" WHERE id_articulo="+num2);
+									} catch (SQLException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
 								
-								
-								
+
 							} else {
 								JOptionPane.showMessageDialog(null, "Indica la cantidad de producto");
 							}
@@ -278,7 +311,7 @@ public class CompraArticulo extends JInternalFrame {
 							e1.printStackTrace();
 						}
 						try {
-							Ticketpdf t = new Ticketpdf(nomusu,maxID);
+							Ticketpdf t = new Ticketpdf(nomusu, maxID);
 						} catch (ClassNotFoundException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -291,7 +324,7 @@ public class CompraArticulo extends JInternalFrame {
 						}
 					} else {
 						JOptionPane.showMessageDialog(null, "Compra cancelada");
-						//vaciarTodo();
+						// vaciarTodo();
 					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Corrige la linea de pedido con cantidad 0");
@@ -306,51 +339,40 @@ public class CompraArticulo extends JInternalFrame {
 				vaciarTodo();
 			}
 		});
-		
-		/********************************************************************************************************************************
-		/**
-		 * TODO REVISAR QUE ACTUALICE BIEN EL PRECIO
-		 */
-		/*********************************************************************************************************************************/
-		//ELIMINA UNA LINEA DE LA LISTA DE LA COMPRA
+
+		// ELIMINA UNA LINEA DE LA LISTA DE LA COMPRA
 		eliminarLinea = new BotonInterior("Eliminar Linea");
 		eliminarLinea.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(listaCompra.getSelectedRow()!=-1){
-					int opcion=JOptionPane.showConfirmDialog(null, "¿Desea eliminar el articulo "+listaCompra.getValueAt(listaCompra.getSelectedRow(), 1)+"?", "Seleccione una opción", JOptionPane.YES_NO_OPTION);
-					
-					
-					if(opcion==JOptionPane.YES_OPTION){
+				if (listaCompra.getSelectedRow() != -1) {
+					int opcion = JOptionPane.showConfirmDialog(
+							null, "¿Desea eliminar el articulo "
+									+ listaCompra.getValueAt(listaCompra.getSelectedRow(), 1) + "?",
+							"Seleccione una opción", JOptionPane.YES_NO_OPTION);
 
-						
-						
-						//JOptionPane.showMessageDialog(null, actuPrecio);
-						//SELECCIONAMOS EL PRECIO TOTAL DE LA LINEA A ELIMINAR Y SE LO RESTAMOS AL TOTAL.
-						Double actuPrecio = Double.parseDouble(""+listaCompra.getValueAt(listaCompra.getSelectedRow(), 4));
-						
-						Double x = lineaTOTAL-actuPrecio;
-						//JOptionPane.showMessageDialog(null, x);
-						
-						
+					if (opcion == JOptionPane.YES_OPTION) {
+
+						Double actuPrecio = Double
+								.parseDouble("" + listaCompra.getValueAt(listaCompra.getSelectedRow(), 4));
+
+						lineaTOTAL = lineaTOTAL - actuPrecio;
+
 						// ACTUALIZAMOS LA VARIABLE TOTAL DEL PEDIDO
 						DecimalFormat df = new DecimalFormat("#.##");
-						total_pedido.setText(df.format(x) + "€");
+						total_pedido.setText(df.format(lineaTOTAL) + "€");
 
-
-						
 						JOptionPane.showMessageDialog(null, "Articulo eliminado");
-						//BORRAMOS LA LINEA EN CUESTION 
+						// BORRAMOS LA LINEA EN CUESTION
 						DefaultTableModel modelo = (DefaultTableModel) listaCompra.getModel();
 						modelo.removeRow(listaCompra.getSelectedRow());
 					}
-				}else{
+				} else {
 					JOptionPane.showMessageDialog(null, "No has seleccionado ninguna linea");
 				}
 			}
 		});
-		
 
 		jpPagos.add(btnPagar);
 		jpPagos.add(btnLimpiar);
@@ -378,29 +400,6 @@ public class CompraArticulo extends JInternalFrame {
 		return enc;
 	}
 
-	/********************************************************************************************************************************
-	/**
-	 * TODO REVISAR COMPROBAR STOCK
-	 * @param id
-	 * @param cant
-	 * @return
-	 * @throws SQLException 
-	 *********************************************************************************************************************************/
-	public int compruebaStock(int id) throws SQLException{
-		int stockProducto = 0;
-
-		resultado = con.consultar("SELECT stock FROM articulos WHERE id_articulo='" + id + "'");
-		while(resultado.next()){
-			stockProducto = resultado.getInt(1);
-		}
-		con.close();
-		
-		return stockProducto;
-	}
-	
-	// TODO revisar por que solo se hace una sola vez la comprobacion de
-	// cantidad vacia
-
 	public boolean comprobarCantidadVacia() {
 		boolean enc = false;
 		int val;
@@ -422,72 +421,71 @@ public class CompraArticulo extends JInternalFrame {
 		tf1.setText("");
 	}
 
-	public void generarTicketCompra(JTable listaCompra, int maxID) throws SQLException{
+	public void generarTicketCompra(JTable listaCompra, int maxID) throws SQLException {
 		Calendar fecha = GregorianCalendar.getInstance();
-		
-		File fichero=new File("ticket.txt");
+
+		File fichero = new File("ticket.txt");
 		FileWriter fw = null;
 		try {
 			fw = new FileWriter(fichero);
 		} catch (IOException e3) {
 			// TODO Auto-generated catch block
 			e3.printStackTrace();
-		};
-		PrintWriter pw=new PrintWriter(fw);
-		
-		int lineaTicket=1;
+		}
+		;
+		PrintWriter pw = new PrintWriter(fw);
+
+		int lineaTicket = 1;
 		String nombreProducto;
 		int cantidadProducto;
 		double precioProducto;
 		double totalLineaProducto;
 		double totalTicket = 0;
 		try {
-			resultado = con.consultar("SELECT articulos.nombre, articulos.precio, lineas_de_ventas.cantidad, (articulos.precio * lineas_de_ventas.cantidad) as total FROM lineas_de_ventas, articulos WHERE lineas_de_ventas.id_venta='"+maxID+"' AND articulos.id_articulo = lineas_de_ventas.id_articulo");
+			resultado = con.consultar(
+					"SELECT articulos.nombre, articulos.precio, lineas_de_ventas.cantidad, (articulos.precio * lineas_de_ventas.cantidad) as total FROM lineas_de_ventas, articulos WHERE lineas_de_ventas.id_venta='"
+							+ maxID + "' AND articulos.id_articulo = lineas_de_ventas.id_articulo");
 		} catch (SQLException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
-		};
-		
-		
+		}
+		;
+
 		pw.println("                      PERFUMERIAS PACO                          ");
 		pw.println("======================================================================");
-		pw.println("NUMERO TICKET: "+maxID);
-		pw.println("FECHA: " + fecha.get(Calendar.DAY_OF_MONTH)+"/"+ (fecha.get(Calendar.MONTH)+1)+"/"+ fecha.get(Calendar.YEAR));
-		pw.println("VENDEDOR: "+nomusu);
+		pw.println("NUMERO TICKET: " + maxID);
+		pw.println("FECHA: " + fecha.get(Calendar.DAY_OF_MONTH) + "/" + (fecha.get(Calendar.MONTH) + 1) + "/"
+				+ fecha.get(Calendar.YEAR));
+		pw.println("VENDEDOR: " + nomusu);
 		pw.println("======================================================================");
 		pw.println("Nº    NOMBRE                       PRECIO       CANTIDAD       TOTAL");
-		
-		
-		
-		
+
 		try {
-			while(resultado.next())
-			{
+			while (resultado.next()) {
 				nombreProducto = resultado.getString(1);
 				precioProducto = resultado.getDouble(2);
 				cantidadProducto = resultado.getInt(3);
 				totalLineaProducto = resultado.getDouble(4);
 				totalTicket += totalLineaProducto;
-				
-				if(nombreProducto.length()<20)
-				{
-					int cant=20-nombreProducto.length();
-					for(int i=0;i<cant;i++)
-					{
-						nombreProducto=nombreProducto+darespacios();
+
+				if (nombreProducto.length() < 20) {
+					int cant = 20 - nombreProducto.length();
+					for (int i = 0; i < cant; i++) {
+						nombreProducto = nombreProducto + darespacios();
 					}
 				}
-				
-				pw.println(lineaTicket+"    "+ nombreProducto +"           "+ precioProducto +"€           "+ cantidadProducto +"           "+ totalLineaProducto+"€");
 
-				
+				pw.println(lineaTicket + "    " + nombreProducto + "           " + precioProducto + "€           "
+						+ cantidadProducto + "           " + totalLineaProducto + "€");
+
 				lineaTicket++;
 			}
 			DecimalFormat df = new DecimalFormat("#.00");
-			
+
 			pw.println("======================================================================");
-			pw.println("TOTAL..........................................................."+ df.format(totalTicket)+"€");
-			
+			pw.println(
+					"TOTAL..........................................................." + df.format(totalTicket) + "€");
+
 		} catch (SQLException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
@@ -503,9 +501,8 @@ public class CompraArticulo extends JInternalFrame {
 		}
 		con.close();
 	}
-	
-	public String darespacios()
-	{
+
+	public String darespacios() {
 		return " ";
 	}
 }

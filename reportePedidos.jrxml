@@ -17,7 +17,7 @@
 		<band height="79" splitType="Stretch">
 			<image>
 				<reportElement x="0" y="0" width="240" height="67" uuid="cdcf7389-a56f-4b63-a8fc-7bc9df362b21"/>
-				<imageExpression><![CDATA["C:\\Users\\Emilio\\Documents\\GitHub\\perfumeria\\bin\\Imagenes\\logo.png"]]></imageExpression>
+				<imageExpression><![CDATA["src/imagenes/logo.png"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="300" y="15" width="202" height="26" uuid="c44d6ed9-3f4d-4757-b542-97aa1df55209"/>
