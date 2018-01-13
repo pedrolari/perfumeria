@@ -20,6 +20,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
+import net.sf.jasperreports.engine.JRException;
+
 public class VentaPorCliente extends JInternalFrame implements ActionListener{
 	private JPanel principal, centro, sur;
 	private JScrollPane scroll;
@@ -104,6 +106,21 @@ public class VentaPorCliente extends JInternalFrame implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
+		if(btn == arg0.getSource()){
+			try {
+				VentaClientepdf v = new VentaClientepdf(nombreCliente);
+				JOptionPane.showMessageDialog(null, "Informe generado correctamente!");
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JRException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
 	}
 	

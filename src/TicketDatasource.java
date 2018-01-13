@@ -37,8 +37,6 @@ public class TicketDatasource implements JRDataSource{
         	valor = listaTicket.get(indiceTicketActual).getTotal();
 		}
         
-        System.out.println(valor);
-
         return valor;
 	}
 
