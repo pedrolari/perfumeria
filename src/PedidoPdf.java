@@ -17,14 +17,16 @@ import net.sf.jasperreports.engine.util.JRLoader;
 
 public class PedidoPdf {
 	
-	PedidoPdf() throws ClassNotFoundException, SQLException, JRException{
-		crearInforme();
+	PedidoPdf(String cif) throws ClassNotFoundException, SQLException, JRException{
+		crearInforme(cif);
 	}
-	private void crearInforme() throws SQLException, ClassNotFoundException, JRException {
+	private void crearInforme(String Cif) throws SQLException, ClassNotFoundException, JRException {
 		PedidoDataSource listaPedidos = new PedidoDataSource();
 		int i=1;
 		Conexion c = new Conexion();
-		ResultSet rs = c.consultar("select * from compras");
+		JOptionPane.showMessageDialog(null, Cif);
+		
+		ResultSet rs = c.consultar("select * from compras where cif='"+Cif+"'");
 		while(rs.next()) {
 			
 			InformePedidos ip = new InformePedidos(rs.getInt(1), rs.getString(2), rs.getString(3), cogerFecha(rs.getDate(4)), rs.getDouble(5), rs.getInt(6));
