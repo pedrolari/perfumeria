@@ -40,7 +40,7 @@ public class VentaPorCliente extends JInternalFrame implements ActionListener{
 		this.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 40, 30));
 		
 		principal=new JPanel(new BorderLayout(40, 40));
-		principal.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(41, 53, 65), 1), "VENTA POR FECHA", TitledBorder.LEFT, TitledBorder.TOP, new Font(null, Font.BOLD, 25), new Color(41, 53, 65)));
+		principal.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(41, 53, 65), 1), "VENTA POR CLIENTE", TitledBorder.LEFT, TitledBorder.TOP, new Font(null, Font.BOLD, 25), new Color(41, 53, 65)));
 		principal.setBackground(Color.white);
 		
 		centro=new JPanel(new BorderLayout(40, 40));
