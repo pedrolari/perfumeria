@@ -36,7 +36,7 @@ public class VentaClientepdf {
 			
 		}
 
-		JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reportCliente.jasper");
+		JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("reportVentaCliente.jasper");
 		// Aqui le pasamos al jasper los parametros
 		JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, null,listaTicket);
 		// </editor-fold>
