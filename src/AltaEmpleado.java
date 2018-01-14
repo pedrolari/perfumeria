@@ -95,7 +95,7 @@ public class AltaEmpleado extends JInternalFrame implements ActionListener{
 									rs = con.consultar("SELECT user as us FROM empleados WHERE user like '"+usu.getText()+"'");
 									if (rs.next()==true) {
 										user = rs.getString("us");
-										JOptionPane.showMessageDialog(null, user+" esta ocupado");
+										JOptionPane.showMessageDialog(null,"El usuario " +user+" ya exites");
 									}else{
 										c = new Empleado(usu.getText(),repass.getText(),nom.getText(),ape.getText(),Integer.parseInt(tel.getText()),rolSel);
 										String [] opciones ={"Si","No"};

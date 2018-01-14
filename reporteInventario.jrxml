@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.5.0.final using JasperReports Library version 6.5.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporteInventario" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="56191ad7-c63d-43a3-892c-c4e45e977495">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="nombre" class="java.lang.String"/>
+	<field name="precio" class="java.lang.Double"/>
+	<field name="stock" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<image>
+				<reportElement x="-3" y="3" width="240" height="70" uuid="7839a075-a91e-47e0-920a-e96b8e819dd2"/>
+				<imageExpression><![CDATA["src/Imagenes/logo.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="350" y="0" width="200" height="30" uuid="1f3f7a28-9408-4118-bb80-50ea011081cb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="18"/>
+				</textElement>
+				<text><![CDATA[INVENTARIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="350" y="40" width="50" height="20" uuid="e53afa24-19a0-4853-af63-5db4db87821e"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement stretchType="RelativeToTallestObject" x="399" y="40" width="144" height="20" forecolor="#000000" uuid="d7e4fe90-e89f-4b1e-9943-1b5a9dbe0342"/>
+				<textElement textAlignment="Left">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="42" splitType="Stretch">
+			<staticText>
+				<reportElement x="-15" y="0" width="368" height="20" uuid="919a5fc1-8347-4996-85b3-b56283aac53d"/>
+				<textElement textAlignment="Left">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Direccion: Ctra. Ledesma, 32-52, 37006, Salamanca]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-15" y="20" width="293" height="20" uuid="2ae3dd54-a5a0-4576-a820-bcaa2507158b"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[email: perfumeriaspaco@gmail.com]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="54" splitType="Stretch">
+			<rectangle>
+				<reportElement x="-20" y="0" width="611" height="22" backcolor="#D6211E" uuid="2cd558ef-e647-497c-a643-ac5c858b2c6d"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="237" y="3" width="85" height="20" uuid="6717b67f-429a-4842-b71c-5ee91574f9bb"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ARTICULOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="30" width="80" height="20" uuid="648e2eee-d94e-4b6e-99e4-febb6bdacbcc"/>
+				<textElement textAlignment="Left">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REFERENCIA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="96" y="30" width="74" height="20" uuid="1ddb18a1-36b4-4acd-893a-3ac7a3d7e1de"/>
+				<textElement textAlignment="Left">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOMBRE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="207" y="30" width="63" height="20" uuid="f74ce225-2c0e-47a1-9e39-aa48adbee4b0"/>
+				<textElement textAlignment="Left">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PRECIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="306" y="31" width="63" height="20" uuid="73f76162-8e0e-4f1d-a73b-9b071f958d90"/>
+				<textElement textAlignment="Left">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[STOCK]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="65" height="17" uuid="270ab567-5d48-47a5-8200-fed490431989"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="0" width="65" height="17" uuid="35211c79-2d42-42cb-8c85-66e3ad0c3db9"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="208" y="0" width="65" height="17" uuid="c052e77e-1b6e-4a55-9c90-195aff3caa31"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="306" y="0" width="65" height="17" uuid="d013c7b8-028a-44cf-9d87-e5af90e6a476"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{stock}+"€"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="2" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="1" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="5" splitType="Stretch"/>
+	</summary>
+</jasperReport>
