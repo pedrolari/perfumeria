@@ -65,9 +65,9 @@ public class ModificacionEmpleado extends JInternalFrame {
 		this.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER));
 
 		principal = new JPanel(new BorderLayout(20, 20));
-		principal.setBorder(
-				BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(41, 53, 65)), "MODIFICACION EMPLEADOS",
-						TitledBorder.LEFT, TitledBorder.TOP, new Font(null, Font.BOLD, 25), new Color(41, 53, 65)));
+		principal.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(41, 53, 65)),
+				"MODIFICACION EMPLEADOS", TitledBorder.LEFT, TitledBorder.TOP, new Font(null, Font.BOLD, 25),
+				new Color(41, 53, 65)));
 		principal.setPreferredSize(new Dimension(1000, 600));
 		principal.setLayout(new BorderLayout());
 		principal.setBackground(Color.WHITE);
@@ -85,7 +85,6 @@ public class ModificacionEmpleado extends JInternalFrame {
 		ckModificar = new JCheckBox("Modificar");
 		ckModificar.setBackground(Color.white);
 		btSend = new BotonInterior("Enviar");
-		btSend.setEnabled(false);
 
 		// Añado el boton para actualizar, y un checkbox para permitir modificar
 		cons.gridy = 8;
@@ -100,6 +99,7 @@ public class ModificacionEmpleado extends JInternalFrame {
 		// LLamo a los listener
 		Listener();
 		loadEmpleadoData();
+		switchEnabled(false);
 
 	}
 
@@ -113,6 +113,7 @@ public class ModificacionEmpleado extends JInternalFrame {
 		setEmpleadoModel(); // LLamo al método que extrae los datos de la bbdd
 		cons.gridx = 3;
 		cons.gridy = 0;
+		cons.fill = GridBagConstraints.HORIZONTAL;
 		cons.gridwidth = 2;
 		cons.weightx = 1;
 		cons.ipady = 10;
@@ -142,41 +143,39 @@ public class ModificacionEmpleado extends JInternalFrame {
 
 	private void drawInputData() {
 		datosEmp = new HintTextField[5];
-		String[] textoLbl = { "User", "Pass", "Nombre", "Apellidos", "Teléfono"};
+		String[] textoLbl = { "User", "Pass", "Nombre", "Apellidos", "Teléfono" };
 
 		for (int i = 0; i < datosEmp.length; i++) {
 			datosEmp[i] = new HintTextField(textoLbl[i]);
-			datosEmp[i].setEnabled(false);
+			// datosEmp[i].setEnabled(false);
 			cons.gridx = 3;
 			cons.gridy = i + 1;
 			cons.gridwidth = 2;
 			cons.weightx = 1;
-			cons.insets=  new Insets(10, 10, 10, 10);
+			cons.insets = new Insets(10, 10, 10, 10);
 			cons.fill = GridBagConstraints.HORIZONTAL;
 			centro.add(datosEmp[i], cons);
 
 		}
-		//Dibujo dos radiobutton para seleccionar el rol
+		// Dibujo dos radiobutton para seleccionar el rol
 		rbAdm = new JRadioButton("Administrador");
+		rbAdm.setBackground(Color.WHITE);
 		rbEmp = new JRadioButton("Empleado");
+		rbEmp.setBackground(Color.WHITE);
 		bgRol = new ButtonGroup();
 		bgRol.add(rbAdm);
 		bgRol.add(rbEmp);
-		//Añado el ButtonGroup al panel
-		cons.gridx=3;
+		// Añado el ButtonGroup al panel
+		cons.gridx = 3;
 		cons.gridy = 6;
 		cons.gridwidth = 1;
 		cons.weightx = 1;
-		cons.insets=  new Insets(10, 10, 10, 10);
+		cons.insets = new Insets(10, 10, 10, 10);
 		centro.add(rbAdm, cons);
-		cons.gridx=4;
+		cons.gridx = 4;
 
 		centro.add(rbEmp, cons);
-		
-		
-		
-		
-		
+
 	}
 
 	/**
@@ -217,7 +216,17 @@ public class ModificacionEmpleado extends JInternalFrame {
 				this.datosEmp[2].setText(e.getNombre());
 				this.datosEmp[3].setText(e.getApellidos());
 				this.datosEmp[4].setText(String.valueOf(e.getTelefono()));
-				this.datosEmp[5].setText(String.valueOf(e.getRol()));
+				// Selecciono el combobox adecuado segun el rol
+				switch (e.getRol()) {
+				case 0:
+					bgRol.setSelected(rbAdm.getModel(), true);
+					break;
+
+				default:
+					bgRol.setSelected(rbEmp.getModel(), true);
+					break;
+				}
+
 			}
 
 		} catch (ClassNotFoundException | SQLException e1) {
@@ -256,26 +265,23 @@ public class ModificacionEmpleado extends JInternalFrame {
 		return valido;
 
 	}
-	
-	private String getSelectedRbText(ButtonGroup bg)
-	{
-		String text=null;
-		
-		for(Enumeration<AbstractButton> button = bg.getElements(); button.hasMoreElements();)
-		{
-			AbstractButton bt = button.nextElement();
-			if(bt.isSelected())
-			{
-				text = bt.getText();
-			}
+
+	private String getSelectedRol() {
+
+		String rol = "1";
+		if (rbAdm.isSelected()) {
+			rol = "0";
+		} else {
+			rol = "1";
 		}
-		return text;
-		
+
+		return rol;
+
 	}
 
 	private void saveData() {
 
-		String[] campos = { "user", "pass", "nombre", "apellidos", "telefono", "rol" };
+		String[] campos = { "user", "pass", "nombre", "apellidos", "telefono" };
 		String[] opciones = { "Si", "No" };
 		int eleccion = JOptionPane.showOptionDialog(null, "Actualizar " + e.getUser(), "Mensaje de Confirmacion",
 				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, "Si");
@@ -288,15 +294,16 @@ public class ModificacionEmpleado extends JInternalFrame {
 					// Y ahora el resto de campos
 					e.modificar(datosEmp[0].getText(), campos[i], datosEmp[i].getText());
 				}
-				//Por ultimo el rol
-				e.modificar(datosEmp[0].getText(), "rol", getSelectedRbText(bgRol));
+				// Por ultimo el rol
+				e.modificar(datosEmp[0].getText(), "rol", getSelectedRol());
 				setEmpleadoModel();
+				JOptionPane.showMessageDialog(null, "Datos Registrados correctamente");
 
 			} catch (ClassNotFoundException | SQLException e1) {
+				JOptionPane.showMessageDialog(null, "Ha ocurrido algún error");
 				System.out.println(e1.getMessage());
 				e1.printStackTrace();
 			}
-			JOptionPane.showMessageDialog(null, "Datos Registrados correctamente");
 
 		}
 
@@ -311,6 +318,10 @@ public class ModificacionEmpleado extends JInternalFrame {
 		for (JTextField dato : datosEmp) {
 			dato.setEnabled(enabled);
 		}
+		rbAdm.setEnabled(enabled);
+		rbEmp.setEnabled(enabled);
+		btSend.setEnabled(enabled);
+
 	}
 
 	/**
@@ -344,7 +355,7 @@ public class ModificacionEmpleado extends JInternalFrame {
 			}
 		});
 
-		//Listener para el boton enviar, primero valida los datos
+		// Listener para el boton enviar, primero valida los datos
 		// y si son validos, los guarda
 		this.btSend.addActionListener(new ActionListener() {
 
@@ -357,23 +368,20 @@ public class ModificacionEmpleado extends JInternalFrame {
 
 					saveData();
 				}
-			
 
 			}
 		});
-		
+
 		this.cbEmpleado.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(cbEmpleado.getSelectedIndex()==0)
-				{
+				if (cbEmpleado.getSelectedIndex() == 0) {
 					btSend.setEnabled(false);
-				}else
-				{
+				} else {
 					btSend.setEnabled(true);
 				}
-				
+
 			}
 		});
 	}
