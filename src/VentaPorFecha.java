@@ -8,8 +8,10 @@ import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -25,6 +27,16 @@ import javax.swing.table.DefaultTableModel;
 
 import com.toedter.calendar.JDateChooser;
 
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporter;
+import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.engine.util.JRLoader;
+
 public class VentaPorFecha extends JInternalFrame implements ActionListener{
 
 	private JPanel principal, centro, sur, norte;
@@ -34,7 +46,7 @@ public class VentaPorFecha extends JInternalFrame implements ActionListener{
 	private String[] columnas = { "Vendedor", "DniCliente", "Fecha_Venta", "Total"};
 	private BotonInterior btn, comprobar;
 	private JDateChooser date1;
-
+	boolean enc;
 	
 	VentaPorFecha(){
 		
@@ -136,6 +148,37 @@ public class VentaPorFecha extends JInternalFrame implements ActionListener{
 			
 		}
 		
+		if (enc == true && arg0.getSource() == btn) {
+
+			List<VentFecha> listaVenta = new ArrayList<VentFecha>();
+
+			for (int j = 0; j < tabla.getRowCount(); j++) {
+				VentFecha p = new VentFecha(modelo.getValueAt(j, 0).toString(), modelo.getValueAt(j, 1).toString(),
+						modelo.getValueAt(j, 2).toString(), modelo.getValueAt(j, 3).toString());
+				listaVenta.add(p);
+			}
+
+			try {
+				JasperReport reporte = (JasperReport) JRLoader.loadObjectFromFile("report.jasper");
+				JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, null,
+						new JRBeanCollectionDataSource(listaVenta));
+				// </editor-fold>
+				JRExporter exporter = new JRPdfExporter();
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+				exporter.setParameter(JRExporterParameter.OUTPUT_FILE, new java.io.File("reporteClienteFechaPDF.pdf"));
+				exporter.exportReport();
+			} catch (JRException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			JOptionPane.showMessageDialog(null, "Informe Generado");
+			
+			int a = tabla.getRowCount() - 1;
+			for (int i = a; i >= 0; i--) {
+				modelo.removeRow(tabla.getRowCount() - 1);
+
+			}
+		}
 	}
 	
 	public boolean comprobarFecha(JDateChooser jd) {
@@ -151,7 +194,7 @@ public class VentaPorFecha extends JInternalFrame implements ActionListener{
 	public void cargarVentas(Date d){
 		modelo.setRowCount(0);
 				
-		boolean enc=false;
+		 enc=false;
 		
 		try {
 			Conexion c = new Conexion();
