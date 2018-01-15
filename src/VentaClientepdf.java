@@ -1,6 +1,8 @@
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.JOptionPane;
+
 import com.mysql.jdbc.Statement;
 
 import net.sf.jasperreports.engine.JRException;
@@ -25,12 +27,26 @@ public class VentaClientepdf {
 		Conexion c = new Conexion();
 		Statement stm = (Statement) c.getCon().createStatement();
 		ResultSet rs = stm
-				.executeQuery("select * from ventas,clientes WHERE clientes.dni LIKE '"+nombreCliente+"' and ventas.dni LIKE '"+nombreCliente+"'");
-
+				.executeQuery("select * from ventas WHERE dni LIKE '"+nombreCliente+"'");
+		
 		while (rs.next() == true) {
-			InformeVentaCliente e = new InformeVentaCliente(rs.getString("ventas.dni"),
-					rs.getString("ventas.user"), rs.getString("ventas.fecha_venta"),
-					rs.getInt("clientes.telefono"), rs.getInt("ventas.total_pedido"));
+			String dni="";
+			String user="";
+			
+			if (rs.getString("dni").length()==0) {
+				dni = "";
+			}else{
+				dni=rs.getString("dni");
+			}
+			
+			if(rs.getString("user").length()==0){
+				user = "";
+			}else{
+				user = rs.getString("user");
+			}
+			
+			InformeVentaCliente e = new InformeVentaCliente(dni,
+					user, rs.getString("fecha_venta"), rs.getInt("total_pedido"));
 			//paso el objecto Ticket al Array
 			listaTicket.addParticipante(e);
 			
@@ -45,6 +61,7 @@ public class VentaClientepdf {
 		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 		exporter.setParameter(JRExporterParameter.OUTPUT_FILE, new java.io.File("informeCliente.pdf"));
 		exporter.exportReport();
+		
 	}
 	
 }

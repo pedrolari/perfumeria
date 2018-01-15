@@ -7,13 +7,12 @@ public class InformeVentaCliente {
 	private int telefono;
 	private int total;
 
-	public InformeVentaCliente(String dni,String nombre, String fecha, int telefono, int total) {
+	public InformeVentaCliente(String dni,String nombre, String fecha, int total) {
 		// TODO Auto-generated constructor stub
 		
 		this.dni = dni;
 		this.nombre = nombre;
 		this.fecha = fecha;
-		this.telefono = telefono;
 		this.total = total;
 		
 	}

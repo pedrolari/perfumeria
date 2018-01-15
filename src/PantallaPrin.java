@@ -713,6 +713,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 					JpanelCargarJIframe.removeAll();
 					Boolean enc=false;
 					String dni=JOptionPane.showInputDialog("Introduzca el dni del cliente por el que desea buscar: ");
+					try{
 					if(dni.length()==0)
 					{
 						enc=true;
@@ -728,6 +729,7 @@ public class PantallaPrin extends JInternalFrame implements ActionListener{
 							enc=true;
 						}
 					}
+					}catch(Exception ee){};
 					
 					if(enc==true)
 					{
