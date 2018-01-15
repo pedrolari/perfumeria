@@ -110,24 +110,24 @@ public class Inventario extends JInternalFrame implements ActionListener{
 	public void actionPerformed(ActionEvent arg0) {
 		if(arg0.getSource()==btn){
 			
-			try {
-				Inventraiopdf pdf = new Inventraiopdf();
-				JOptionPane.showMessageDialog(null, "Informe de inventario creado correctamente!");
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (JRException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			
 			
 			if(tabla.getSelectedRow()!=-1){
 				
 			}else{
-				JOptionPane.showMessageDialog(this, "No hay productos en la BBDD");
+				try {
+					Inventraiopdf pdf = new Inventraiopdf();
+					JOptionPane.showMessageDialog(null, "Informe de inventario creado correctamente!");
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (JRException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 	}
