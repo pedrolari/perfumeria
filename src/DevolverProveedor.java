@@ -30,7 +30,7 @@ public class DevolverProveedor extends JInternalFrame {
 	private JButton btnBusqueda, btnDevolver, btnLimpiar;
 	private DefaultTableModel lineaCompra;
 	private JTable listaCompra;
-	private String[] columnas = { "Id_Venta", "Articulo", "Cantidad", "Precio", "Total" };
+	private String[] columnas = { "Id_Venta", "Articulo", "Cantidad","Devolver", "Precio", "Total" };
 	private double lineaPRECIO;
 	private Conexion con;
 	private boolean banderita;
@@ -85,9 +85,9 @@ public class DevolverProveedor extends JInternalFrame {
 							@Override
 							public void actionPerformed(ActionEvent e) {
 								lineaPRECIO = Double
-										.parseDouble(lineaCompra.getValueAt(listaCompra.getSelectedRow(), 3).toString());
+										.parseDouble(lineaCompra.getValueAt(listaCompra.getSelectedRow(), 4).toString());
 								listaCompra.setValueAt((Integer.parseInt(tfCantidad.getText()) * lineaPRECIO),
-										listaCompra.getSelectedRow(), 4);
+										listaCompra.getSelectedRow(), 5);
 
 							}
 						});
@@ -182,35 +182,41 @@ public class DevolverProveedor extends JInternalFrame {
 
 	public void ModVenta() throws ClassNotFoundException, SQLException {
 		boolean banderita2 = false;
-		int cantVieja=0,cantFin=0;
+		boolean banderitaCant=false;
+		int cantVieja=0,canDev=0;
 		con = new Conexion();
-		int cant, id,idpro=0, total = 0;
+		int cant, id,idpro=0;
+		double total = 0,precio=0;
 		for (int j = 0; j < idsLinea.length - 1; j++) {
+			banderitaCant=false;
 			id = idsLinea[j];
 			cant = Integer.parseInt(lineaCompra.getValueAt(j, 2).toString());
+			canDev = Integer.parseInt(lineaCompra.getValueAt(j, 3).toString());
 			ResultSet rs = con.consultar("SELECT * FROM lineas_de_compras WHERE id_lineas_de_compra = " + id
-					+ " && cantidad = " + cant + " ");
-			if (rs.next())
-				;
+					+ "  ");
+			if(canDev<0||canDev>cant){banderitaCant=true;}
+			if (rs.next()&&banderitaCant==true){JOptionPane.showMessageDialog(null,"Cantidad devolucion erronea");}
 			else {
 				ResultSet rs1 = con.consultar("SELECT * FROM lineas_de_compras WHERE id_lineas_de_compra = " + id
 						+ " ");
-				if(rs1.next()){cantVieja=rs1.getInt("cantidad");idpro=rs1.getInt("id_articulo");}
-				if(cantVieja>=cant&&cant>=0){
-				cantFin=cantVieja-cant;
-				System.out.println(cantFin);
-				total += cant * Double.parseDouble(lineaCompra.getValueAt(listaCompra.getSelectedRow(), 3).toString());
-				con.modificar("UPDATE lineas_de_compras SET cantidad = " + cant + " WHERE id_lineas_de_compra = " + id + " ");
-				con.modificar("UPDATE articulos SET stock = " + cantFin + " WHERE id_articulo = " + idpro + " ");
+				if(rs1.next()){cantVieja=rs1.getInt("cantidad");idpro=rs1.getInt("id_articulo");precio=rs1.getDouble("precio");}
+				if(cantVieja>=canDev&&canDev>0){
+					
+				total += canDev * precio;
+				System.out.println(canDev+"*"+precio+"="+total);
+				con.modificar("UPDATE lineas_de_compras SET cantidad = cantidad - " + canDev + " WHERE id_lineas_de_compra = " + id + " ");
+				con.modificar("UPDATE articulos SET stock =  stock -" + canDev + " WHERE id_articulo = " + idpro + " ");
 				banderita2 = true;}
 			}
 		}
 		if (banderita2 == true) {
 			int idcompra = Integer.parseInt(tf1.getText());
+			
 			con.modificar("UPDATE compras SET total_pedido = total_pedido - " + total + " WHERE id_compra = " + idcompra + " ");
+			JOptionPane.showMessageDialog(null,"Devolución realizada");
 			banderita2=false;
 		} else {
-			JOptionPane.showMessageDialog(null, "Modifica alguna cantidad de esa compra");
+			JOptionPane.showMessageDialog(null, "Cantidad negativa, superior al stock o no se devolvio nada");
 		}
 	}
 
@@ -231,7 +237,7 @@ public class DevolverProveedor extends JInternalFrame {
 					do {
 						idsLinea[i] = rs.getInt("id_lineas_de_compra");
 						lineaCompra.addRow(
-								new Object[] { rs.getInt("id_compra"), rs.getString("nombre"), rs.getInt("cantidad"),
+								new Object[] { rs.getInt("id_compra"), rs.getString("nombre"), rs.getInt("cantidad"),0,
 										rs.getDouble("precio"), rs.getInt("cantidad") * rs.getDouble("precio") });
 						i++;
 					} while (rs.next());

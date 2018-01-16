@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Calendar;
+
 import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
@@ -31,7 +33,7 @@ public class DevolverArticulo extends JInternalFrame {
 	private JButton btnBusqueda, btnDevolver, btnLimpiar;
 	private DefaultTableModel lineaVenta;
 	private JTable listaVenta;
-	private String[] columnas = { "Id_Venta", "Articulo", "Cantidad", "Precio", "Total" };
+	private String[] columnas = { "Id_Venta", "Articulo", "Cantidad", "Devolver", "Precio", "Total" };
 	private double lineaPRECIO;
 	private Conexion con;
 	private boolean banderita;
@@ -80,8 +82,8 @@ public class DevolverArticulo extends JInternalFrame {
 							@Override
 							public void actionPerformed(ActionEvent e) {
 								
-								lineaPRECIO = Double.parseDouble(lineaVenta.getValueAt(listaVenta.getSelectedRow(),3).toString());        
-								listaVenta.setValueAt((Integer.parseInt(tfCantidad.getText()) * lineaPRECIO ), listaVenta.getSelectedRow(), 4);
+								lineaPRECIO = Double.parseDouble(lineaVenta.getValueAt(listaVenta.getSelectedRow(),4).toString());        
+								listaVenta.setValueAt((Integer.parseInt(tfCantidad.getText()) * lineaPRECIO ), listaVenta.getSelectedRow(), 5);
 								      
 							}
 						});
@@ -171,23 +173,27 @@ public class DevolverArticulo extends JInternalFrame {
 		
 
 		boolean banderita2=false;
+		boolean banderitaCant=false;
 		con = new Conexion();
-		int cantVieja=0,cantFin=0;
-		int cant,id,idpro=0,total=0;
+		int cantVieja=0;
+		int cant,id,idpro=0,canDev=0;
+		double total=0, precio=0;
 		for (int j = 0; j < idsLinea.length-1; j++) {
+			banderitaCant=false;
 			id=idsLinea[j];
             cant = Integer.parseInt(lineaVenta.getValueAt(j,2).toString());
-            ResultSet rs=con.consultar("SELECT * FROM lineas_de_ventas WHERE id_linea_de_ventas = "+id+" && cantidad = "+cant+" ");
-            if(rs.next());
+            canDev=Integer.parseInt(lineaVenta.getValueAt(j,3).toString());
+            if(canDev<0||canDev>cant){banderitaCant=true;}
+            ResultSet rs=con.consultar("SELECT * FROM lineas_de_ventas WHERE id_linea_de_ventas = "+id+" ");
+            if(rs.next()&&banderitaCant==true){JOptionPane.showMessageDialog(null,"Cantidad devolucion erronea"); }
             else{
             	ResultSet rs1 = con.consultar("SELECT * FROM lineas_de_ventas WHERE id_linea_de_ventas = " + id
 						+ " ");
-				if(rs1.next()){cantVieja=rs1.getInt("cantidad");idpro=rs1.getInt("id_articulo");}
-				if(cantVieja>=cant&&cant>=0){
-				cantFin=cantVieja-cant;
-            	total+=cantFin*Double.parseDouble(lineaVenta.getValueAt(listaVenta.getSelectedRow(),3).toString());
-            	con.modificar("UPDATE lineas_de_ventas SET cantidad = "+cant+" WHERE id_linea_de_ventas = "+id+" ");
-				con.modificar("UPDATE articulos SET stock = stock +" + cantFin + " WHERE id_articulo = " + idpro + " ");
+				if(rs1.next()){cantVieja=rs1.getInt("cantidad");idpro=rs1.getInt("id_articulo");precio=rs.getDouble("precio");}
+				if(cantVieja>=canDev&&canDev>0){
+            	total+=canDev*precio;
+            	con.modificar("UPDATE lineas_de_ventas SET cantidad = cantidad - "+canDev+" WHERE id_linea_de_ventas = "+id+" ");
+				con.modificar("UPDATE articulos SET stock = stock +" + canDev + " WHERE id_articulo = " + idpro + " ");
 
             	banderita2=true;
             }}
@@ -195,10 +201,11 @@ public class DevolverArticulo extends JInternalFrame {
 		if(banderita2==true){        	
 			int idventa=Integer.parseInt(tf1.getText());
 			con.modificar("UPDATE ventas SET total_pedido = total_pedido - "+total+" WHERE id_venta = "+idventa+" ");
+			JOptionPane.showMessageDialog(null,"Devolución realizada");
 			banderita2=false;
 		}
 		else{
-			JOptionPane.showMessageDialog(null,"Modifica alguna cantidad de esa venta");
+			JOptionPane.showMessageDialog(null,"Cantidad negativa, superior al stock ");
 		}
 	}
 	
@@ -208,14 +215,22 @@ public class DevolverArticulo extends JInternalFrame {
 		Conexion c=new Conexion();
 		Validaciones v=new Validaciones();
 		int id=0;
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DATE, -15);
+		String f=cal.get(Calendar.YEAR)+"-";
+		f+=cal.get(Calendar.MONTH+1)+"-";
+		f+=cal.get(Calendar.DATE);
+		ResultSet rfecha=c.consultar("select * from ventas WHERE id_venta = "+id+" && fecha_venta >= '"+f+"'");
+		//if(rfecha.next()){
+		if(rfecha!=null)System.out.println("wtf");
 		if(v.isNumeric(tf1.getText())){ id=Integer.parseInt(tf1.getText());
-		ResultSet rs=c.consultar("select * from lineas_de_ventas, articulos WHERE lineas_de_ventas.id_articulo=articulos.id_articulo && lineas_de_ventas.id_venta ="+id+" ");
+		ResultSet rs=c.consultar("select * from lineas_de_ventas, articulos WHERE lineas_de_ventas.id_articulo=articulos.id_articulo && lineas_de_ventas.id_venta ="+id+"");
 		idsLinea =new int [cuantasLineas()];
 		int i=0;
 		if(rs.next()){
 			do{
 				idsLinea[i]=rs.getInt("id_linea_de_ventas");
-				lineaVenta.addRow(new Object[]{rs.getInt("id_venta"),rs.getString("nombre"),rs.getInt("cantidad"),rs.getDouble("precio"),rs.getInt("cantidad")*rs.getDouble("precio") });	
+				lineaVenta.addRow(new Object[]{rs.getInt("id_venta"),rs.getString("nombre"),rs.getInt("cantidad"),0,rs.getDouble("precio"),rs.getInt("cantidad")*rs.getDouble("precio") });	
 				i++;
 			}while(rs.next());
 			banderita=true;
@@ -225,7 +240,7 @@ public class DevolverArticulo extends JInternalFrame {
 	
 		}
 		else{JOptionPane.showMessageDialog(null, "ID no valido");}
-		}
+		}//}else{JOptionPane.showMessageDialog(null, "Superado el periodo de devolucion de esa venta");}
 		
 	}
 	
